@@ -31,6 +31,8 @@
 		466DA3162C93F1530023F1DD /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 466DA3152C93F1530023F1DD /* GoogleService-Info.plist */; };
 		466DA31A2C93F45A0023F1DD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 466DA3192C93F45A0023F1DD /* GoogleSignIn */; };
 		466DA31C2C93F45A0023F1DD /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 466DA31B2C93F45A0023F1DD /* GoogleSignInSwift */; };
+		466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA31D2C9421580023F1DD /* CategorieItemView.swift */; };
+		466DA3202C942FBE0023F1DD /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA31F2C942FBE0023F1DD /* CreateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +56,8 @@
 		466DA3132C93347D0023F1DD /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		466DA3152C93F1530023F1DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		466DA3172C93F1DE0023F1DD /* RndR-SwiftUi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RndR-SwiftUi-Info.plist"; sourceTree = SOURCE_ROOT; };
+		466DA31D2C9421580023F1DD /* CategorieItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorieItemView.swift; sourceTree = "<group>"; };
+		466DA31F2C942FBE0023F1DD /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +125,8 @@
 				466DA3052C9325280023F1DD /* TLButton.swift */,
 				466DA3072C93253C0023F1DD /* RegisterView.swift */,
 				466DA3132C93347D0023F1DD /* LandingView.swift */,
+				466DA31D2C9421580023F1DD /* CategorieItemView.swift */,
+				466DA31F2C942FBE0023F1DD /* CreateView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -240,6 +246,7 @@
 			files = (
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
 				466DA30C2C93255D0023F1DD /* RegisterViewViewModel.swift in Sources */,
+				466DA3202C942FBE0023F1DD /* CreateView.swift in Sources */,
 				466DA3002C9324D90023F1DD /* LoginView.swift in Sources */,
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
@@ -253,6 +260,7 @@
 				466DA3122C9327FF0023F1DD /* ProfileViewViewModel.swift in Sources */,
 				466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */,
 				466DA3042C9325130023F1DD /* HeaderView.swift in Sources */,
+				466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

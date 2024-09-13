@@ -17,7 +17,9 @@ struct MainView: View {
                 TabView(){
                     HomeView().tabItem { Label("Home", systemImage: "house")}
                     
-                    ProfileView().tabItem { Label("Home", systemImage: "person.circle")}
+                    CreateView().tabItem { Label("Create", systemImage: "plus.app")}
+                    
+                    ProfileView().tabItem { Label("Profile", systemImage: "person.circle")}
                 }
             }
             else{
