@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		462F030C2C9543F4000AA26D /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F030B2C9543F4000AA26D /* RoomController.swift */; };
+		462F030E2C954488000AA26D /* RoomPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F030D2C954488000AA26D /* RoomPlanView.swift */; };
+		462F03102C9544AF000AA26D /* UnsupportedDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F030F2C9544AF000AA26D /* UnsupportedDeviceView.swift */; };
+		462F03122C954E6A000AA26D /* ARModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03112C954E6A000AA26D /* ARModelView.swift */; };
 		46D9E1C82C92025F000CB750 /* test_RndrApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D9E1C72C92025F000CB750 /* test_RndrApp.swift */; };
 		46D9E1CA2C92025F000CB750 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D9E1C92C92025F000CB750 /* ContentView.swift */; };
 		46D9E1CC2C920260000CB750 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46D9E1CB2C920260000CB750 /* Assets.xcassets */; };
@@ -14,6 +18,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		462F030B2C9543F4000AA26D /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
+		462F030D2C954488000AA26D /* RoomPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanView.swift; sourceTree = "<group>"; };
+		462F030F2C9544AF000AA26D /* UnsupportedDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedDeviceView.swift; sourceTree = "<group>"; };
+		462F03112C954E6A000AA26D /* ARModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModelView.swift; sourceTree = "<group>"; };
 		46D9E1C42C92025F000CB750 /* test Rndr.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "test Rndr.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		46D9E1C72C92025F000CB750 /* test_RndrApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = test_RndrApp.swift; sourceTree = "<group>"; };
 		46D9E1C92C92025F000CB750 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -32,6 +40,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		462F03132C9551B2000AA26D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				46D9E1C92C92025F000CB750 /* ContentView.swift */,
+				462F03182C95520F000AA26D /* RoomPlanKit */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		462F03142C9551B8000AA26D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				462F03172C9551FB000AA26D /* RoomPlanKit */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		462F03152C9551BE000AA26D /* other */ = {
+			isa = PBXGroup;
+			children = (
+				46D9E1C72C92025F000CB750 /* test_RndrApp.swift */,
+				46D9E1CB2C920260000CB750 /* Assets.xcassets */,
+			);
+			path = other;
+			sourceTree = "<group>";
+		};
+		462F03162C9551C4000AA26D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		462F03172C9551FB000AA26D /* RoomPlanKit */ = {
+			isa = PBXGroup;
+			children = (
+				462F030B2C9543F4000AA26D /* RoomController.swift */,
+				462F030D2C954488000AA26D /* RoomPlanView.swift */,
+			);
+			path = RoomPlanKit;
+			sourceTree = "<group>";
+		};
+		462F03182C95520F000AA26D /* RoomPlanKit */ = {
+			isa = PBXGroup;
+			children = (
+				462F03112C954E6A000AA26D /* ARModelView.swift */,
+				462F030F2C9544AF000AA26D /* UnsupportedDeviceView.swift */,
+			);
+			path = RoomPlanKit;
+			sourceTree = "<group>";
+		};
 		46D9E1BB2C92025F000CB750 = {
 			isa = PBXGroup;
 			children = (
@@ -51,9 +110,10 @@
 		46D9E1C62C92025F000CB750 /* test Rndr */ = {
 			isa = PBXGroup;
 			children = (
-				46D9E1C72C92025F000CB750 /* test_RndrApp.swift */,
-				46D9E1C92C92025F000CB750 /* ContentView.swift */,
-				46D9E1CB2C920260000CB750 /* Assets.xcassets */,
+				462F03152C9551BE000AA26D /* other */,
+				462F03142C9551B8000AA26D /* ViewModel */,
+				462F03132C9551B2000AA26D /* View */,
+				462F03162C9551C4000AA26D /* Model */,
 				46D9E1CD2C920260000CB750 /* Preview Content */,
 			);
 			path = "test Rndr";
@@ -137,7 +197,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				462F030E2C954488000AA26D /* RoomPlanView.swift in Sources */,
+				462F03122C954E6A000AA26D /* ARModelView.swift in Sources */,
+				462F03102C9544AF000AA26D /* UnsupportedDeviceView.swift in Sources */,
 				46D9E1CA2C92025F000CB750 /* ContentView.swift in Sources */,
+				462F030C2C9543F4000AA26D /* RoomController.swift in Sources */,
 				46D9E1C82C92025F000CB750 /* test_RndrApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,6 +339,7 @@
 				DEVELOPMENT_TEAM = 4FU3RXR748;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera access for this app to run properly";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +369,7 @@
 				DEVELOPMENT_TEAM = 4FU3RXR748;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera access for this app to run properly";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
