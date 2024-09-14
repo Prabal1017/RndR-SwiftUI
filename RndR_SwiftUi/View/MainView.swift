@@ -17,7 +17,7 @@ struct MainView: View {
                 TabView(){
                     HomeView().tabItem { Label("Home", systemImage: "house")}
                     
-                    CreateView().tabItem { Label("Create", systemImage: "plus.app")}
+                    StartScanView().tabItem { Label("Create", systemImage: "plus.app")}
                     
                     ProfileView().tabItem { Label("Profile", systemImage: "person.circle")}
                 }

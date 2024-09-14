@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseCore
+import RoomPlan
 
 @main
 struct RndR_SwiftUiApp: App {
@@ -16,6 +17,16 @@ struct RndR_SwiftUiApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
+            checkDeciveView()
         }
+    }
+}
+
+@ViewBuilder
+func checkDeciveView() -> some View {
+    if RoomCaptureSession.isSupported{
+        StartScanView()
+    } else {
+        UnsupportedDeviceView()
     }
 }

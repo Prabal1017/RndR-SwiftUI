@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		462F03202C9554CC000AA26D /* ARModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F031F2C9554CC000AA26D /* ARModelView.swift */; };
+		462F03222C9554DF000AA26D /* UnsupportedDeviceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03212C9554DF000AA26D /* UnsupportedDeviceView.swift */; };
+		462F03242C9554F9000AA26D /* StartScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03232C9554F9000AA26D /* StartScanView.swift */; };
+		462F03272C95557A000AA26D /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03262C95557A000AA26D /* RoomController.swift */; };
+		462F03292C95558B000AA26D /* RoomPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03282C95558B000AA26D /* RoomPlanView.swift */; };
 		466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */; };
 		466DA2DF2C9322940023F1DD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA2DE2C9322940023F1DD /* MainView.swift */; };
 		466DA2E12C9322950023F1DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 466DA2E02C9322950023F1DD /* Assets.xcassets */; };
@@ -32,10 +37,14 @@
 		466DA31A2C93F45A0023F1DD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 466DA3192C93F45A0023F1DD /* GoogleSignIn */; };
 		466DA31C2C93F45A0023F1DD /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 466DA31B2C93F45A0023F1DD /* GoogleSignInSwift */; };
 		466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA31D2C9421580023F1DD /* CategorieItemView.swift */; };
-		466DA3202C942FBE0023F1DD /* CreateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA31F2C942FBE0023F1DD /* CreateView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		462F031F2C9554CC000AA26D /* ARModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModelView.swift; sourceTree = "<group>"; };
+		462F03212C9554DF000AA26D /* UnsupportedDeviceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnsupportedDeviceView.swift; sourceTree = "<group>"; };
+		462F03232C9554F9000AA26D /* StartScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartScanView.swift; sourceTree = "<group>"; };
+		462F03262C95557A000AA26D /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
+		462F03282C95558B000AA26D /* RoomPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanView.swift; sourceTree = "<group>"; };
 		466DA2D92C9322940023F1DD /* RndR_SwiftUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RndR_SwiftUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RndR_SwiftUiApp.swift; sourceTree = "<group>"; };
 		466DA2DE2C9322940023F1DD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -57,7 +66,6 @@
 		466DA3152C93F1530023F1DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		466DA3172C93F1DE0023F1DD /* RndR-SwiftUi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RndR-SwiftUi-Info.plist"; sourceTree = SOURCE_ROOT; };
 		466DA31D2C9421580023F1DD /* CategorieItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorieItemView.swift; sourceTree = "<group>"; };
-		466DA31F2C942FBE0023F1DD /* CreateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +85,72 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		462F031E2C9554A9000AA26D /* RoomPlanKit */ = {
+			isa = PBXGroup;
+			children = (
+				462F031F2C9554CC000AA26D /* ARModelView.swift */,
+				462F03212C9554DF000AA26D /* UnsupportedDeviceView.swift */,
+				462F03232C9554F9000AA26D /* StartScanView.swift */,
+				466DA31D2C9421580023F1DD /* CategorieItemView.swift */,
+			);
+			path = RoomPlanKit;
+			sourceTree = "<group>";
+		};
+		462F03252C955509000AA26D /* RoomPlanKit */ = {
+			isa = PBXGroup;
+			children = (
+				462F03262C95557A000AA26D /* RoomController.swift */,
+				462F03282C95558B000AA26D /* RoomPlanView.swift */,
+			);
+			path = RoomPlanKit;
+			sourceTree = "<group>";
+		};
+		462F032A2C955648000AA26D /* Login-signup */ = {
+			isa = PBXGroup;
+			children = (
+				466DA3012C9324EB0023F1DD /* LoginViewViewModel.swift */,
+				466DA30B2C93255D0023F1DD /* RegisterViewViewModel.swift */,
+			);
+			path = "Login-signup";
+			sourceTree = "<group>";
+		};
+		462F032B2C955660000AA26D /* MainAppViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				466DA2FD2C9324BD0023F1DD /* MainViewViewModel.swift */,
+				466DA3112C9327FF0023F1DD /* ProfileViewViewModel.swift */,
+			);
+			path = MainAppViewModels;
+			sourceTree = "<group>";
+		};
+		462F032C2C955680000AA26D /* MainAppViews */ = {
+			isa = PBXGroup;
+			children = (
+				466DA2F92C9324800023F1DD /* ProfileView.swift */,
+				466DA2FB2C9324AA0023F1DD /* HomeView.swift */,
+				466DA3132C93347D0023F1DD /* LandingView.swift */,
+			);
+			path = MainAppViews;
+			sourceTree = "<group>";
+		};
+		462F032D2C9556A7000AA26D /* Login-signup */ = {
+			isa = PBXGroup;
+			children = (
+				466DA2FF2C9324D90023F1DD /* LoginView.swift */,
+				466DA3072C93253C0023F1DD /* RegisterView.swift */,
+			);
+			path = "Login-signup";
+			sourceTree = "<group>";
+		};
+		462F032E2C9556BB000AA26D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				466DA3032C9325130023F1DD /* HeaderView.swift */,
+				466DA3052C9325280023F1DD /* TLButton.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		466DA2D02C9322940023F1DD = {
 			isa = PBXGroup;
 			children = (
@@ -118,15 +192,10 @@
 			isa = PBXGroup;
 			children = (
 				466DA2DE2C9322940023F1DD /* MainView.swift */,
-				466DA2F92C9324800023F1DD /* ProfileView.swift */,
-				466DA2FB2C9324AA0023F1DD /* HomeView.swift */,
-				466DA2FF2C9324D90023F1DD /* LoginView.swift */,
-				466DA3032C9325130023F1DD /* HeaderView.swift */,
-				466DA3052C9325280023F1DD /* TLButton.swift */,
-				466DA3072C93253C0023F1DD /* RegisterView.swift */,
-				466DA3132C93347D0023F1DD /* LandingView.swift */,
-				466DA31D2C9421580023F1DD /* CategorieItemView.swift */,
-				466DA31F2C942FBE0023F1DD /* CreateView.swift */,
+				462F032E2C9556BB000AA26D /* Components */,
+				462F032D2C9556A7000AA26D /* Login-signup */,
+				462F032C2C955680000AA26D /* MainAppViews */,
+				462F031E2C9554A9000AA26D /* RoomPlanKit */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -134,10 +203,9 @@
 		466DA2EB2C9322AA0023F1DD /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				466DA2FD2C9324BD0023F1DD /* MainViewViewModel.swift */,
-				466DA3012C9324EB0023F1DD /* LoginViewViewModel.swift */,
-				466DA30B2C93255D0023F1DD /* RegisterViewViewModel.swift */,
-				466DA3112C9327FF0023F1DD /* ProfileViewViewModel.swift */,
+				462F032B2C955660000AA26D /* MainAppViewModels */,
+				462F032A2C955648000AA26D /* Login-signup */,
+				462F03252C955509000AA26D /* RoomPlanKit */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -245,18 +313,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
+				462F03272C95557A000AA26D /* RoomController.swift in Sources */,
 				466DA30C2C93255D0023F1DD /* RegisterViewViewModel.swift in Sources */,
-				466DA3202C942FBE0023F1DD /* CreateView.swift in Sources */,
 				466DA3002C9324D90023F1DD /* LoginView.swift in Sources */,
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
 				466DA3022C9324EB0023F1DD /* LoginViewViewModel.swift in Sources */,
 				466DA3142C93347D0023F1DD /* LandingView.swift in Sources */,
+				462F03242C9554F9000AA26D /* StartScanView.swift in Sources */,
 				466DA2DF2C9322940023F1DD /* MainView.swift in Sources */,
+				462F03222C9554DF000AA26D /* UnsupportedDeviceView.swift in Sources */,
 				466DA2FC2C9324AA0023F1DD /* HomeView.swift in Sources */,
 				466DA3102C9325AA0023F1DD /* Extensions.swift in Sources */,
+				462F03292C95558B000AA26D /* RoomPlanView.swift in Sources */,
 				466DA2FA2C9324800023F1DD /* ProfileView.swift in Sources */,
 				466DA2FE2C9324BD0023F1DD /* MainViewViewModel.swift in Sources */,
+				462F03202C9554CC000AA26D /* ARModelView.swift in Sources */,
 				466DA3122C9327FF0023F1DD /* ProfileViewViewModel.swift in Sources */,
 				466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */,
 				466DA3042C9325130023F1DD /* HeaderView.swift in Sources */,
@@ -398,6 +470,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RndR-SwiftUi-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera access for this app to function properly";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -428,6 +501,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RndR-SwiftUi-Info.plist";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Need camera access for this app to function properly";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
