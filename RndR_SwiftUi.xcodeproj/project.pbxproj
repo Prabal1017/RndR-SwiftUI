@@ -37,6 +37,11 @@
 		466DA31A2C93F45A0023F1DD /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 466DA3192C93F45A0023F1DD /* GoogleSignIn */; };
 		466DA31C2C93F45A0023F1DD /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 466DA31B2C93F45A0023F1DD /* GoogleSignInSwift */; };
 		466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA31D2C9421580023F1DD /* CategorieItemView.swift */; };
+		46730DED2C96AFDE00E9227E /* ModelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DEC2C96AFDE00E9227E /* ModelDetailView.swift */; };
+		46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */; };
+		46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */; };
+		46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */; };
+		46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF72C96C1A900E9227E /* ARViewDisplay.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +71,10 @@
 		466DA3152C93F1530023F1DD /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		466DA3172C93F1DE0023F1DD /* RndR-SwiftUi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RndR-SwiftUi-Info.plist"; sourceTree = SOURCE_ROOT; };
 		466DA31D2C9421580023F1DD /* CategorieItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorieItemView.swift; sourceTree = "<group>"; };
+		46730DEC2C96AFDE00E9227E /* ModelDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDetailView.swift; sourceTree = "<group>"; };
+		46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataModel.swift; sourceTree = "<group>"; };
+		46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailsFormView.swift; sourceTree = "<group>"; };
+		46730DF72C96C1A900E9227E /* ARViewDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewDisplay.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */,
 				466DA31A2C93F45A0023F1DD /* GoogleSignIn in Frameworks */,
 				466DA2F62C9324080023F1DD /* FirebaseFirestoreCombine-Community in Frameworks */,
 				466DA2F82C9324080023F1DD /* FirebaseStorage in Frameworks */,
@@ -88,10 +98,14 @@
 		462F031E2C9554A9000AA26D /* RoomPlanKit */ = {
 			isa = PBXGroup;
 			children = (
+				462F03282C95558B000AA26D /* RoomPlanView.swift */,
 				462F031F2C9554CC000AA26D /* ARModelView.swift */,
 				462F03212C9554DF000AA26D /* UnsupportedDeviceView.swift */,
 				462F03232C9554F9000AA26D /* StartScanView.swift */,
 				466DA31D2C9421580023F1DD /* CategorieItemView.swift */,
+				46730DEC2C96AFDE00E9227E /* ModelDetailView.swift */,
+				46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */,
+				46730DF72C96C1A900E9227E /* ARViewDisplay.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -100,7 +114,6 @@
 			isa = PBXGroup;
 			children = (
 				462F03262C95557A000AA26D /* RoomController.swift */,
-				462F03282C95558B000AA26D /* RoomPlanView.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -225,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				466DA30D2C9325850023F1DD /* UserDataModel.swift */,
+				46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -252,6 +266,7 @@
 				466DA2F72C9324080023F1DD /* FirebaseStorage */,
 				466DA3192C93F45A0023F1DD /* GoogleSignIn */,
 				466DA31B2C93F45A0023F1DD /* GoogleSignInSwift */,
+				46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */,
 			);
 			productName = RndR_SwiftUi;
 			productReference = 466DA2D92C9322940023F1DD /* RndR_SwiftUi.app */;
@@ -284,6 +299,7 @@
 			packageReferences = (
 				466DA2F02C9324080023F1DD /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				466DA3182C93F45A0023F1DD /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				46730DF22C96BFBF00E9227E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 			);
 			productRefGroup = 466DA2DA2C9322940023F1DD /* Products */;
 			projectDirPath = "";
@@ -318,9 +334,11 @@
 				466DA3002C9324D90023F1DD /* LoginView.swift in Sources */,
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
+				46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */,
 				466DA3022C9324EB0023F1DD /* LoginViewViewModel.swift in Sources */,
 				466DA3142C93347D0023F1DD /* LandingView.swift in Sources */,
 				462F03242C9554F9000AA26D /* StartScanView.swift in Sources */,
+				46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */,
 				466DA2DF2C9322940023F1DD /* MainView.swift in Sources */,
 				462F03222C9554DF000AA26D /* UnsupportedDeviceView.swift in Sources */,
 				466DA2FC2C9324AA0023F1DD /* HomeView.swift in Sources */,
@@ -331,8 +349,10 @@
 				462F03202C9554CC000AA26D /* ARModelView.swift in Sources */,
 				466DA3122C9327FF0023F1DD /* ProfileViewViewModel.swift in Sources */,
 				466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */,
+				46730DED2C96AFDE00E9227E /* ModelDetailView.swift in Sources */,
 				466DA3042C9325130023F1DD /* HeaderView.swift in Sources */,
 				466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */,
+				46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,6 +580,14 @@
 				minimumVersion = 8.0.0;
 			};
 		};
+		46730DF22C96BFBF00E9227E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SDWebImage/SDWebImageSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.1.2;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -592,6 +620,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 466DA3182C93F45A0023F1DD /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
+		};
+		46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46730DF22C96BFBF00E9227E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
+			productName = SDWebImageSwiftUI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

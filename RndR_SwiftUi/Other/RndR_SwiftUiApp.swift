@@ -17,7 +17,7 @@ struct RndR_SwiftUiApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-            checkDeciveView()
+//            checkDeciveView()
         }
     }
 }
