@@ -8,6 +8,9 @@ struct categoriesView: View {
     @State private var showAlert = false
     @State private var selectedCategory: Category?
 
+    // Define the restricted category names
+    let restrictedCategories = ["Bedroom", "Kitchen", "Living Room", "Dinning Room", "Bathroom"]
+
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) {
             ForEach(categories, id: \.categoryName) { category in
@@ -51,11 +54,13 @@ struct categoriesView: View {
                 }
                 .cornerRadius(10)
                 .contextMenu {
-                    Button(role: .destructive) {
-                        selectedCategory = category
-                        showAlert = true
-                    } label: {
-                        Label("Delete", systemImage: "trash")
+                    if !restrictedCategories.contains(category.categoryName) {
+                        Button(role: .destructive) {
+                            selectedCategory = category
+                            showAlert = true
+                        } label: {
+                            Label("Delete", systemImage: "trash")
+                        }
                     }
                 }
             }
