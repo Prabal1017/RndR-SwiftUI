@@ -3,28 +3,42 @@ import SwiftUI
 struct HomeView: View {
     var recentlyView = ["bedroom", "kitchen", "livingroom", "dinningroom", "bathroom"]
     let cate = ["Bedroom", "Kitchen", "Living Room", "Dinning Room", "Bathroom"]
-
+    
+    @State private var isShowingAddRoomView = false
+    
     var body: some View {
         ScrollView {
             VStack {
-                Text("Recently Scanned")
-                    .font(.title3)
+                Text("Recent scans")
+                    .font(.largeTitle.bold())
                     .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading)
-
+                    .padding(.leading, 20)
+                
                 // Using the subview SliderView
                 SliderView(recentlyView: recentlyView)
                 
-                Text("Categories")
-                    .font(.title3)
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .padding(.leading)
-                    .padding([.top, .bottom])
+                HStack {
+                    Text("Rooms")
+                        .font(.title.bold())
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Button {
+                        isShowingAddRoomView = true
+                    } label: {
+                        Image(systemName: "plus")
+                            .imageScale(.large)
+                            .frame(height: 44)
+                    }
+                }
+                .padding([.horizontal, .top])
                 
                 // Categories view with images and names
                 categoriesView(categories: getCategories())
             }
             .padding(.top)
+            .sheet(isPresented: $isShowingAddRoomView) {
+                AddRoomView(isShowingAddRoomView: $isShowingAddRoomView)
+            }
         }
     }
     
@@ -40,31 +54,41 @@ struct HomeView: View {
 }
 
 struct categoriesView: View {
+//    var recentlyView: [String]
     var categories: [(imageName: String, categoryName: String)]
+    let columns = Array(repeating: GridItem(.flexible(),spacing: 20), count: 2)
     
     var body: some View {
-        VStack(spacing: 10) {
+        LazyVGrid(columns: columns, spacing: 16) {
             ForEach(categories, id: \.categoryName) { category in
-                NavigationLink(destination: CategorieItemView(roomType: category.categoryName, heroImage: category.imageName)) {
-                    VStack {
+                NavigationLink(destination: CategorieItemView(roomType: category.categoryName, heroImage: category.imageName)){
+                    ZStack(alignment: .bottom){
                         Image(category.imageName)
                             .resizable()
-                            .scaledToFit()
-                            .frame(width: 310)
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
-                            .padding([.top, .leading, .trailing])
-                        
-                        Text(category.categoryName)
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.bottom)
+                            .scaledToFill()
+                            .frame(maxWidth: .greatestFiniteMagnitude)
+                            .cornerRadius(8)
+                            .draggable(category.imageName)
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(category.categoryName)
+                                    .font(.headline)
+                                    .fontWeight(.semibold)
+                                    .fontWeight(.semibold)
+                                    .foregroundColor(.white)
+                                    .padding([.top,.bottom,],8)
+                            }
+                        }
+                        .frame(maxWidth: .greatestFiniteMagnitude)
+                        .background(
+                            Material.ultraThinMaterial
+                        )
                     }
-                    .frame(width: 350)
-                    .background(.secondary)
-                    .cornerRadius(10)
                 }
+                .cornerRadius(10)
             }
         }
+        .padding(.horizontal)
     }
 }
 
@@ -72,33 +96,52 @@ struct categoriesView: View {
 // Subview for the slider
 struct SliderView: View {
     var recentlyView: [String]
-
+    
     var body: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 0) {
                 ForEach(recentlyView, id: \.self) { demo in
                     VStack {
-                        ZStack(alignment: .bottomLeading) {
+                        ZStack(alignment: .bottom) {
                             Image(demo)
                                 .resizable()
                                 .scaledToFit()
-                                .frame(width: 350)
-
-                            VStack(alignment: .leading) {
-                                Text("Title")
-                                    .font(.headline)
-
-                                Text("Subtitle")
-                                    .font(.subheadline)
+                                .frame(maxWidth: .greatestFiniteMagnitude)
+                            
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text("BedRoom One")
+                                        .font(.headline)
+                                        .fontWeight(.semibold)
+                                        .foregroundColor(.white)
+                                    
+                                    Text("Subtitle")
+                                        .font(.subheadline)
+                                        .fontWeight(.medium)
+                                        .foregroundColor(.white)
+                                }
+                                Spacer()
+                                
+                                Button {
+                                    // Action (view with LiDAR)
+                                } label: {
+                                    Text("View")
+                                        .frame(width: 80, height: 36)
+                                        .foregroundColor(.white)
+                                        .background(Color.white.opacity(0.4))
+                                        .fontWeight(.bold)
+                                        .cornerRadius(20)
+                                }
                             }
-                            .frame(width: 150, alignment: .leading)
+                            .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
                             .padding()
-                            .background(Color.black.opacity(0.5))
-                            .cornerRadius(10)
-                            .padding([.leading, .bottom], 10)
+                            .background(
+                                Material.ultraThinMaterial
+                            )
                         }
                     }
                     .cornerRadius(10)
+                    .padding(.horizontal)
                     .scrollTargetLayout()
                     .scrollTransition { content, phase in
                         content.opacity(phase.isIdentity ? 1.0 : 0.0)

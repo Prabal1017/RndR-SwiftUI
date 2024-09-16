@@ -44,6 +44,7 @@
 		46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF72C96C1A900E9227E /* ARViewDisplay.swift */; };
 		46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */; };
 		46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */; };
+		46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -79,6 +80,7 @@
 		46730DF72C96C1A900E9227E /* ARViewDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewDisplay.swift; sourceTree = "<group>"; };
 		46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanViewViewModel.swift; sourceTree = "<group>"; };
 		46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewViewModel.swift; sourceTree = "<group>"; };
+		46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoomView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +150,7 @@
 				466DA2F92C9324800023F1DD /* ProfileView.swift */,
 				466DA2FB2C9324AA0023F1DD /* HomeView.swift */,
 				466DA3132C93347D0023F1DD /* LandingView.swift */,
+				46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */,
 			);
 			path = MainAppViews;
 			sourceTree = "<group>";
@@ -335,6 +338,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
+				46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */,
 				462F03272C95557A000AA26D /* RoomController.swift in Sources */,
 				466DA30C2C93255D0023F1DD /* RegisterViewViewModel.swift in Sources */,
 				46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */,

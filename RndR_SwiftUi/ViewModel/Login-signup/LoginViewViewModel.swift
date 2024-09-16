@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseCore
 import GoogleSignIn
 import GoogleSignInSwift
+import FirebaseFirestore
 
 class LoginViewViewModel: ObservableObject {
     @Published var alertMessage = ""
@@ -73,7 +74,41 @@ class LoginViewViewModel: ObservableObject {
                     return
                 }
                 
-                guard let user = res?.user else { return }
+                guard let firebaseUser = res?.user else { return }
+                
+                // Store user information in Firestore after Google sign-in
+                storeUserInfo(firebaseUser: firebaseUser)
+            }
+        }
+    }
+
+    // Function to store user info in Firestore if the user is new
+    func storeUserInfo(firebaseUser: FirebaseAuth.User) {
+        let db = Firestore.firestore()
+        let docRef = db.collection("users").document(firebaseUser.uid)
+        
+        // Check if the user already exists
+        docRef.getDocument { snapshot, error in
+            if let document = snapshot, document.exists {
+                // User already exists, no need to store again
+                print("User already exists in Firestore")
+            } else {
+                // New user, store their information with the exact sign-in time
+                let userData: [String: Any] = [
+                    "id": firebaseUser.uid,
+                    "name": firebaseUser.displayName ?? "",
+                    "email": firebaseUser.email ?? "",
+                    "joined": Timestamp(date: Date())  // Using Firebase Timestamp for the exact sign-in time
+                ]
+                
+                // Store the user data in Firestore
+                docRef.setData(userData) { error in
+                    if let error = error {
+                        print("Error saving user data: \(error)")
+                    } else {
+                        print("User data successfully saved to Firestore")
+                    }
+                }
             }
         }
     }

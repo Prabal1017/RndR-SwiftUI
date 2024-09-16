@@ -1,9 +1,3 @@
-//
-//  ProfileView.swift
-//  RndR_SwiftUi
-//
-//  Created by Piyush saini on 12/09/24.
-//
 
 import SwiftUI
 
@@ -14,31 +8,29 @@ struct ProfileView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            ZStack(alignment:.bottom){
                 List {
                     if let user = viewModel.user{
                         Section(header: Text("Admin Details")) {
                             HStack {
-                                Text("Name : ")
-                                    .bold()
+                                Text("Name")
                                 Spacer()
                                 Text(user.name)
                                     .foregroundColor(.secondary)
                             }
                             
                             HStack {
-                                Text("Email : ")
-                                    .bold()
+                                Text("Email")
                                 Spacer()
                                 Text(user.email)
                                     .foregroundColor(.secondary)
                             }
-                            
+            
                             HStack {
                                 Text("Member Since : ")
-                                    .bold()
                                 Spacer()
-                                Text("\(Date(timeIntervalSince1970: user.joined).formatted(date: .abbreviated, time: .shortened))")
+                                // Convert Timestamp to Date and format it
+                                Text("\(user.joined.dateValue().formatted(date: .abbreviated, time: .shortened))")
                                     .foregroundColor(.secondary)
                             }
                         }
@@ -46,44 +38,44 @@ struct ProfileView: View {
                         Section(header: Text("App Details")) {
                             HStack {
                                 Text("Version")
-                                    .bold()
                                 Spacer()
-                                Text("v1")
+                                Text("V1")
                                     .foregroundColor(.secondary)
                             }
                         }
                         
                         Section(header: Text("Contact Support")) {
                             HStack {
-                                Text("Email : ")
-                                    .bold()
+                                Text("Email")
                                 Spacer()
                                 Text("RndR@gmail.com")
                                     .foregroundColor(.secondary)
                             }
                         }
+                        Section {
+                            HStack {
+                                Spacer()
+                                Button(action: {
+                                    viewModel.logOut() // Call the log out action
+                                }) {
+                                    Text("Logout")
+                                        .foregroundColor(.red)
+                                }
+                                Spacer()
+                            }
+                        }
                     }
                     else{
-                        Text("Loading profile....")
+                        Text("Loading profile...")
                     }
-                        
+                    
                 }
             }
-            .navigationTitle("Settings")
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        // Action for logout
-                        viewModel.logOut()
-                    }) {
-                        Text("Log Out")
-                    }
-                    .tint(.red)
-                }
-            }
-            .onAppear(){
-                viewModel.fetchUser()
-            }
+            .navigationTitle("Profile")
+        }
+        
+        .onAppear(){
+            viewModel.fetchUser()
         }
     }
 }
