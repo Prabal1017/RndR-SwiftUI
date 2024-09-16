@@ -1,87 +1,9 @@
-//import SwiftUI
-//import PhotosUI
-//import FirebaseStorage
-//
-//struct RoomDetailsFormView: View {
-//    @State private var roomName: String = ""
-//    @State private var roomType: String = ""
-//    @State private var image: UIImage? = nil
-//    @State private var isImagePickerPresented: Bool = false
-//    @State private var isSaving: Bool = false
-//    @State private var imageUrl: String = ""
-//    
-//    @StateObject private var viewModel = RoomPlanViewViewModel()
-//    
-//    var modelUrl: String
-//    var onSave: (Room) -> Void
-//    
-//    var body: some View {
-//        VStack {
-//            TextField("Room Name", text: $roomName)
-//                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                .padding()
-//            
-//            TextField("Room Type", text: $roomType)
-//                .textFieldStyle(RoundedBorderTextFieldStyle())
-//                .padding()
-//            
-//            Button("Select Image") {
-//                isImagePickerPresented = true
-//            }
-//            .padding()
-//            
-//            if let image = image {
-//                Image(uiImage: image)
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(height: 200)
-//                    .padding()
-//            }
-//            
-//            Button("Save") {
-//                if let image = image {
-//                    viewModel.uploadImage(image) { url in
-//                        let room = Room(
-//                            id: UUID().uuidString,
-//                            roomName: roomName,
-//                            roomType: roomType,
-//                            imageUrl: url ?? "",
-//                            image: image,
-//                            modelUrl: modelUrl
-//                        )
-//                        onSave(room)
-//                    }
-//                } else {
-//                    let room = Room(
-//                        id: UUID().uuidString,
-//                        roomName: roomName,
-//                        roomType: roomType,
-//                        imageUrl: "",
-//                        image: UIImage(),
-//                        modelUrl: modelUrl
-//                    )
-//                    onSave(room)
-//                }
-//            }
-//            .buttonStyle(.borderedProminent)
-//            .padding()
-//        }
-//        .sheet(isPresented: $isImagePickerPresented) {
-//            ImagePicker(image: $image)
-//        }
-//    }
-//}
-
-
-
-
-
 import SwiftUI
 import PhotosUI
 
 struct RoomDetailsFormView: View {
     @State private var roomName: String = ""
-    @State private var roomType: String = "Bedroom" // Default selection
+    @State private var roomType: String = "" // Updated to handle dynamic categories
     @State private var image: UIImage? = nil
     @State private var isImagePickerPresented: Bool = false
     @State private var isSaving: Bool = false
@@ -92,9 +14,6 @@ struct RoomDetailsFormView: View {
     var modelUrl: String
     var onSave: (Room) -> Void
     
-    // Room types for the dropdown menu
-    let roomTypes = ["Bedroom", "Kitchen", "Living Room", "Dinning Room" ,"Bathroom"]
-    
     var body: some View {
         VStack {
             TextField("Room Name", text: $roomName)
@@ -102,13 +21,18 @@ struct RoomDetailsFormView: View {
                 .padding()
             
             // Dropdown menu for selecting room type
-            Picker("Room Type", selection: $roomType) {
-                ForEach(roomTypes, id: \.self) { type in
-                    Text(type)
+            if viewModel.categoryNames.isEmpty {
+                ProgressView("Loading categories...")
+                    .padding()
+            } else {
+                Picker("Room Type", selection: $roomType) {
+                    ForEach(viewModel.categoryNames, id: \.self) { type in
+                        Text(type)
+                    }
                 }
+                .pickerStyle(MenuPickerStyle()) // You can also use other picker styles
+                .padding()
             }
-            .pickerStyle(MenuPickerStyle()) // You can also use other picker styles
-            .padding()
             
             Button("Select Image") {
                 isImagePickerPresented = true
@@ -153,12 +77,14 @@ struct RoomDetailsFormView: View {
             .buttonStyle(.borderedProminent)
             .padding()
         }
+        .onAppear {
+            viewModel.fetchCategoryNames()
+        }
         .sheet(isPresented: $isImagePickerPresented) {
             ImagePicker(image: $image)
         }
     }
 }
-
 
 
 

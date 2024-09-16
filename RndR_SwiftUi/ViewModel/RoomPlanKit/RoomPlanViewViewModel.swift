@@ -58,12 +58,17 @@
 //    }
 //}
 
+
+
 import Foundation
 import FirebaseFirestore
 import FirebaseStorage
 import UIKit
 
 class RoomPlanViewViewModel: ObservableObject {
+    
+    // Published property to store fetched category names
+    @Published var categoryNames: [String] = []
     
     // Function to save room data to Firestore under the roomType chosen
     func saveRoomData(_ room: Room) {
@@ -118,6 +123,27 @@ class RoomPlanViewViewModel: ObservableObject {
                 } else {
                     completion(url?.absoluteString)
                 }
+            }
+        }
+    }
+    
+    // Function to fetch categories from Firestore and store them in the shared array
+    func fetchCategoryNames() {
+        let db = Firestore.firestore()
+        
+        db.collection("categories").getDocuments { snapshot, error in
+            if let error = error {
+                print("Error fetching categories: \(error.localizedDescription)")
+                self.categoryNames = [] // Reset array if there's an error
+                return
+            }
+            
+            let names = snapshot?.documents.compactMap { document in
+                return document.data()["categoryName"] as? String
+            } ?? []
+            
+            DispatchQueue.main.async {
+                self.categoryNames = names // Update the shared array with fetched names
             }
         }
     }

@@ -137,7 +137,11 @@ struct AddRoomView: View {
                 return
             }
             print("Document added successfully")
+            //fetch new categories
             HomeViewViewModel().fetchCategories()
+            //fetch new category names
+            RoomPlanViewViewModel().fetchCategoryNames()
+            
             isShowingAddRoomView = false
         }
     }
