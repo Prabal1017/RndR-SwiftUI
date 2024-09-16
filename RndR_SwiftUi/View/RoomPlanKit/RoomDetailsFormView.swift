@@ -1,19 +1,99 @@
+//import SwiftUI
+//import PhotosUI
+//import FirebaseStorage
+//
+//struct RoomDetailsFormView: View {
+//    @State private var roomName: String = ""
+//    @State private var roomType: String = ""
+//    @State private var image: UIImage? = nil
+//    @State private var isImagePickerPresented: Bool = false
+//    @State private var isSaving: Bool = false
+//    @State private var imageUrl: String = ""
+//    
+//    @StateObject private var viewModel = RoomPlanViewViewModel()
+//    
+//    var modelUrl: String
+//    var onSave: (Room) -> Void
+//    
+//    var body: some View {
+//        VStack {
+//            TextField("Room Name", text: $roomName)
+//                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                .padding()
+//            
+//            TextField("Room Type", text: $roomType)
+//                .textFieldStyle(RoundedBorderTextFieldStyle())
+//                .padding()
+//            
+//            Button("Select Image") {
+//                isImagePickerPresented = true
+//            }
+//            .padding()
+//            
+//            if let image = image {
+//                Image(uiImage: image)
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(height: 200)
+//                    .padding()
+//            }
+//            
+//            Button("Save") {
+//                if let image = image {
+//                    viewModel.uploadImage(image) { url in
+//                        let room = Room(
+//                            id: UUID().uuidString,
+//                            roomName: roomName,
+//                            roomType: roomType,
+//                            imageUrl: url ?? "",
+//                            image: image,
+//                            modelUrl: modelUrl
+//                        )
+//                        onSave(room)
+//                    }
+//                } else {
+//                    let room = Room(
+//                        id: UUID().uuidString,
+//                        roomName: roomName,
+//                        roomType: roomType,
+//                        imageUrl: "",
+//                        image: UIImage(),
+//                        modelUrl: modelUrl
+//                    )
+//                    onSave(room)
+//                }
+//            }
+//            .buttonStyle(.borderedProminent)
+//            .padding()
+//        }
+//        .sheet(isPresented: $isImagePickerPresented) {
+//            ImagePicker(image: $image)
+//        }
+//    }
+//}
+
+
+
+
+
 import SwiftUI
 import PhotosUI
 
-import SwiftUI
-import FirebaseStorage
-
 struct RoomDetailsFormView: View {
     @State private var roomName: String = ""
-    @State private var roomType: String = ""
+    @State private var roomType: String = "Bedroom" // Default selection
     @State private var image: UIImage? = nil
     @State private var isImagePickerPresented: Bool = false
     @State private var isSaving: Bool = false
     @State private var imageUrl: String = ""
     
+    @StateObject private var viewModel = RoomPlanViewViewModel()
+    
     var modelUrl: String
     var onSave: (Room) -> Void
+    
+    // Room types for the dropdown menu
+    let roomTypes = ["Bedroom", "Kitchen", "Living Room", "Dinning Room" ,"Bathroom"]
     
     var body: some View {
         VStack {
@@ -21,9 +101,14 @@ struct RoomDetailsFormView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding()
             
-            TextField("Room Type", text: $roomType)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
+            // Dropdown menu for selecting room type
+            Picker("Room Type", selection: $roomType) {
+                ForEach(roomTypes, id: \.self) { type in
+                    Text(type)
+                }
+            }
+            .pickerStyle(MenuPickerStyle()) // You can also use other picker styles
+            .padding()
             
             Button("Select Image") {
                 isImagePickerPresented = true
@@ -40,7 +125,7 @@ struct RoomDetailsFormView: View {
             
             Button("Save") {
                 if let image = image {
-                    uploadImage(image) { url in
+                    viewModel.uploadImage(image, roomType: roomType) { url in
                         let room = Room(
                             id: UUID().uuidString,
                             roomName: roomName,
@@ -49,6 +134,7 @@ struct RoomDetailsFormView: View {
                             image: image,
                             modelUrl: modelUrl
                         )
+                        viewModel.saveRoomData(room)
                         onSave(room)
                     }
                 } else {
@@ -60,6 +146,7 @@ struct RoomDetailsFormView: View {
                         image: UIImage(),
                         modelUrl: modelUrl
                     )
+                    viewModel.saveRoomData(room)
                     onSave(room)
                 }
             }
@@ -70,33 +157,9 @@ struct RoomDetailsFormView: View {
             ImagePicker(image: $image)
         }
     }
-    
-    // Function to upload image to Firebase Storage
-    func uploadImage(_ image: UIImage, completion: @escaping (String?) -> Void) {
-        let storageRef = Storage.storage().reference().child("roomImages/\(UUID().uuidString).jpg")
-        guard let imageData = image.jpegData(compressionQuality: 0.8) else {
-            completion(nil)
-            return
-        }
-        
-        storageRef.putData(imageData, metadata: nil) { metadata, error in
-            if let error = error {
-                print("Error uploading image: \(error.localizedDescription)")
-                completion(nil)
-                return
-            }
-            
-            storageRef.downloadURL { url, error in
-                if let error = error {
-                    print("Error retrieving download URL: \(error.localizedDescription)")
-                    completion(nil)
-                } else {
-                    completion(url?.absoluteString)
-                }
-            }
-        }
-    }
 }
+
+
 
 
 

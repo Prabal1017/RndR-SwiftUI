@@ -130,6 +130,8 @@ struct RoomPlanView: View {
     @State private var doneScanning: Bool = false
     @State private var exportURL: URL?
     @State private var showingRoomForm = false
+    
+    @StateObject private var viewModel = RoomPlanViewViewModel()
 
     var body: some View {
         NavigationStack {
@@ -172,31 +174,31 @@ struct RoomPlanView: View {
                 .padding(.bottom, 10)
                 .sheet(isPresented: $showingRoomForm) {
                     RoomDetailsFormView(modelUrl: exportURL?.absoluteString ?? "") { room in
-                        saveRoomData(room)
+                            viewModel.saveRoomData(room)
                     }
                 }
             }
         }
     }
 
-    func saveRoomData(_ room: Room) {
-        // Save room data to Firestore
-        let db = Firestore.firestore()
-        let roomData: [String: Any] = [
-            "id": room.id,
-            "roomName": room.roomName,
-            "roomType": room.roomType,
-            "imageUrl": room.imageUrl,
-            "modelUrl": room.modelUrl,
-            "timestamp": Timestamp()
-        ]
-        
-        db.collection("rooms").addDocument(data: roomData) { error in
-            if let error = error {
-                print("Error adding document: \(error)")
-            } else {
-                print("Document successfully added")
-            }
-        }
-    }
+//    func saveRoomData(_ room: Room) {
+//        // Save room data to Firestore
+//        let db = Firestore.firestore()
+//        let roomData: [String: Any] = [
+//            "id": room.id,
+//            "roomName": room.roomName,
+//            "roomType": room.roomType,
+//            "imageUrl": room.imageUrl,
+//            "modelUrl": room.modelUrl,
+//            "timestamp": Timestamp()
+//        ]
+//        
+//        db.collection("rooms").addDocument(data: roomData) { error in
+//            if let error = error {
+//                print("Error adding document: \(error)")
+//            } else {
+//                print("Document successfully added")
+//            }
+//        }
+//    }
 }

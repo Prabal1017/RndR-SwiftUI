@@ -1,8 +1,8 @@
 import SwiftUI
 
-// Main HomeView using SliderView as a subview
 struct HomeView: View {
-    var recentlyView = ["demoImage", "demoImage", "demoImage", "demoImage", "demoImage"]
+    var recentlyView = ["bedroom", "kitchen", "livingroom", "dinningroom", "bathroom"]
+    let cate = ["Bedroom", "Kitchen", "Living Room", "Dinning Room", "Bathroom"]
 
     var body: some View {
         ScrollView {
@@ -21,34 +21,42 @@ struct HomeView: View {
                     .padding(.leading)
                     .padding([.top, .bottom])
                 
-                //catagories view
-                categoriesView(recentlyView: recentlyView)
+                // Categories view with images and names
+                categoriesView(categories: getCategories())
             }
             .padding(.top)
-            
         }
+    }
+    
+    private func getCategories() -> [(imageName: String, categoryName: String)] {
+        return [
+            ("bedroom", "Bedroom"),
+            ("kitchen", "Kitchen"),
+            ("livingroom", "Living Room"),
+            ("dinningroom", "Dinning Room"),
+            ("bathroom", "Bathroom")
+        ]
     }
 }
 
-// catagories view
 struct categoriesView: View {
-    var recentlyView: [String]
+    var categories: [(imageName: String, categoryName: String)]
     
     var body: some View {
-        VStack(spacing: 10){
-            ForEach(recentlyView, id: \.self) { demo in
-                NavigationLink(destination: CategorieItemView()){
-                    VStack{
-                        Image(demo)
+        VStack(spacing: 10) {
+            ForEach(categories, id: \.categoryName) { category in
+                NavigationLink(destination: CategorieItemView(roomType: category.categoryName, heroImage: category.imageName)) {
+                    VStack {
+                        Image(category.imageName)
                             .resizable()
                             .scaledToFit()
                             .frame(width: 310)
                             .clipShape(RoundedRectangle(cornerRadius: 10))
                             .padding([.top, .leading, .trailing])
                         
-                        Text("Home")
+                        Text(category.categoryName)
                             .font(.headline)
-                            .foregroundColor(.black)
+                            .foregroundColor(.white)
                             .padding(.bottom)
                     }
                     .frame(width: 350)
@@ -59,6 +67,7 @@ struct categoriesView: View {
         }
     }
 }
+
 
 // Subview for the slider
 struct SliderView: View {

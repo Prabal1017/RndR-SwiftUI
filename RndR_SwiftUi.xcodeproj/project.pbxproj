@@ -42,6 +42,8 @@
 		46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */; };
 		46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */; };
 		46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF72C96C1A900E9227E /* ARViewDisplay.swift */; };
+		46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */; };
+		46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -75,6 +77,8 @@
 		46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataModel.swift; sourceTree = "<group>"; };
 		46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailsFormView.swift; sourceTree = "<group>"; };
 		46730DF72C96C1A900E9227E /* ARViewDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewDisplay.swift; sourceTree = "<group>"; };
+		46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanViewViewModel.swift; sourceTree = "<group>"; };
+		46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +118,8 @@
 			isa = PBXGroup;
 			children = (
 				462F03262C95557A000AA26D /* RoomController.swift */,
+				46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */,
+				46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -331,11 +337,13 @@
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
 				462F03272C95557A000AA26D /* RoomController.swift in Sources */,
 				466DA30C2C93255D0023F1DD /* RegisterViewViewModel.swift in Sources */,
+				46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */,
 				466DA3002C9324D90023F1DD /* LoginView.swift in Sources */,
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
 				46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */,
 				466DA3022C9324EB0023F1DD /* LoginViewViewModel.swift in Sources */,
+				46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */,
 				466DA3142C93347D0023F1DD /* LandingView.swift in Sources */,
 				462F03242C9554F9000AA26D /* StartScanView.swift in Sources */,
 				46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */,
