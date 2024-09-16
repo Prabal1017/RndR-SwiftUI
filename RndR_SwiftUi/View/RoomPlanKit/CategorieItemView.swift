@@ -1,5 +1,4 @@
 import SwiftUI
-import FirebaseFirestore
 import SDWebImageSwiftUI
 
 struct CategorieItemView: View {
@@ -10,8 +9,8 @@ struct CategorieItemView: View {
     
     @StateObject private var viewModel = CategoryViewViewModel()
     
-    var roomType: String  // Accept roomType as a parameter
-    @State private var isLoading = true  // State to track loading status
+    var roomType: String
+    @State private var isLoading = true
     var heroImage: String
     
     var body: some View {
@@ -19,13 +18,13 @@ struct CategorieItemView: View {
             ScrollView {
                 VStack(spacing: 0) {
                     ScrollViewHeader {
-                        Image(heroImage)
+                        WebImage(url: URL(string: heroImage))
                             .resizable()
                             .scaledToFill()
                     }
                     .frame(height: 250) // Adjust the height as needed
                     
-                    Text("\(roomType) Scans")  // Show the room type as a title
+                    Text("\(roomType) Scans")
                         .font(.title)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
@@ -34,22 +33,19 @@ struct CategorieItemView: View {
                         .offset(y: -85)
                     
                     if isLoading {
-                        // Show loading view
                         ProgressView("Fetching Rooms...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .scaleEffect(1, anchor: .center)
                             .padding()
                             .offset(y: -50)
                     } else {
-                        if(viewModel.rooms.isEmpty){
+                        if viewModel.rooms.isEmpty {
                             Text("No rooms added")
                                 .foregroundColor(.secondary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading)
                                 .offset(y: -55)
-                        }
-                        else{
-                            // Show content when not loading
+                        } else {
                             LazyVGrid(columns: layout, spacing: 20) {
                                 ForEach(viewModel.rooms) { room in
                                     NavigationLink(destination: ARViewDisplay(modelUrl: room.modelUrl)) {
@@ -77,7 +73,6 @@ struct CategorieItemView: View {
         }
         .onAppear {
             viewModel.fetchRooms(for: roomType) { success in
-                // Update the loading state based on the fetch result
                 isLoading = !success
             }
         }

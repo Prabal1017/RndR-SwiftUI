@@ -45,6 +45,10 @@
 		46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */; };
 		46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */; };
 		46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */; };
+		46B805612C986CD000ABF1F8 /* HomeDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805602C986CD000ABF1F8 /* HomeDataModel.swift */; };
+		46B805632C986CF200ABF1F8 /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805622C986CF200ABF1F8 /* HomeViewViewModel.swift */; };
+		46B805652C98861900ABF1F8 /* categoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805642C98861900ABF1F8 /* categoriesView.swift */; };
+		46B805672C98865C00ABF1F8 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805662C98865C00ABF1F8 /* SliderView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +85,10 @@
 		46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanViewViewModel.swift; sourceTree = "<group>"; };
 		46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewViewModel.swift; sourceTree = "<group>"; };
 		46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoomView.swift; sourceTree = "<group>"; };
+		46B805602C986CD000ABF1F8 /* HomeDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDataModel.swift; sourceTree = "<group>"; };
+		46B805622C986CF200ABF1F8 /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
+		46B805642C98861900ABF1F8 /* categoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoriesView.swift; sourceTree = "<group>"; };
+		46B805662C98865C00ABF1F8 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,6 +148,7 @@
 			children = (
 				466DA2FD2C9324BD0023F1DD /* MainViewViewModel.swift */,
 				466DA3112C9327FF0023F1DD /* ProfileViewViewModel.swift */,
+				46B805622C986CF200ABF1F8 /* HomeViewViewModel.swift */,
 			);
 			path = MainAppViewModels;
 			sourceTree = "<group>";
@@ -150,7 +159,6 @@
 				466DA2F92C9324800023F1DD /* ProfileView.swift */,
 				466DA2FB2C9324AA0023F1DD /* HomeView.swift */,
 				466DA3132C93347D0023F1DD /* LandingView.swift */,
-				46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */,
 			);
 			path = MainAppViews;
 			sourceTree = "<group>";
@@ -167,8 +175,11 @@
 		462F032E2C9556BB000AA26D /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				46B805642C98861900ABF1F8 /* categoriesView.swift */,
+				46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */,
 				466DA3032C9325130023F1DD /* HeaderView.swift */,
 				466DA3052C9325280023F1DD /* TLButton.swift */,
+				46B805662C98865C00ABF1F8 /* SliderView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -248,6 +259,7 @@
 			children = (
 				466DA30D2C9325850023F1DD /* UserDataModel.swift */,
 				46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */,
+				46B805602C986CD000ABF1F8 /* HomeDataModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -346,8 +358,11 @@
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
 				46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */,
+				46B805672C98865C00ABF1F8 /* SliderView.swift in Sources */,
 				466DA3022C9324EB0023F1DD /* LoginViewViewModel.swift in Sources */,
+				46B805632C986CF200ABF1F8 /* HomeViewViewModel.swift in Sources */,
 				46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */,
+				46B805612C986CD000ABF1F8 /* HomeDataModel.swift in Sources */,
 				466DA3142C93347D0023F1DD /* LandingView.swift in Sources */,
 				462F03242C9554F9000AA26D /* StartScanView.swift in Sources */,
 				46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */,
@@ -364,6 +379,7 @@
 				46730DED2C96AFDE00E9227E /* ModelDetailView.swift in Sources */,
 				466DA3042C9325130023F1DD /* HeaderView.swift in Sources */,
 				466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */,
+				46B805652C98861900ABF1F8 /* categoriesView.swift in Sources */,
 				46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
