@@ -31,7 +31,7 @@ struct CategorieItemView: View {
                         .padding()
                         .padding(.top, 30)
                         .background(LinearGradient(colors: [.clear, .black.opacity(1)], startPoint: .top, endPoint: .bottom))
-                        .offset(y: -95)
+                        .offset(y: -85)
                     
                     if isLoading {
                         // Show loading view
