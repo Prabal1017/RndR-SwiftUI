@@ -2,6 +2,7 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewViewModel()
+    @StateObject private var roomViewModel = RoomPlanViewViewModel()
     @State private var isShowingAddRoomView = false
 
     var body: some View {
@@ -12,8 +13,7 @@ struct HomeView: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.leading, 20)
                 
-                // Using the subview SliderView
-                SliderView(recentlyView: ["bedroom", "kitchen", "livingroom", "dinningroom", "bathroom"])
+                SliderView(viewModel: roomViewModel)
                 
                 HStack {
                     Text("Rooms")
@@ -30,19 +30,22 @@ struct HomeView: View {
                 }
                 .padding([.horizontal, .top])
 
-                // Categories view with images and names
                 categoriesView(categories: viewModel.categories)
             }
             .padding(.top)
             .sheet(isPresented: $isShowingAddRoomView) {
-                AddRoomView(isShowingAddRoomView: $isShowingAddRoomView)
+                AddRoomView(isShowingAddRoomView: $isShowingAddRoomView, viewModel: roomViewModel)
+                    .presentationDetents([.medium])
             }
         }
         .onAppear {
             viewModel.fetchCategories()
+            roomViewModel.fetchCategoryNames()
+            roomViewModel.fetchRecentRooms()
         }
     }
 }
+
 
 #Preview {
     HomeView()

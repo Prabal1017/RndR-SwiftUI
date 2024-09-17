@@ -31,7 +31,7 @@ class HomeViewViewModel: ObservableObject {
             
             self.categories = documents.compactMap { doc -> Category? in
                 let category = try? doc.data(as: Category.self)
-                print("Fetched category: \(String(describing: category))") // Debug print
+//                print("Fetched category: \(String(describing: category))")
                 return category
             }
             

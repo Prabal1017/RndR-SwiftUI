@@ -93,13 +93,20 @@ class CategoryViewViewModel: ObservableObject {
                 } else {
                     self?.rooms = snapshot?.documents.compactMap { document in
                         let data = document.data()
+                        
+                        // Extract the timestamp field
+                        guard let timestamp = data["timestamp"] as? Timestamp else {
+                            return nil
+                        }
+
                         return Room(
                             id: document.documentID,
                             roomName: data["roomName"] as? String ?? "",
                             roomType: data["roomType"] as? String ?? "",
                             imageUrl: data["imageUrl"] as? String ?? "",
-                            image: UIImage(), // Placeholder
-                            modelUrl: data["modelUrl"] as? String ?? ""
+                            image: UIImage(), // Placeholder for the image
+                            modelUrl: data["modelUrl"] as? String ?? "",
+                            timestamp: timestamp  // Pass the timestamp
                         )
                     } ?? []
                     print("Successfully fetched \(self?.rooms.count ?? 0) rooms")

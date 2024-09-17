@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseCore
 
 struct Room: Identifiable {
     var id: String
@@ -15,5 +16,6 @@ struct Room: Identifiable {
     var imageUrl: String
     var image: UIImage
     var modelUrl: String
+    var timestamp: Timestamp
 }
 

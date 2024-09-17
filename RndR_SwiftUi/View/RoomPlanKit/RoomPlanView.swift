@@ -176,6 +176,8 @@ struct RoomPlanView: View {
                     RoomDetailsFormView(modelUrl: exportURL?.absoluteString ?? "") { room in
                             viewModel.saveRoomData(room)
                     }
+                    
+                    .presentationDetents([.medium])
                 }
             }
         }

@@ -21,7 +21,7 @@
 //            "modelUrl": room.modelUrl,
 //            "timestamp": Timestamp()
 //        ]
-//        
+//
 //        db.collection("rooms").addDocument(data: roomData) { error in
 //            if let error = error {
 //                print("Error adding document: \(error)")
@@ -30,7 +30,7 @@
 //            }
 //        }
 //    }
-//    
+//
 //    // Function to upload image to Firebase Storage
 //    func uploadImage(_ image: UIImage, completion: @escaping (String?) -> Void) {
 //        let storageRef = Storage.storage().reference().child("roomImages/\(UUID().uuidString).jpg")
@@ -38,14 +38,14 @@
 //            completion(nil)
 //            return
 //        }
-//        
+//
 //        storageRef.putData(imageData, metadata: nil) { metadata, error in
 //            if let error = error {
 //                print("Error uploading image: \(error.localizedDescription)")
 //                completion(nil)
 //                return
 //            }
-//            
+//
 //            storageRef.downloadURL { url, error in
 //                if let error = error {
 //                    print("Error retrieving download URL: \(error.localizedDescription)")
@@ -59,7 +59,6 @@
 //}
 
 
-
 import Foundation
 import FirebaseFirestore
 import FirebaseStorage
@@ -67,8 +66,8 @@ import UIKit
 
 class RoomPlanViewViewModel: ObservableObject {
     
-    // Published property to store fetched category names
     @Published var categoryNames: [String] = []
+    @Published var recentRooms: [Room] = []
     
     // Function to save room data to Firestore under the roomType chosen
     func saveRoomData(_ room: Room) {
@@ -82,11 +81,10 @@ class RoomPlanViewViewModel: ObservableObject {
             "timestamp": Timestamp()
         ]
         
-        // Save the room data inside the corresponding roomType collection
         db.collection("rooms")
-            .document(room.roomType)  // RoomType as document
-            .collection("roomDetails")  // Room details under that document
-            .document(room.id)  // Use room ID for the document name
+            .document(room.roomType)
+            .collection("roomDetails")
+            .document(room.id)
             .setData(roomData) { error in
                 if let error = error {
                     print("Error adding document: \(error)")
@@ -98,16 +96,12 @@ class RoomPlanViewViewModel: ObservableObject {
     
     // Function to upload image to Firebase Storage based on the roomType
     func uploadImage(_ image: UIImage, roomType: String, completion: @escaping (String?) -> Void) {
-        // Create a reference to the storage location based on the roomType
         let storageRef = Storage.storage().reference().child("rooms/\(roomType)/\(UUID().uuidString).jpg")
-        
-        // Convert UIImage to JPEG data
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             completion(nil)
             return
         }
         
-        // Upload the image data to Firebase Storage
         storageRef.putData(imageData, metadata: nil) { metadata, error in
             if let error = error {
                 print("Error uploading image: \(error.localizedDescription)")
@@ -115,7 +109,6 @@ class RoomPlanViewViewModel: ObservableObject {
                 return
             }
             
-            // Retrieve the download URL for the uploaded image
             storageRef.downloadURL { url, error in
                 if let error = error {
                     print("Error retrieving download URL: \(error.localizedDescription)")
@@ -127,14 +120,13 @@ class RoomPlanViewViewModel: ObservableObject {
         }
     }
     
-    // Function to fetch categories from Firestore and store them in the shared array
     func fetchCategoryNames() {
         let db = Firestore.firestore()
         
         db.collection("categories").getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching categories: \(error.localizedDescription)")
-                self.categoryNames = [] // Reset array if there's an error
+                self.categoryNames = []
                 return
             }
             
@@ -143,8 +135,80 @@ class RoomPlanViewViewModel: ObservableObject {
             } ?? []
             
             DispatchQueue.main.async {
-                self.categoryNames = names // Update the shared array with fetched names
+                self.categoryNames = names
             }
+        }
+    }
+    
+    func fetchRecentRooms() {
+        print("Fetching recent rooms")
+        
+        let db = Firestore.firestore()
+        
+        let categories: [String]
+        
+        if(categoryNames.isEmpty) {
+            categories = ["Bathroom", "Dinning Room", "Kitchen", "Living Room", "Bedroom"]
+        }
+        else{
+            categories = categoryNames
+        }
+        var allRooms: [Room] = []
+        
+        let dispatchGroup = DispatchGroup()
+        
+        for category in categories {
+            dispatchGroup.enter()
+            
+            db.collection("rooms").document(category).collection("roomDetails")
+                .order(by: "timestamp", descending: true)
+                .limit(to: 5)
+                .getDocuments { snapshot, error in
+                    if let error = error {
+                        print("Error fetching rooms from \(category): \(error.localizedDescription)")
+                        dispatchGroup.leave()
+                        return
+                    }
+
+                    if let documents = snapshot?.documents {
+                        let rooms = documents.compactMap { document -> Room? in
+                            let data = document.data()
+                            
+                            guard let id = document.documentID as String?,
+                                  let roomName = data["roomName"] as? String,
+                                  let roomType = data["roomType"] as? String,
+                                  let imageUrl = data["imageUrl"] as? String,
+                                  let modelUrl = data["modelUrl"] as? String,
+                                  let timestamp = data["timestamp"] as? Timestamp else {
+                                return nil
+                            }
+
+                            let roomImage = UIImage()
+
+                            return Room(
+                                id: id,
+                                roomName: roomName,
+                                roomType: roomType,
+                                imageUrl: imageUrl,
+                                image: roomImage,
+                                modelUrl: modelUrl,
+                                timestamp: timestamp
+                            )
+                        }
+                        allRooms.append(contentsOf: rooms)
+                    }
+
+                    dispatchGroup.leave()
+                }
+        }
+
+        dispatchGroup.notify(queue: .main) {
+            self.recentRooms = allRooms.sorted(by: { $0.timestamp.compare($1.timestamp) == .orderedDescending })
+            if self.recentRooms.count > 5 {
+                self.recentRooms = Array(self.recentRooms.prefix(5))
+            }
+            
+//            print("Recent rooms: \(self.recentRooms)")
         }
     }
 }

@@ -19,7 +19,8 @@ struct categoriesView: View {
                         AsyncImage(url: URL(string: category.categoryImage)) { phase in
                             switch phase {
                             case .empty:
-                                ProgressView()
+                                SkeletonLoader()
+                                    .frame(width: 170, height: 120)
                             case .success(let image):
                                 image
                                     .resizable()
