@@ -47,7 +47,7 @@ struct SliderView: View {
                                     Spacer()
                                     
                                     Button {
-                                        // Action (view with LiDAR)
+                                        // Action (view in Ar)
                                     } label: {
                                         Text("View")
                                             .frame(width: 80, height: 36)

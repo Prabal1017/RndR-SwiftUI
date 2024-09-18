@@ -27,7 +27,7 @@ struct ProfileView: View {
                             }
             
                             HStack {
-                                Text("Member Since : ")
+                                Text("Member Since")
                                 Spacer()
                                 // Convert Timestamp to Date and format it
                                 Text("\(user.joined.dateValue().formatted(date: .abbreviated, time: .shortened))")
