@@ -129,11 +129,29 @@ struct CategorieItemView: View {
     
     @State private var showDeleteAlert = false
     @State private var roomToDelete: Room?
+    
+    @State private var showDeletedMessage = false
 
     var body: some View {
         GeometryReader { geo in
             ScrollView {
                 VStack(spacing: 0) {
+                    if showDeletedMessage {
+                        HStack {
+                            Text("Room deleted successfully!")
+                                .foregroundColor(.secondary)
+                                .padding()
+                                .background(.ultraThinMaterial)
+                                .cornerRadius(10)
+                                .shadow(radius: 5)
+                        }
+                        .offset(y: -50)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .transition(.move(edge: .top))
+                        .zIndex(1)
+                    }
+                    
                     ScrollViewHeader {
                         WebImage(url: URL(string: heroImage))
                             .resizable()
@@ -196,6 +214,7 @@ struct CategorieItemView: View {
                     }
                 }
             }
+            .animation(.easeInOut, value: showDeletedMessage)
         }
         .onAppear {
             viewModel.fetchRooms(for: roomType) { success in
@@ -211,6 +230,11 @@ struct CategorieItemView: View {
                         viewModel.deleteRoom(roomToDelete) { success in
                             if success {
                                 print("Room deleted successfully.")
+                                showDeletedMessage = true // Show the deleted message
+                                // Hide the deleted message after 2 seconds
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    showDeletedMessage = false
+                                }
                                 viewModel.fetchRooms(for: roomType) { _ in } // Refresh the view
                             } else {
                                 print("Failed to delete room.")
@@ -224,6 +248,7 @@ struct CategorieItemView: View {
         .preferredColorScheme(.dark)
     }
 }
+
 
 public struct ScrollViewHeader<Content: View>: View {
     
