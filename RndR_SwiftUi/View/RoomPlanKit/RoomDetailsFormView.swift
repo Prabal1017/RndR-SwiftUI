@@ -64,11 +64,15 @@ struct RoomDetailsFormView: View {
                         presentationMode.wrappedValue.dismiss()
                     }
                 }
-                
+
                 ToolbarItem(placement: .navigationBarTrailing) {
                     Button("Save") {
+                        guard !isSaving else { return } // Prevent multiple save attempts
+                        isSaving = true
+                        
                         let timestamp = Timestamp() // Current timestamp
                         
+                        // Check if an image exists
                         if let image = image {
                             viewModel.uploadImage(image, roomType: roomType) { url in
                                 let room = Room(
@@ -80,10 +84,18 @@ struct RoomDetailsFormView: View {
                                     modelUrl: modelUrl,
                                     timestamp: timestamp // Pass the current timestamp
                                 )
+                                
+                                // Save room data only after the image upload completes
                                 viewModel.saveRoomData(room)
+                                print("if condition is called")
                                 onSave(room)
+                                
+                                // Dismiss the view after saving
+                                presentationMode.wrappedValue.dismiss()
+                                isSaving = false // Reset the flag
                             }
                         } else {
+                            // No image exists, proceed with saving
                             let room = Room(
                                 id: UUID().uuidString,
                                 roomName: roomName,
@@ -93,14 +105,19 @@ struct RoomDetailsFormView: View {
                                 modelUrl: modelUrl,
                                 timestamp: timestamp // Pass the current timestamp
                             )
+                            
                             viewModel.saveRoomData(room)
+                            print("else condition is called")
                             onSave(room)
+                            
+                            // Dismiss the view after saving
+                            presentationMode.wrappedValue.dismiss()
+                            isSaving = false // Reset the flag
                         }
-                        // Dismiss the view after saving
-                        presentationMode.wrappedValue.dismiss()
                     }
                     .disabled(roomName.isEmpty || roomType.isEmpty || modelUrl.isEmpty)
                 }
+
             }
             .onAppear {
                 viewModel.fetchCategoryNames()
