@@ -163,23 +163,23 @@ struct CategorieItemView: View {
                         .font(.title)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .padding(.top, 30)
-                        .background(LinearGradient(colors: [.clear, .black.opacity(1)], startPoint: .top, endPoint: .bottom))
-                        .offset(y: -85)
+                        .padding([.top, .bottom], 30)
+                        .background(LinearGradient(colors: [.clear, .black.opacity(0.8), .black, .black], startPoint: .top, endPoint: .bottom))
+                        .offset(y: -100)
                     
                     if isLoading {
                         ProgressView("Fetching Rooms...")
                             .progressViewStyle(CircularProgressViewStyle())
                             .scaleEffect(1, anchor: .center)
                             .padding()
-                            .offset(y: -50)
+                            .offset(y: -70)
                     } else {
                         if viewModel.rooms.isEmpty {
                             Text("No rooms added")
                                 .foregroundColor(.secondary)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.leading)
-                                .offset(y: -55)
+                                .offset(y: -100)
                         } else {
                             LazyVGrid(columns: layout, spacing: 20) {
                                 ForEach(viewModel.rooms) { room in
@@ -209,7 +209,7 @@ struct CategorieItemView: View {
                                 }
                             }
                             .padding(.horizontal)
-                            .offset(y: -55)
+                            .offset(y: -100)
                         }
                     }
                 }
