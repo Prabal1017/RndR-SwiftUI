@@ -1,14 +1,13 @@
 //import SwiftUI
-//import FirebaseStorage
-//import RoomPlan
 //import FirebaseFirestore
 //
 //struct RoomPlanView: View {
 //    var roomController = RoomController.instance
 //    @State private var doneScanning: Bool = false
 //    @State private var exportURL: URL?
-//    @State private var showForm: Bool = false
-//    @State private var modelDownloadURL: String?
+//    @State private var showingRoomForm = false
+//    
+//    @StateObject private var viewModel = RoomPlanViewViewModel()
 //
 //    var body: some View {
 //        NavigationStack {
@@ -24,15 +23,23 @@
 //                    if !doneScanning {
 //                        Button(action: {
 //                            roomController.stopSession()
-//                            exportRoomData()
+//                            roomController.uploadRoomModel { url in
+//                                if let url = url {
+//                                    doneScanning = true
+//                                    exportURL = url
+//                                    showingRoomForm = true
+//                                } else {
+//                                    print("Failed to upload model")
+//                                }
+//                            }
 //                        }, label: {
 //                            Text("Done Scanning")
 //                                .padding(10)
 //                        })
 //                        .buttonStyle(.borderedProminent)
 //                        .cornerRadius(30)
-//                    } else if let _ = modelDownloadURL {
-//                        NavigationLink(destination: ARViewContainer(usdzURL: exportURL ?? URL(fileURLWithPath: ""))) {
+//                    } else if doneScanning {
+//                        NavigationLink(destination: ARViewContainer(usdzURL: exportURL!)) {
 //                            Text("Preview Model")
 //                                .padding(10)
 //                        }
@@ -41,85 +48,40 @@
 //                    }
 //                }
 //                .padding(.bottom, 10)
-//                .sheet(isPresented: $showForm) {
-//                    RoomDetailsFormView { room in
-//                        saveRoomToFirebase(room)
+//                .sheet(isPresented: $showingRoomForm) {
+//                    RoomDetailsFormView(modelUrl: exportURL?.absoluteString ?? "") { room in
+//                            viewModel.saveRoomData(room)
 //                    }
+//                    
+//                    .presentationDetents([.medium])
 //                }
 //            }
 //        }
 //    }
 //
-//    func exportRoomData() {
-//        let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent("RoomCapture.usdz")
-//        
-//        do {
-//            try roomController.finalResult?.export(to: tempURL, exportOptions: .parametric)
-//            
-//            // Upload to Firebase Storage
-//            uploadModelToFirebase(tempURL) { downloadURL in
-//                if let downloadURL = downloadURL {
-//                    self.modelDownloadURL = downloadURL
-//                    self.doneScanning = true
-//                    self.showForm = true
-//                } else {
-//                    print("Error: Failed to get download URL")
-//                }
-//            }
-//        } catch {
-//            print("Error during export: \(error.localizedDescription)")
-//        }
-//    }
-//    
-//    func uploadModelToFirebase(_ fileURL: URL, completion: @escaping (String?) -> Void) {
-//        let roomUUID = UUID().uuidString
-//        let storageRef = Storage.storage().reference().child("roomModels/\(roomUUID).usdz")
-//        
-//        storageRef.putFile(from: fileURL, metadata: nil) { metadata, error in
-//            if let error = error {
-//                print("Error uploading room model: \(error.localizedDescription)")
-//                completion(nil)
-//            } else {
-//                storageRef.downloadURL { url, error in
-//                    if let error = error {
-//                        print("Error retrieving download URL: \(error.localizedDescription)")
-//                        completion(nil)
-//                    } else {
-//                        completion(url?.absoluteString)
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    
-//    func saveRoomToFirebase(_ room: Room) {
-//        guard let modelURL = modelDownloadURL else {
-//            print("Error: Model URL is missing")
-//            return
-//        }
-//        
-//        var updatedRoom = room
-//        updatedRoom.modelUrl = modelURL
-//        
-//        let db = Firestore.firestore()
-//        let roomData: [String: Any] = [
-//            "id": updatedRoom.id,
-//            "roomName": updatedRoom.roomName,
-//            "roomType": updatedRoom.roomType,
-//            "imageUrl": updatedRoom.imageUrl,
-//            "modelUrl": updatedRoom.modelUrl,
-//            "timestamp": Timestamp()
-//        ]
-//        
-//        db.collection("roomModels").addDocument(data: roomData) { error in
-//            if let error = error {
-//                print("Error adding document: \(error)")
-//            } else {
-//                print("Document successfully added")
-//            }
-//        }
-//    }
+////    func saveRoomData(_ room: Room) {
+////        // Save room data to Firestore
+////        let db = Firestore.firestore()
+////        let roomData: [String: Any] = [
+////            "id": room.id,
+////            "roomName": room.roomName,
+////            "roomType": room.roomType,
+////            "imageUrl": room.imageUrl,
+////            "modelUrl": room.modelUrl,
+////            "timestamp": Timestamp()
+////        ]
+////        
+////        db.collection("rooms").addDocument(data: roomData) { error in
+////            if let error = error {
+////                print("Error adding document: \(error)")
+////            } else {
+////                print("Document successfully added")
+////            }
+////        }
+////    }
 //}
+
+
 
 
 import SwiftUI
@@ -130,6 +92,10 @@ struct RoomPlanView: View {
     @State private var doneScanning: Bool = false
     @State private var exportURL: URL?
     @State private var showingRoomForm = false
+    @State private var showingAlert = false
+    @State private var isScanning: Bool = false  // State to track if scanning has started
+    @State private var isUploading: Bool = false  // State to track if upload is in progress
+    @Environment(\.dismiss) var dismiss  // Dismiss the current view
     
     @StateObject private var viewModel = RoomPlanViewViewModel()
 
@@ -139,21 +105,37 @@ struct RoomPlanView: View {
                 RoomCaptureViewRepresentable()
                     .onAppear {
                         roomController.startSession()
+                        isScanning = true // Scanning starts here
+                    }
+                    .onDisappear {
+                        isScanning = false // Ensure scanning is reset if view disappears
+                        roomController.stopSession()
                     }
 
                 VStack {
                     Spacer()
 
-                    if !doneScanning {
+                    // Show the "Done Scanning" button only when scanning has started
+                    if isScanning && !doneScanning {
                         Button(action: {
-                            roomController.stopSession()
-                            roomController.uploadRoomModel { url in
-                                if let url = url {
-                                    doneScanning = true
-                                    exportURL = url
-                                    showingRoomForm = true
-                                } else {
-                                    print("Failed to upload model")
+                            if !isUploading {
+                                isUploading = true // Prevent further uploads
+                                roomController.stopSession()
+                                roomController.uploadRoomModel { url in
+                                    if let url = url {
+                                        // Log the URL to ensure it's valid
+                                        print("Model uploaded successfully: \(url.absoluteString)")
+                                        
+                                        doneScanning = true
+                                        exportURL = url
+                                        showingRoomForm = true
+                                    } else {
+                                        // Log the failure to upload
+                                        print("Model upload failed, no URL returned")
+                                        // Show alert when no model is scanned
+                                        showingAlert = true
+                                    }
+                                    isUploading = false // Allow further uploads after processing
                                 }
                             }
                         }, label: {
@@ -162,9 +144,10 @@ struct RoomPlanView: View {
                         })
                         .buttonStyle(.borderedProminent)
                         .cornerRadius(30)
+                        .disabled(isUploading) // Disable the button during upload
                     } else if doneScanning {
                         NavigationLink(destination: ARViewContainer(usdzURL: exportURL!)) {
-                            Text("Preview Model")
+                            Text("AR Preview")
                                 .padding(10)
                         }
                         .buttonStyle(.borderedProminent)
@@ -174,33 +157,19 @@ struct RoomPlanView: View {
                 .padding(.bottom, 10)
                 .sheet(isPresented: $showingRoomForm) {
                     RoomDetailsFormView(modelUrl: exportURL?.absoluteString ?? "") { room in
-                            viewModel.saveRoomData(room)
+                        viewModel.saveRoomData(room)
                     }
-                    
                     .presentationDetents([.medium])
+                }
+                .alert("No Model Scanned", isPresented: $showingAlert) {
+                    Button("Try Again") {
+                        // Go back to the parent view
+                        dismiss()  // This will navigate back to the parent view
+                    }
+                } message: {
+                    Text("No 3D model was uploaded. Please try scanning the room again.")
                 }
             }
         }
     }
-
-//    func saveRoomData(_ room: Room) {
-//        // Save room data to Firestore
-//        let db = Firestore.firestore()
-//        let roomData: [String: Any] = [
-//            "id": room.id,
-//            "roomName": room.roomName,
-//            "roomType": room.roomType,
-//            "imageUrl": room.imageUrl,
-//            "modelUrl": room.modelUrl,
-//            "timestamp": Timestamp()
-//        ]
-//        
-//        db.collection("rooms").addDocument(data: roomData) { error in
-//            if let error = error {
-//                print("Error adding document: \(error)")
-//            } else {
-//                print("Document successfully added")
-//            }
-//        }
-//    }
 }

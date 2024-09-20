@@ -20,23 +20,19 @@ struct categoriesView: View {
                             switch phase {
                             case .empty:
                                 SkeletonLoader()
-                                    .frame(width: 170, height: 120)
                             case .success(let image):
                                 image
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 170, height: 120)
-                                    .cornerRadius(8)
                             case .failure:
                                 Image(systemName: "photo.fill")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(maxWidth: .greatestFiniteMagnitude)
-                                    .cornerRadius(8)
                             @unknown default:
                                 EmptyView()
                             }
                         }
+                        .frame(width: 170, height: 120)
                         
                         HStack {
                             VStack(alignment: .leading) {

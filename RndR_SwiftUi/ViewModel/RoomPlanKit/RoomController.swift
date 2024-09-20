@@ -277,6 +277,24 @@ class RoomController: RoomCaptureViewDelegate {
     func captureView(didPresent processedResult: CapturedRoom, error: (Error)?) {
         finalResult = processedResult
     }
+    
+    func deleteRoomModel(from url: URL, completion: @escaping (Bool) -> Void) {
+        // Create a reference to the file you want to delete
+        let storageReference = Storage.storage().reference(forURL: url.absoluteString)
+
+        // Delete the file
+        storageReference.delete { error in
+            if let error = error {
+                // There was an error while deleting the file
+                print("Error deleting 3D model from Firebase: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                // File deleted successfully
+                print("3D model successfully deleted from Firebase Storage.")
+                completion(true)
+            }
+        }
+    }
 
     func uploadRoomModel(completion: @escaping (URL?) -> Void) {
         guard let finalResult = finalResult else {
