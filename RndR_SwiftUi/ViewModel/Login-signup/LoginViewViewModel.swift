@@ -21,13 +21,45 @@ class LoginViewViewModel: ObservableObject {
     
     init(){}
     
+//    func login() {
+//        
+//        guard validate() else{
+//            return
+//        }
+//        
+//        Auth.auth().signIn(withEmail: email, password: password)
+//    }
+    
+    
     func login() {
-        
-        guard validate() else{
+        guard validate() else {
             return
         }
         
-        Auth.auth().signIn(withEmail: email, password: password)
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self] authResult, error in
+            guard let self = self else { return }
+            
+            if let error = error as NSError? {
+                // Handle specific error codes from Firebase
+                switch AuthErrorCode(rawValue: error.code) {
+                case .wrongPassword:
+                    self.errorMessage = "Incorrect password. Please try again."
+                case .userNotFound:
+                    self.errorMessage = "No account found with this email."
+                case .invalidEmail:
+                    self.errorMessage = "The email address is badly formatted."
+                case .networkError:
+                    self.errorMessage = "Network error. Please check your connection."
+                default:
+                    self.errorMessage = error.localizedDescription
+                }
+                self.showAlert = true
+                return
+            }
+            
+            // If login is successful, reset the error message
+            self.errorMessage = ""
+        }
     }
     
     private func validate() -> Bool {
