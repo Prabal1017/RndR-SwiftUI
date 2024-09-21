@@ -1,88 +1,107 @@
 import SwiftUI
+import ARKit
 import SceneKit
 
 struct Model3DView: View {
     var modelUrl: URL
-    
+    @State private var selectedNode: SCNNode?
+    @State private var isDragging: Bool = false
+    @State private var initialPosition: SCNVector3 = SCNVector3(0, 0, 0)
+
     var body: some View {
-        SceneView(
-            scene: load3DModel(from: modelUrl),
-            options: [.allowsCameraControl, .autoenablesDefaultLighting]
-        )
-        .edgesIgnoringSafeArea(.all)
-        .background(Color.red) // Background color for visibility
+        ARSceneViewContainer(modelUrl: modelUrl, selectedNode: $selectedNode, isDragging: $isDragging, initialPosition: $initialPosition)
+            .edgesIgnoringSafeArea(.all)
     }
-    
+}
+
+struct ARSceneViewContainer: UIViewRepresentable {
+    var modelUrl: URL
+    @Binding var selectedNode: SCNNode?
+    @Binding var isDragging: Bool
+    @Binding var initialPosition: SCNVector3
+
+    func makeUIView(context: Context) -> SCNView {
+        let sceneView = SCNView()
+        sceneView.allowsCameraControl = true
+        sceneView.autoenablesDefaultLighting = true
+
+        let scene = load3DModel(from: modelUrl)
+        sceneView.scene = scene
+
+        // Adding gestures to the SCNView
+        let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.handleLongPress(_:)))
+        sceneView.addGestureRecognizer(longPressGesture)
+
+        let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.handlePan(_:)))
+        sceneView.addGestureRecognizer(panGesture)
+
+        return sceneView
+    }
+
+    func updateUIView(_ uiView: SCNView, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
     func load3DModel(from url: URL) -> SCNScene? {
         let scene = SCNScene()
-        scene.background.contents = UIColor.gray // Set the scene background color to red
-        
-        // Download the model data
+        scene.background.contents = UIColor.gray
+
         downloadModel(from: url) { localURL, error in
             guard let localURL = localURL, error == nil else {
-                print("Error downloading model: \(error?.localizedDescription ?? "Unknown error")")
+                print("DEBUG: Error downloading model: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
-            
+
             do {
                 let modelScene = try SCNScene(url: localURL, options: nil)
                 let node = modelScene.rootNode.clone()
-                
-                printNodeHierarchy(node: node) // Print node hierarchy
-                
+
                 if node.childNodes.isEmpty {
-                    print("Loaded node has no geometry")
+                    print("DEBUG: Loaded node has no geometry")
                 } else {
-                    // Scale the node down significantly
                     node.scale = SCNVector3(0.2, 0.2, 0.2)
-                    
-                    let (min, max) = node.boundingBox
-                    print("Model bounding box min: \(min), max: \(max)")
-                    
-                    node.position = SCNVector3(0, 0, 0) // Center it
+                    node.position = SCNVector3(0, 0, 0)
                     scene.rootNode.addChildNode(node)
-                    
-                    // Add a camera to the scene
+
                     let cameraNode = SCNNode()
                     cameraNode.camera = SCNCamera()
                     cameraNode.position = SCNVector3(x: 0, y: 0, z: 2)
                     cameraNode.look(at: node.position)
                     scene.rootNode.addChildNode(cameraNode)
+                    
+                    print("DEBUG: Successfully loaded 3D model with node \(node.name ?? "Unnamed Node")")
                 }
             } catch {
-                print("Error loading 3D model from local URL: \(localURL) - \(error.localizedDescription)")
+                print("DEBUG: Error loading 3D model from local URL: \(localURL) - \(error.localizedDescription)")
             }
         }
-        
+
         return scene
     }
-    
-    // Function to download the model
+
     func downloadModel(from url: URL, completion: @escaping (URL?, Error?) -> Void) {
         let task = URLSession.shared.downloadTask(with: url) { tempLocalUrl, response, error in
             if let error = error {
                 completion(nil, error)
                 return
             }
-            
+
             guard let tempLocalUrl = tempLocalUrl else {
                 completion(nil, nil)
                 return
             }
-            
-            // Define the permanent location for the downloaded file
+
             let fileManager = FileManager.default
             let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
             let permanentURL = documentsDirectory.appendingPathComponent("downloadedModel.usdz")
-            
+
             do {
-                // Check if a file already exists at the destination
                 if fileManager.fileExists(atPath: permanentURL.path) {
-                    // Remove the existing file
                     try fileManager.removeItem(at: permanentURL)
                 }
-                
-                // Move the downloaded file to the permanent location
+
                 try fileManager.moveItem(at: tempLocalUrl, to: permanentURL)
                 completion(permanentURL, nil)
             } catch {
@@ -92,16 +111,51 @@ struct Model3DView: View {
         task.resume()
     }
 
+    class Coordinator: NSObject {
+        var parent: ARSceneViewContainer
 
-    // Function to print the node hierarchy
-    func printNodeHierarchy(node: SCNNode, indent: String = "") {
-        print("\(indent)\(node.name ?? "Unnamed Node")")
-        for child in node.childNodes {
-            printNodeHierarchy(node: child, indent: indent + "  ")
-            if let geometry = child.geometry {
-                print("  Geometry found in child node: \(child.name ?? "Unnamed Child")")
-            } else {
-                print("  No geometry in child node: \(child.name ?? "Unnamed Child")")
+        init(_ parent: ARSceneViewContainer) {
+            self.parent = parent
+        }
+
+        // Handle Long Press Gesture
+        @objc func handleLongPress(_ gesture: UILongPressGestureRecognizer) {
+            guard let sceneView = gesture.view as? SCNView else { return }
+
+            if gesture.state == .began {
+                let location = gesture.location(in: sceneView)
+                let hitResults = sceneView.hitTest(location, options: [:])
+
+                if let hitNode = hitResults.first?.node {
+                    parent.selectedNode = hitNode
+                    parent.isDragging = true
+                    parent.initialPosition = hitNode.position
+                    print("DEBUG: Long press selected node: \(hitNode.name ?? "Unnamed Node")")
+                } else {
+                    print("DEBUG: No node selected on long press")
+                }
+            }
+        }
+
+        // Handle Pan Gesture (Dragging)
+        @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
+            guard let sceneView = gesture.view as? SCNView, let node = parent.selectedNode else { return }
+
+            let translation = gesture.translation(in: sceneView)
+            let newPosition = SCNVector3(
+                parent.initialPosition.x + Float(translation.x) * 0.01,
+                parent.initialPosition.y - Float(translation.y) * 0.01,
+                parent.initialPosition.z
+            )
+
+            if gesture.state == .changed {
+                print("DEBUG: Dragging node to new position: \(newPosition)")
+                node.position = newPosition
+            }
+
+            if gesture.state == .ended {
+                parent.isDragging = false
+                print("DEBUG: Dragging ended for node \(node.name ?? "Unnamed Node")")
             }
         }
     }
