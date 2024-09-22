@@ -42,6 +42,8 @@
 		46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */; };
 		46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */; };
 		46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF72C96C1A900E9227E /* ARViewDisplay.swift */; };
+		4677D8F32C9D9F2A00BA6E54 /* Model3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677D8F22C9D9F2A00BA6E54 /* Model3DView.swift */; };
+		4677D8F52C9DA13E00BA6E54 /* demoModel.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */; };
 		46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */; };
 		46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */; };
 		46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */; };
@@ -83,6 +85,8 @@
 		46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataModel.swift; sourceTree = "<group>"; };
 		46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailsFormView.swift; sourceTree = "<group>"; };
 		46730DF72C96C1A900E9227E /* ARViewDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewDisplay.swift; sourceTree = "<group>"; };
+		4677D8F22C9D9F2A00BA6E54 /* Model3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model3DView.swift; sourceTree = "<group>"; };
+		4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoModel.usdz; sourceTree = "<group>"; };
 		46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanViewViewModel.swift; sourceTree = "<group>"; };
 		46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewViewModel.swift; sourceTree = "<group>"; };
 		46B8055E2C9861B700ABF1F8 /* AddRoomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRoomView.swift; sourceTree = "<group>"; };
@@ -122,6 +126,7 @@
 				46730DEC2C96AFDE00E9227E /* ModelDetailView.swift */,
 				46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */,
 				46730DF72C96C1A900E9227E /* ARViewDisplay.swift */,
+				4677D8F22C9D9F2A00BA6E54 /* Model3DView.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 				466DA2E02C9322950023F1DD /* Assets.xcassets */,
 				466DA3152C93F1530023F1DD /* GoogleService-Info.plist */,
 				466DA30F2C9325AA0023F1DD /* Extensions.swift */,
+				4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -339,6 +345,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4677D8F52C9DA13E00BA6E54 /* demoModel.usdz in Resources */,
 				466DA2E42C9322950023F1DD /* Preview Assets.xcassets in Resources */,
 				466DA2E12C9322950023F1DD /* Assets.xcassets in Resources */,
 				466DA3162C93F1530023F1DD /* GoogleService-Info.plist in Resources */,
@@ -369,6 +376,7 @@
 				466DA3142C93347D0023F1DD /* LandingView.swift in Sources */,
 				462F03242C9554F9000AA26D /* StartScanView.swift in Sources */,
 				46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */,
+				4677D8F32C9D9F2A00BA6E54 /* Model3DView.swift in Sources */,
 				466DA2DF2C9322940023F1DD /* MainView.swift in Sources */,
 				462F03222C9554DF000AA26D /* UnsupportedDeviceView.swift in Sources */,
 				466DA2FC2C9324AA0023F1DD /* HomeView.swift in Sources */,
