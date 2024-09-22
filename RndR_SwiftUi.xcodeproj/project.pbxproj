@@ -41,7 +41,6 @@
 		46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */; };
 		46730DF12C96B7B900E9227E /* RoomDetailsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */; };
 		46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */; };
-		46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DF72C96C1A900E9227E /* ARViewDisplay.swift */; };
 		4677D8F32C9D9F2A00BA6E54 /* Model3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4677D8F22C9D9F2A00BA6E54 /* Model3DView.swift */; };
 		4677D8F52C9DA13E00BA6E54 /* demoModel.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */; };
 		46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */; };
@@ -84,7 +83,6 @@
 		46730DEC2C96AFDE00E9227E /* ModelDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDetailView.swift; sourceTree = "<group>"; };
 		46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataModel.swift; sourceTree = "<group>"; };
 		46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDetailsFormView.swift; sourceTree = "<group>"; };
-		46730DF72C96C1A900E9227E /* ARViewDisplay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewDisplay.swift; sourceTree = "<group>"; };
 		4677D8F22C9D9F2A00BA6E54 /* Model3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model3DView.swift; sourceTree = "<group>"; };
 		4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoModel.usdz; sourceTree = "<group>"; };
 		46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomPlanViewViewModel.swift; sourceTree = "<group>"; };
@@ -125,7 +123,6 @@
 				466DA31D2C9421580023F1DD /* CategorieItemView.swift */,
 				46730DEC2C96AFDE00E9227E /* ModelDetailView.swift */,
 				46730DF02C96B7B900E9227E /* RoomDetailsFormView.swift */,
-				46730DF72C96C1A900E9227E /* ARViewDisplay.swift */,
 				4677D8F22C9D9F2A00BA6E54 /* Model3DView.swift */,
 			);
 			path = RoomPlanKit;
@@ -392,7 +389,6 @@
 				466DA3042C9325130023F1DD /* HeaderView.swift in Sources */,
 				466DA31E2C9421580023F1DD /* CategorieItemView.swift in Sources */,
 				46B805652C98861900ABF1F8 /* categoriesView.swift in Sources */,
-				46730DF82C96C1A900E9227E /* ARViewDisplay.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
