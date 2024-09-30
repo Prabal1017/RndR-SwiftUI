@@ -146,7 +146,7 @@ struct RoomPlanView: View {
                         .cornerRadius(30)
                         .disabled(isUploading) // Disable the button during upload
                     } else if doneScanning {
-                        NavigationLink(destination: ARViewContainer(usdzURL: exportURL!)) {
+                        NavigationLink(destination: ARModelView(usdzURL: exportURL!)) {
                             Text("AR Preview")
                                 .padding(10)
                         }
