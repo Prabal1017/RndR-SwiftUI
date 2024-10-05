@@ -11,22 +11,29 @@ import RoomPlan
 
 @main
 struct RndR_SwiftUiApp: App {
-    init(){
+    
+    @StateObject private var roomCaptureController = RoomCaptureController()
+    
+    init() {
+//        _ = RoominatorFileManager.shared
+        
         FirebaseApp.configure()
     }
+
     var body: some Scene {
         WindowGroup {
             MainView()
+                .environment(roomCaptureController)
 //            checkDeciveView()
         }
     }
 }
 
-@ViewBuilder
-func checkDeciveView() -> some View {
-    if RoomCaptureSession.isSupported{
-        StartScanView()
-    } else {
-        UnsupportedDeviceView()
-    }
-}
+//@ViewBuilder
+//func checkDeciveView() -> some View {
+//    if RoomCaptureSession.isSupported{
+//        StartScanView()
+//    } else {
+//        UnsupportedDeviceView()
+//    }
+//}

@@ -14,13 +14,13 @@
 //            Form {
 //                Section(header: Text("Room Details")) {
 //                    TextField("Enter room name", text: $roomName)
-//                    
+//
 //                    Button(action: {
 //                        showImagePicker = true
 //                    }) {
 //                        Text("Select Image")
 //                    }
-//                    
+//
 //                    if let selectedImage = selectedImage {
 //                        Image(uiImage: selectedImage)
 //                            .resizable()
@@ -37,7 +37,7 @@
 //                        isShowingAddRoomView = false
 //                    }
 //                }
-//                
+//
 //                ToolbarItem(placement: .navigationBarTrailing) {
 //                    Button("Done") {
 //                        addCategory()
@@ -55,12 +55,12 @@
 //            }
 //        }
 //    }
-//    
+//
 //    private func uploadImageToFirebase() {
 //        guard let image = selectedImage else { return }
 //        let storage = Storage.storage().reference()
 //        let imageRef = storage.child("categories/\(UUID().uuidString).jpg")
-//        
+//
 //        if let imageData = image.jpegData(compressionQuality: 0.75) {
 //            imageRef.putData(imageData, metadata: nil) { _, error in
 //                if let error = error {
@@ -77,16 +77,16 @@
 //            }
 //        }
 //    }
-//    
+//
 //    private func addCategory() {
 //        guard !roomName.isEmpty, let imageURL = imageURL else { return }
-//        
+//
 //        let db = Firestore.firestore()
 //        let category = [
 //            "categoryName": roomName,
 //            "categoryImage": imageURL
 //        ]
-//        
+//
 //        db.collection("categories").addDocument(data: category) { error in
 //            if let error = error {
 //                print("Error adding document: \(error)")
@@ -97,7 +97,7 @@
 //            HomeViewViewModel().fetchCategories()
 //            //fetch new category names
 //            RoomPlanViewViewModel().fetchCategoryNames()
-//            
+//
 //            isShowingAddRoomView = false
 //        }
 //    }
@@ -122,13 +122,13 @@
 //            Form {
 //                Section(header: Text("Room Details")) {
 //                    TextField("Enter room name", text: $roomName)
-//                    
+//
 //                    Button(action: {
 //                        showImagePicker = true
 //                    }) {
 //                        Text("Select Image")
 //                    }
-//                    
+//
 //                    if let selectedImage = selectedImage {
 //                        Image(uiImage: selectedImage)
 //                            .resizable()
@@ -145,7 +145,7 @@
 //                        isShowingAddRoomView = false
 //                    }
 //                }
-//                
+//
 //                ToolbarItem(placement: .navigationBarTrailing) {
 //                    Button("Done") {
 //                        isShowingAddRoomView = false
@@ -162,7 +162,7 @@
 //                                    print("Failed to get image URL")
 //                                    return
 //                                }
-//                                
+//
 //                                // Now you can proceed to add the category with the imageURL
 //                                addCategory(imageURL: imageURL)
 //                            }
@@ -171,16 +171,16 @@
 //            }
 //        }
 //    }
-//    
+//
 //    private func uploadImageToFirebase(completion: @escaping (String?) -> Void) {
 //        guard let image = selectedImage else {
 //            completion(nil)
 //            return
 //        }
-//        
+//
 //        let storage = Storage.storage().reference()
 //        let imageRef = storage.child("categories/\(UUID().uuidString).jpg")
-//        
+//
 //        if let imageData = image.jpegData(compressionQuality: 0.75) {
 //            imageRef.putData(imageData, metadata: nil) { _, error in
 //                if let error = error {
@@ -188,7 +188,7 @@
 //                    completion(nil)
 //                    return
 //                }
-//                
+//
 //                imageRef.downloadURL { url, error in
 //                    if let error = error {
 //                        print("Error getting download URL: \(error)")
@@ -208,13 +208,13 @@
 //            print("Room name is empty.")
 //            return
 //        }
-//        
+//
 //        let db = Firestore.firestore()
 //        let category = [
 //            "categoryName": roomName,
 //            "categoryImage": imageURL
 //        ]
-//        
+//
 //        db.collection("categories").addDocument(data: category) { error in
 //            if let error = error {
 //                print("Error adding document: \(error)")
@@ -225,7 +225,7 @@
 //            HomeViewViewModel().fetchCategories()
 //            // Fetch new category names
 //            RoomPlanViewViewModel().fetchCategoryNames()
-//            
+//
 //            isShowingAddRoomView = false
 //        }
 //    }
@@ -238,6 +238,7 @@
 import SwiftUI
 import FirebaseStorage
 import FirebaseFirestore
+import PhotosUI
 
 struct AddRoomView: View {
     @Binding var isShowingAddRoomView: Bool
@@ -396,4 +397,51 @@ struct AddRoomView: View {
             isShowingAddRoomView = false
         }
     }
+}
+
+
+struct ImagePicker: UIViewControllerRepresentable {
+    @Binding var image: UIImage?
+    
+    class Coordinator: NSObject, PHPickerViewControllerDelegate {
+        var parent: ImagePicker
+        
+        init(parent: ImagePicker) {
+            self.parent = parent
+        }
+        
+        func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+            // Process the selected image
+            if let provider = results.first?.itemProvider {
+                if provider.hasItemConformingToTypeIdentifier(UTType.image.identifier) {
+                    provider.loadObject(ofClass: UIImage.self) { image, error in
+                        DispatchQueue.main.async {
+                            if let uiImage = image as? UIImage {
+                                self.parent.image = uiImage
+                            } else {
+                                print("Failed to load image: \(error?.localizedDescription ?? "Unknown error")")
+                            }
+                        }
+                    }
+                }
+            }
+            picker.dismiss(animated: true, completion: nil)
+        }
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+    
+    func makeUIViewController(context: Context) -> PHPickerViewController {
+        var config = PHPickerConfiguration()
+        config.selectionLimit = 1
+        config.filter = .images
+        
+        let picker = PHPickerViewController(configuration: config)
+        picker.delegate = context.coordinator
+        return picker
+    }
+    
+    func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
 }

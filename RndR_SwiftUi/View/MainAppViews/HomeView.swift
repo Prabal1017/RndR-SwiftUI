@@ -43,6 +43,11 @@ struct HomeView: View {
             roomViewModel.fetchCategoryNames()
             roomViewModel.fetchRecentRooms()
         }
+        .refreshable {
+            viewModel.fetchCategories()
+            roomViewModel.fetchCategoryNames()
+            roomViewModel.fetchRecentRooms()
+        }
     }
 }
 

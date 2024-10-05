@@ -42,16 +42,22 @@ struct SliderView: View {
                                 }
                                 Spacer()
                                 
-                                Button {
-                                    // Action (view in Ar)
-                                } label: {
-                                    Text("View")
-                                        .frame(width: 80, height: 36)
-                                        .foregroundColor(.white)
-                                        .background(Color.white.opacity(0.4))
-                                        .fontWeight(.bold)
-                                        .cornerRadius(20)
+                                if let validURL = URL(string: recentRoom.modelUrl) {
+                                    NavigationLink(destination: FileDetailView(fileName: recentRoom.roomName, modelURL: validURL)) {
+                                        Text("View")
+                                            .frame(width: 80, height: 36)
+                                            .foregroundColor(.white)
+                                            .background(Color.white.opacity(0.4))
+                                            .fontWeight(.bold)
+                                            .cornerRadius(20)
+                                    }
+                                } else {
+                                    Text("Invalid URL")
+                                        .foregroundColor(.red)
+                                        .font(.subheadline)
                                 }
+
+
                             }
                             .frame(maxWidth: .greatestFiniteMagnitude, alignment: .leading)
                             .padding()

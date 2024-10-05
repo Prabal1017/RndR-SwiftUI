@@ -25,7 +25,7 @@ struct CategorieItemView: View {
                     if showDeletedMessage {
                         HStack {
                             Text("Room deleted successfully!")
-                                .foregroundColor(.secondary)
+                                .foregroundColor(.white)
                                 .padding()
                                 .background(.ultraThinMaterial)
                                 .cornerRadius(10)
@@ -67,15 +67,16 @@ struct CategorieItemView: View {
                                 .padding(.leading)
                                 .offset(y: -100)
                         } else {
-                            LazyVGrid(columns: layout, spacing: 20) {
+                            // Corrected grid layout
+                            LazyVGrid(columns: layout, spacing: 30) {
                                 ForEach(viewModel.rooms) { room in
                                     VStack {
                                         if let modelURL = URL(string: room.modelUrl) {
-                                            NavigationLink(destination: Model3DView(modelUrl: modelURL)) {
+                                            NavigationLink(destination: FileDetailView(fileName: room.roomName, modelURL: modelURL)) {
                                                 WebImage(url: URL(string: room.imageUrl))
                                                     .resizable()
                                                     .scaledToFill()
-                                                    .frame(width: 170, height: 200)
+                                                    .frame(width: geo.size.width / 2 - 20, height: 200) // Adjust size for grid
                                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                             }
                                             .contextMenu {
@@ -90,8 +91,8 @@ struct CategorieItemView: View {
                                         } else {
                                             // Handle invalid URL case
                                             Text("Invalid model URL")
+                                                .foregroundColor(.red)
                                         }
-                                        
                                         
                                         Text(room.roomName)
                                             .font(.subheadline)
@@ -107,6 +108,11 @@ struct CategorieItemView: View {
                 }
             }
             .animation(.easeInOut, value: showDeletedMessage)
+        }
+        .refreshable {
+            viewModel.fetchRooms(for: roomType) { success in
+                isLoading = !success
+            }
         }
         .onAppear {
             viewModel.fetchRooms(for: roomType) { success in
@@ -140,6 +146,8 @@ struct CategorieItemView: View {
         .preferredColorScheme(.dark)
     }
 }
+
+
 
 
 public struct ScrollViewHeader<Content: View>: View {

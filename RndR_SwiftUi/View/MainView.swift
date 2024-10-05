@@ -17,7 +17,7 @@ struct MainView: View {
                 TabView(){
                     HomeView().tabItem { Label("Home", systemImage: "house")}
                     
-                    StartScanView().tabItem { Label("Create", systemImage: "plus.app")}
+                    ScanNewRoomView().tabItem { Label("Create", systemImage: "plus.app")}
                     
                     ProfileView().tabItem { Label("Profile", systemImage: "person.circle")}
                 }
@@ -26,7 +26,7 @@ struct MainView: View {
                 LandingView()
             }
         }
-        .preferredColorScheme(.dark)
+//        .preferredColorScheme(.dark)
     }
 }
 
