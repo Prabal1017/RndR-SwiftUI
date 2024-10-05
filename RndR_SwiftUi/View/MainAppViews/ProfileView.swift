@@ -21,7 +21,7 @@ struct ProfileView: View {
                                             .frame(width: 70, height: 70)
                                         
                                         // Image inside the circle
-                                        Image("Image")
+                                        Image(systemName: "person.crop.circle.fill")
                                             .resizable()
                                             .scaledToFill()
                                             .clipShape(Circle())
