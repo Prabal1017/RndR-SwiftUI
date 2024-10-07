@@ -1,12 +1,13 @@
 import Foundation
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 
 class CategoryViewViewModel: ObservableObject {
     @Published var rooms: [Room] = []
 
-    //MARK: fetch rooms based-on type
-    // Fetch rooms based on room type
+    //MARK: - fetch rooms based-on type
+    /// Fetch rooms based on room type
     func fetchRooms(for roomType: String, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         db.collection("rooms")
@@ -41,7 +42,7 @@ class CategoryViewViewModel: ObservableObject {
             }
     }
 
-    //MARK: delete room
+    //MARK: - delete room
     func deleteRoom(_ room: Room, completion: @escaping (Bool) -> Void) {
         let db = Firestore.firestore()
         let storage = Storage.storage()
@@ -89,4 +90,144 @@ class CategoryViewViewModel: ObservableObject {
             }
         }
     }
+    
+    //MARK: - crop image to landscape view
+    func cropImageToLandscape(_ image: UIImage) -> UIImage? {
+        let width = image.size.width
+        let height = image.size.height
+        
+        // Set desired aspect ratio (landscape: 4:3)
+        let targetAspectRatio: CGFloat = 4.0 / 3.0
+        var newSize: CGSize
+        
+        if width / height > targetAspectRatio {
+            // Image is wider than target aspect ratio
+            let newHeight = height
+            let newWidth = newHeight * targetAspectRatio
+            newSize = CGSize(width: newWidth, height: newHeight)
+        } else {
+            // Image is taller than target aspect ratio
+            let newWidth = width
+            let newHeight = newWidth / targetAspectRatio
+            newSize = CGSize(width: newWidth, height: newHeight)
+        }
+
+        // Calculate the crop rectangle
+        let xOffset = (width - newSize.width) / 2
+        let yOffset = (height - newSize.height) / 2
+        let cropRect = CGRect(x: xOffset, y: yOffset, width: newSize.width, height: newSize.height)
+        
+        // Crop the image to the new size
+        UIGraphicsBeginImageContextWithOptions(newSize, false, image.scale)
+        image.draw(in: CGRect(x: -cropRect.origin.x, y: -cropRect.origin.y, width: width, height: height))
+        let croppedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return croppedImage
+    }
+
+    //MARK: - upload category image to firebase
+    func uploadImageToFirebase(croppedImage: UIImage, completion: @escaping (String?) -> Void) {
+        // Get the current logged-in user's UID from Firebase Authentication
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("No user is currently logged in.")
+            completion(nil)
+            return
+        }
+
+        let storage = Storage.storage().reference()
+        
+        // Store the image in a folder named after the user's UID
+        let imageRef = storage.child("users/\(uid)/categories/\(UUID().uuidString).jpg")
+        
+        if let imageData = croppedImage.jpegData(compressionQuality: 0.75) {
+            imageRef.putData(imageData, metadata: nil) { _, error in
+                if let error = error {
+                    print("Error uploading image: \(error)")
+                    completion(nil)
+                    return
+                }
+                
+                // Get the download URL for the uploaded image
+                imageRef.downloadURL { url, error in
+                    if let error = error {
+                        print("Error getting download URL: \(error)")
+                        completion(nil)
+                    } else {
+                        completion(url?.absoluteString)
+                    }
+                }
+            }
+        } else {
+            completion(nil)
+        }
+    }
+    
+    
+    //MARK: - adding category to firebase
+    func addCategory(imageURL: String, roomName: String) {
+        guard !roomName.isEmpty else {
+            print("Room name is empty.")
+            return
+        }
+
+        // Get the current logged-in user's UID from Firebase Authentication
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("No user is currently logged in.")
+            return
+        }
+
+        let db = Firestore.firestore()
+
+        // Define the category data
+        let category = [
+            "categoryName": roomName,
+            "categoryImage": imageURL
+        ]
+
+        // Save the category under the current user's folder
+        db.collection("users").document(uid).collection("categories").addDocument(data: category) { error in
+            if let error = error {
+                print("Error adding document: \(error)")
+                return
+            }
+            print("Document added successfully")
+
+            // Fetch new categories (if needed)
+            HomeViewViewModel().fetchCategories()
+
+            // Fetch new category names (if needed)
+            RoomPlanViewViewModel().fetchCategoryNames()
+        }
+    }
+
+    
+
+//    //MARK: - adding category to firebase
+//    func addCategory(imageURL: String, roomName: String) {
+//        guard !roomName.isEmpty else {
+//            print("Room name is empty.")
+//            return
+//        }
+//        
+//        let db = Firestore.firestore()
+//        let category = [
+//            "categoryName": roomName,
+//            "categoryImage": imageURL
+//        ]
+//        
+//        db.collection("categories").addDocument(data: category) { error in
+//            if let error = error {
+//                print("Error adding document: \(error)")
+//                return
+//            }
+//            print("Document added successfully")
+//            // Fetch new categories
+//            print("Document added successfully")
+//            // Fetch new categories
+//            HomeViewViewModel().fetchCategories()
+//            // Fetch new category names
+//            RoomPlanViewViewModel().fetchCategoryNames()
+//        }
+//    }
 }

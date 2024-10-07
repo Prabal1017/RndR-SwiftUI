@@ -32,7 +32,7 @@ class RoomController: RoomCaptureViewDelegate {
         finalResult = processedResult
     }
     
-    //MARK: delete room model
+    //MARK: - delete room model
     func deleteRoomModel(from url: URL, completion: @escaping (Bool) -> Void) {
         // Create a reference to the file you want to delete
         let storageReference = Storage.storage().reference(forURL: url.absoluteString)
@@ -51,7 +51,7 @@ class RoomController: RoomCaptureViewDelegate {
         }
     }
     
-    // MARK: Upload Room Model
+    // MARK: - Upload Room Model
     func uploadRoomModel(completion: @escaping (URL?) -> Void) {
         // Ensure that finalResult is not nil
         guard let finalResult = finalResult else {
@@ -118,9 +118,6 @@ class RoomController: RoomCaptureViewDelegate {
             completion(nil)
         }
     }
-
-
-
     
     func startSession() {
         captureView.captureSession.run(configuration: sessionConfig)
