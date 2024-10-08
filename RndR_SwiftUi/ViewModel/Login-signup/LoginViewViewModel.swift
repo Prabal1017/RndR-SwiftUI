@@ -21,16 +21,6 @@ class LoginViewViewModel: ObservableObject {
     
     init(){}
     
-//    func login() {
-//        
-//        guard validate() else{
-//            return
-//        }
-//        
-//        Auth.auth().signIn(withEmail: email, password: password)
-//    }
-    
-    
     func login() {
         guard validate() else {
             return
@@ -59,6 +49,9 @@ class LoginViewViewModel: ObservableObject {
             
             // If login is successful, reset the error message
             self.errorMessage = ""
+            
+            //reset the local storage to have new users recent rooms
+            RoomPlanViewViewModel().handleUserChange()
         }
     }
     
@@ -110,6 +103,9 @@ class LoginViewViewModel: ObservableObject {
                 
                 // Store user information in Firestore after Google sign-in
                 storeUserInfo(firebaseUser: firebaseUser)
+                
+                //reset the local storage to have new users recent rooms
+                RoomPlanViewViewModel().handleUserChange()
             }
         }
     }

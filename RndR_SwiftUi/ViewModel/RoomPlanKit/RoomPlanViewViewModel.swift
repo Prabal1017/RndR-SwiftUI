@@ -11,15 +11,12 @@ class RoomPlanViewViewModel: ObservableObject {
     
     // MARK: - Save Room Data to Firestore
     func saveRoomData(_ room: Room) {
-        // Ensure the user is logged in
         guard let currentUserId = Auth.auth().currentUser?.uid else {
-            print("User is not logged in")
+            print("User not logged in. Cannot save room data.")
             return
         }
         
         let db = Firestore.firestore()
-        
-        // Prepare the room data
         let roomData: [String: Any] = [
             "id": room.id,
             "roomName": room.roomName,
@@ -29,24 +26,21 @@ class RoomPlanViewViewModel: ObservableObject {
             "timestamp": Timestamp()
         ]
         
-        // Save the data to the user's specific Firestore path
         db.collection("users")
             .document(currentUserId)
             .collection("rooms")
             .document("roomDetails")
-            .collection(room.roomType)  // Further categorizing by room type if needed
+            .collection(room.roomType)
             .document(room.id)
             .setData(roomData) { error in
                 if let error = error {
-                    print("Error adding document: \(error.localizedDescription)")
+                    print("Error adding document: \(error)")
                 } else {
-                    print("Document successfully added under user's rooms collection")
-    //                self.updateLocalStorage(with: room) // Update local storage if necessary
-                    self.fetchRoomsFromFirebase()
+                    print("Document successfully added under \(room.roomType) collection")
+                    self.fetchRoomsFromFirebase() // Fetch rooms after adding
                 }
             }
     }
-
     
     // MARK: - Upload Image to Firebase Storage
     func uploadImage(_ image: UIImage, roomType: String, completion: @escaping (String?) -> Void) {
@@ -56,7 +50,7 @@ class RoomPlanViewViewModel: ObservableObject {
             completion(nil)
             return
         }
-
+        
         // Create a reference to Firebase Storage with the user's ID in the path
         let storageRef = Storage.storage().reference().child("users/\(currentUserId)/roomsImage/\(UUID().uuidString).jpg")
         
@@ -86,7 +80,7 @@ class RoomPlanViewViewModel: ObservableObject {
             }
         }
     }
-
+    
     
     // MARK: - Fetch Category Names
     func fetchCategoryNames() {
@@ -96,7 +90,7 @@ class RoomPlanViewViewModel: ObservableObject {
             self.categoryNames = []
             return
         }
-
+        
         let db = Firestore.firestore()
         
         // Fetch categories from the path users/{currentUserId}/categories
@@ -117,7 +111,7 @@ class RoomPlanViewViewModel: ObservableObject {
             }
         }
     }
-
+    
     
     // MARK: - Fetch Recent Rooms (with Local Storage)
     func fetchRecentRooms() {
@@ -133,18 +127,17 @@ class RoomPlanViewViewModel: ObservableObject {
     
     // MARK: - Fetch Rooms from Firebase
     func fetchRoomsFromFirebase() {
-        let db = Firestore.firestore()
-        
-        // Ensure the user is logged in
         guard let currentUserId = Auth.auth().currentUser?.uid else {
-            print("User is not logged in")
+            print("User not logged in. Cannot fetch rooms.")
             return
         }
         
+        let db = Firestore.firestore()
+        
         let categories: [String]
         
-        if(categoryNames.isEmpty) {
-            categories = ["Bedroom", "Dining Room", "Kitchen", "Living Room", "Bathroom"]
+        if categoryNames.isEmpty {
+            categories = ["Bathroom", "Dinning Room", "Kitchen", "Living Room", "Bedroom"]
         } else {
             categories = categoryNames
         }
@@ -156,7 +149,6 @@ class RoomPlanViewViewModel: ObservableObject {
         for category in categories {
             dispatchGroup.enter()
             
-            // Fetch rooms from the user's specific Firestore path
             db.collection("users")
                 .document(currentUserId)
                 .collection("rooms")
@@ -184,7 +176,7 @@ class RoomPlanViewViewModel: ObservableObject {
                                 return nil
                             }
                             
-                            let roomImage = UIImage()
+                            let roomImage = UIImage() // Placeholder for image
                             
                             return Room(
                                 id: id,
@@ -215,9 +207,57 @@ class RoomPlanViewViewModel: ObservableObject {
             self.storeRoomsToLocalStorage(self.recentRooms)
         }
     }
-
+    
+//    // MARK: - Delete Room
+//    func deleteRoom(_ room: Room, completion: @escaping (Bool) -> Void) {
+//        guard let currentUserId = Auth.auth().currentUser?.uid else {
+//            print("User not logged in. Cannot delete room.")
+//            completion(false)
+//            return
+//        }
+//        
+//        let db = Firestore.firestore()
+//        let storage = Storage.storage()
+//        
+//        let imageRef = storage.reference(forURL: room.imageUrl)
+//        let modelRef = storage.reference(forURL: room.modelUrl)
+//        
+//        imageRef.delete { error in
+//            if let error = error {
+//                print("Error deleting image: \(error.localizedDescription)")
+//                completion(false)
+//                return
+//            }
+//            
+//            modelRef.delete { error in
+//                if let error = error {
+//                    print("Error deleting 3D model: \(error.localizedDescription)")
+//                    completion(false)
+//                    return
+//                }
+//                
+//                db.collection("users")
+//                    .document(currentUserId)
+//                    .collection("rooms")
+//                    .document("roomDetails")
+//                    .collection(room.roomType)
+//                    .document(room.id)
+//                    .delete { error in
+//                        if let error = error {
+//                            print("Error deleting Firestore document: \(error.localizedDescription)")
+//                            completion(false)
+//                        } else {
+//                            print("Successfully deleted room")
+//                            completion(true)
+//                            self.fetchRoomsFromFirebase() // Fetch updated rooms
+//                        }
+//                    }
+//            }
+//        }
+//    }
+//    
     // MARK: - Local Storage Helper Methods
-
+    
     // Save rooms to local storage (will overwrite existing data)
     private func storeRoomsToLocalStorage(_ rooms: [Room]) {
         let roomDicts = rooms.map { room in
@@ -227,15 +267,13 @@ class RoomPlanViewViewModel: ObservableObject {
                 "roomType": room.roomType,
                 "imageUrl": room.imageUrl,
                 "modelUrl": room.modelUrl,
-                // Convert timestamp to a number (storing seconds)
                 "timestamp": NSNumber(value: room.timestamp.seconds)
             ] as [String: Any]
         }
         
-        // This will overwrite any existing "recentRooms" data
         UserDefaults.standard.set(roomDicts, forKey: "recentRooms")
     }
-
+    
     // Retrieve rooms from local storage
     private func getRoomsFromLocalStorage() -> [Room]? {
         guard let roomDicts = UserDefaults.standard.array(forKey: "recentRooms") as? [[String: Any]] else {
@@ -252,7 +290,6 @@ class RoomPlanViewViewModel: ObservableObject {
                 return nil
             }
             
-            // Recreate the FIRTimestamp from the stored seconds
             let timestamp = Timestamp(seconds: Int64(timestampSeconds.intValue), nanoseconds: 0)
             let roomImage = UIImage() // Placeholder, imageUrl will be used to load actual image
             
@@ -261,7 +298,7 @@ class RoomPlanViewViewModel: ObservableObject {
         
         return rooms
     }
-
+    
     // Update local storage when a new room is added
     private func updateLocalStorage(with room: Room) {
         var currentRooms = getRoomsFromLocalStorage() ?? []
@@ -273,4 +310,19 @@ class RoomPlanViewViewModel: ObservableObject {
         
         storeRoomsToLocalStorage(currentRooms)
     }
+    
+    // Clear local storage
+    private func clearLocalStorage() {
+        UserDefaults.standard.removeObject(forKey: "recentRooms")
+    }
+    
+    // MARK: - Handle User Change
+    func handleUserChange() {
+        // Clear local storage for the previous user
+        clearLocalStorage()
+        
+        // Fetch new rooms for the logged-in user
+        fetchRoomsFromFirebase()
+    }
 }
+

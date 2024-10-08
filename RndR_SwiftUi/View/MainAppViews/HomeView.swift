@@ -46,7 +46,9 @@ struct HomeView: View {
         .refreshable {
             viewModel.fetchCategories()
             roomViewModel.fetchCategoryNames()
-            roomViewModel.fetchRecentRooms()
+//            roomViewModel.fetchRecentRooms()
+            //reset the local storage to have new users recent rooms
+            roomViewModel.handleUserChange()
         }
     }
 }
