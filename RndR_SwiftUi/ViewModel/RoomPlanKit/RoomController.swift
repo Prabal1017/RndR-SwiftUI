@@ -1,4 +1,5 @@
 import RoomPlan
+import FirebaseAuth
 import FirebaseCore
 import FirebaseStorage
 import SwiftUI
@@ -60,6 +61,13 @@ class RoomController: RoomCaptureViewDelegate {
             return
         }
 
+        // Ensure the current user is logged in
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("User is not logged in")
+            completion(nil)
+            return
+        }
+
         // Debugging: Print details of the captured room
         print("Captured Room Details:")
         print("Walls: \(finalResult.walls.count)")
@@ -87,8 +95,8 @@ class RoomController: RoomCaptureViewDelegate {
             // Check the size of the data before upload
             print("Exported file size: \(roomModelData.count) bytes")
 
-            // Define the Firebase Storage reference
-            let roomModelRef = Storage.storage().reference().child("roomModels/\(roomUUID).usdz")
+            // Define the Firebase Storage reference with the current user ID in the path
+            let roomModelRef = Storage.storage().reference().child("users/\(currentUserId)/roomModels/\(roomUUID).usdz")
 
             // Upload the data to Firebase Storage
             roomModelRef.putData(roomModelData, metadata: nil) { metadata, error in
@@ -118,6 +126,7 @@ class RoomController: RoomCaptureViewDelegate {
             completion(nil)
         }
     }
+
     
     func startSession() {
         captureView.captureSession.run(configuration: sessionConfig)
