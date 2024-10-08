@@ -109,7 +109,7 @@ class LoginViewViewModel: ObservableObject {
             }
         }
     }
-
+    
     // Function to store user info in Firestore if the user is new
     func storeUserInfo(firebaseUser: FirebaseAuth.User) {
         let db = Firestore.firestore()
@@ -135,6 +135,9 @@ class LoginViewViewModel: ObservableObject {
                         print("Error saving user data: \(error)")
                     } else {
                         print("User data successfully saved to Firestore")
+                        
+                        // Call to create default categories for the new user
+                        RegisterViewViewModel().createDefaultCategories(for: firebaseUser.uid)
                     }
                 }
             }

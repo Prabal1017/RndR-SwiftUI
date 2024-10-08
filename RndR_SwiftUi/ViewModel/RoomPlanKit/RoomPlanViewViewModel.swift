@@ -207,55 +207,7 @@ class RoomPlanViewViewModel: ObservableObject {
             self.storeRoomsToLocalStorage(self.recentRooms)
         }
     }
-    
-//    // MARK: - Delete Room
-//    func deleteRoom(_ room: Room, completion: @escaping (Bool) -> Void) {
-//        guard let currentUserId = Auth.auth().currentUser?.uid else {
-//            print("User not logged in. Cannot delete room.")
-//            completion(false)
-//            return
-//        }
-//        
-//        let db = Firestore.firestore()
-//        let storage = Storage.storage()
-//        
-//        let imageRef = storage.reference(forURL: room.imageUrl)
-//        let modelRef = storage.reference(forURL: room.modelUrl)
-//        
-//        imageRef.delete { error in
-//            if let error = error {
-//                print("Error deleting image: \(error.localizedDescription)")
-//                completion(false)
-//                return
-//            }
-//            
-//            modelRef.delete { error in
-//                if let error = error {
-//                    print("Error deleting 3D model: \(error.localizedDescription)")
-//                    completion(false)
-//                    return
-//                }
-//                
-//                db.collection("users")
-//                    .document(currentUserId)
-//                    .collection("rooms")
-//                    .document("roomDetails")
-//                    .collection(room.roomType)
-//                    .document(room.id)
-//                    .delete { error in
-//                        if let error = error {
-//                            print("Error deleting Firestore document: \(error.localizedDescription)")
-//                            completion(false)
-//                        } else {
-//                            print("Successfully deleted room")
-//                            completion(true)
-//                            self.fetchRoomsFromFirebase() // Fetch updated rooms
-//                        }
-//                    }
-//            }
-//        }
-//    }
-//    
+
     // MARK: - Local Storage Helper Methods
     
     // Save rooms to local storage (will overwrite existing data)
