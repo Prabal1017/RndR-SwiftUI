@@ -1,4 +1,5 @@
 import Foundation
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseStorage
 import UIKit
@@ -10,7 +11,15 @@ class RoomPlanViewViewModel: ObservableObject {
     
     // MARK: - Save Room Data to Firestore
     func saveRoomData(_ room: Room) {
+        // Ensure the user is logged in
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("User is not logged in")
+            return
+        }
+        
         let db = Firestore.firestore()
+        
+        // Prepare the room data
         let roomData: [String: Any] = [
             "id": room.id,
             "roomName": room.roomName,
@@ -20,29 +29,44 @@ class RoomPlanViewViewModel: ObservableObject {
             "timestamp": Timestamp()
         ]
         
-        db.collection("rooms")
-            .document(room.roomType)
-            .collection("roomDetails")
+        // Save the data to the user's specific Firestore path
+        db.collection("users")
+            .document(currentUserId)
+            .collection("rooms")
+            .document("roomDetails")
+            .collection(room.roomType)  // Further categorizing by room type if needed
             .document(room.id)
             .setData(roomData) { error in
                 if let error = error {
-                    print("Error adding document: \(error)")
+                    print("Error adding document: \(error.localizedDescription)")
                 } else {
-                    print("Document successfully added under \(room.roomType) collection")
-//                    self.updateLocalStorage(with: room) // Update local storage when a new room is added
+                    print("Document successfully added under user's rooms collection")
+    //                self.updateLocalStorage(with: room) // Update local storage if necessary
                     self.fetchRoomsFromFirebase()
                 }
             }
     }
+
     
     // MARK: - Upload Image to Firebase Storage
     func uploadImage(_ image: UIImage, roomType: String, completion: @escaping (String?) -> Void) {
-        let storageRef = Storage.storage().reference().child("rooms/\(roomType)/\(UUID().uuidString).jpg")
+        // Ensure the user is logged in
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("User is not logged in")
+            completion(nil)
+            return
+        }
+
+        // Create a reference to Firebase Storage with the user's ID in the path
+        let storageRef = Storage.storage().reference().child("users/\(currentUserId)/roomsImage/\(UUID().uuidString).jpg")
+        
+        // Convert the image to JPEG data with compression
         guard let imageData = image.jpegData(compressionQuality: 0.8) else {
             completion(nil)
             return
         }
         
+        // Upload the image data to Firebase Storage
         storageRef.putData(imageData, metadata: nil) { metadata, error in
             if let error = error {
                 print("Error uploading image: \(error.localizedDescription)")
@@ -50,22 +74,33 @@ class RoomPlanViewViewModel: ObservableObject {
                 return
             }
             
+            // Retrieve the download URL for the uploaded image
             storageRef.downloadURL { url, error in
                 if let error = error {
                     print("Error retrieving download URL: \(error.localizedDescription)")
                     completion(nil)
                 } else {
+                    // Return the download URL as a string
                     completion(url?.absoluteString)
                 }
             }
         }
     }
+
     
     // MARK: - Fetch Category Names
     func fetchCategoryNames() {
+        // Ensure the user is logged in
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("User is not logged in")
+            self.categoryNames = []
+            return
+        }
+
         let db = Firestore.firestore()
         
-        db.collection("categories").getDocuments { snapshot, error in
+        // Fetch categories from the path users/{currentUserId}/categories
+        db.collection("users").document(currentUserId).collection("categories").getDocuments { snapshot, error in
             if let error = error {
                 print("Error fetching categories: \(error.localizedDescription)")
                 self.categoryNames = []
@@ -76,11 +111,13 @@ class RoomPlanViewViewModel: ObservableObject {
                 return document.data()["categoryName"] as? String
             } ?? []
             
+            // Update categoryNames on the main thread
             DispatchQueue.main.async {
                 self.categoryNames = names
             }
         }
     }
+
     
     // MARK: - Fetch Recent Rooms (with Local Storage)
     func fetchRecentRooms() {
@@ -98,10 +135,16 @@ class RoomPlanViewViewModel: ObservableObject {
     func fetchRoomsFromFirebase() {
         let db = Firestore.firestore()
         
+        // Ensure the user is logged in
+        guard let currentUserId = Auth.auth().currentUser?.uid else {
+            print("User is not logged in")
+            return
+        }
+        
         let categories: [String]
         
         if(categoryNames.isEmpty) {
-            categories = ["Bathroom", "Dinning Room", "Kitchen", "Living Room", "Bedroom"]
+            categories = ["Bedroom", "Dining Room", "Kitchen", "Living Room", "Bathroom"]
         } else {
             categories = categoryNames
         }
@@ -113,7 +156,12 @@ class RoomPlanViewViewModel: ObservableObject {
         for category in categories {
             dispatchGroup.enter()
             
-            db.collection("rooms").document(category).collection("roomDetails")
+            // Fetch rooms from the user's specific Firestore path
+            db.collection("users")
+                .document(currentUserId)
+                .collection("rooms")
+                .document("roomDetails")
+                .collection(category)
                 .order(by: "timestamp", descending: true)
                 .limit(to: 5)
                 .getDocuments { snapshot, error in
