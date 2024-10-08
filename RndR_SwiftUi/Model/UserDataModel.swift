@@ -10,7 +10,7 @@ import FirebaseCore
 
 struct User: Codable{
     let id: String
-    let name: String
-    let email: String
+    var name: String
+    var email: String
     let joined: Timestamp
 }

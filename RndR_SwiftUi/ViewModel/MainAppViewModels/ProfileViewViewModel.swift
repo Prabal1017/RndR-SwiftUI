@@ -15,6 +15,30 @@ class ProfileViewViewModel: ObservableObject{
     
     @Published var user: User? = nil
     
+    //MARK: - update logged in user details
+    func updateUserDetails(name: String, email: String, completion: @escaping (Bool) -> Void) {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            completion(false)
+            return
+        }
+        
+        let userData: [String: Any] = [
+            "name": name,
+            "email": email
+        ]
+        
+        Firestore.firestore().collection("users").document(userId).updateData(userData) { error in
+            if let error = error {
+                print("Error updating user: \(error.localizedDescription)")
+                completion(false)
+            } else {
+                self.user?.name = name
+                self.user?.email = email
+                completion(true)
+            }
+        }
+    }
+    
     //MARK: - fetch current user
     func fetchUser() {
         guard let userId = Auth.auth().currentUser?.uid else {
@@ -79,29 +103,29 @@ class ProfileViewViewModel: ObservableObject{
             completion(.failure(NSError(domain: "auth", code: 404, userInfo: [NSLocalizedDescriptionKey: "No current user found."])))
             return
         }
-
+        
         if password.isEmpty {
             completion(.failure(NSError(domain: "auth", code: 400, userInfo: [NSLocalizedDescriptionKey: "Password field is empty."])))
             return
         }
-
+        
         guard let email = currentUser.email else {
             completion(.failure(NSError(domain: "auth", code: 404, userInfo: [NSLocalizedDescriptionKey: "No email found for the current user."])))
             return
         }
-
+        
         let credential = EmailAuthProvider.credential(withEmail: email, password: password)
         currentUser.reauthenticate(with: credential) { result, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
+            
             let db = Firestore.firestore()
             let storage = Storage.storage()
             let userId = currentUser.uid
             let deleteGroup = DispatchGroup()
-
+            
             // Delete user categories
             deleteGroup.enter()
             db.collection("categories").whereField("userId", isEqualTo: userId).getDocuments { (querySnapshot, error) in
@@ -120,7 +144,7 @@ class ProfileViewViewModel: ObservableObject{
                 }
                 deleteGroup.leave()
             }
-
+            
             // Delete user data from Firestore
             deleteGroup.enter()
             db.collection("users").document(userId).delete { error in
@@ -131,7 +155,7 @@ class ProfileViewViewModel: ObservableObject{
                 }
                 deleteGroup.leave()
             }
-
+            
             // Delete user's files from Firebase Storage
             deleteGroup.enter()
             let storageRef = storage.reference().child("users/\(userId)/")
@@ -161,14 +185,14 @@ class ProfileViewViewModel: ObservableObject{
                         deleteGroupStorage.leave()
                     }
                 }
-
+                
                 // Notify when all files have been deleted
                 deleteGroupStorage.notify(queue: .main) {
                     print("All files deleted from Storage.")
                     deleteGroup.leave()
                 }
             }
-
+            
             // Wait for all deletions to complete before deleting the user
             deleteGroup.notify(queue: .main) {
                 // Now delete from Firebase Authentication
