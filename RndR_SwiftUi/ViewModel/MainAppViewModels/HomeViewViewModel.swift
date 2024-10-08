@@ -1,4 +1,5 @@
 import FirebaseFirestore
+import FirebaseAuth
 import FirebaseStorage
 import Combine
 
@@ -16,34 +17,52 @@ class HomeViewViewModel: ObservableObject {
             
         }
     }
-    
+    //MARK: - fetch categories
     func fetchCategories() {
-        db.collection("categories").addSnapshotListener { snapshot, error in
-            if let error = error {
-                print("Error fetching categories: \(error)")
-                return
-            }
-            
-            guard let documents = snapshot?.documents else {
-                print("No categories found")
-                return
-            }
-            
-            self.categories = documents.compactMap { doc -> Category? in
-                let category = try? doc.data(as: Category.self)
-//                print("Fetched category: \(String(describing: category))")
-                return category
-            }
-            
-            // Save to UserDefaults
-            self.saveCategoriesToUserDefaults(categories: self.categories)
+        // Get the current logged-in user's UID
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("No user is currently logged in.")
+            return
         }
-    }
-    
-    func deleteCategory(_ category: Category) {
+        
         let db = Firestore.firestore()
         
-        // Use the full image URL from category.categoryImage
+        // Fetch categories from the current user's folder in Firestore
+        db.collection("users")
+            .document(uid) // Folder specific to the current user
+            .collection("categories")
+            .addSnapshotListener { snapshot, error in
+                if let error = error {
+                    print("Error fetching categories: \(error)")
+                    return
+                }
+                
+                guard let documents = snapshot?.documents else {
+                    print("No categories found")
+                    return
+                }
+                
+                // Map Firestore documents to Category models
+                self.categories = documents.compactMap { doc -> Category? in
+                    let category = try? doc.data(as: Category.self)
+                    return category
+                }
+                
+                // Save fetched categories to UserDefaults (if needed)
+                self.saveCategoriesToUserDefaults(categories: self.categories)
+            }
+    }
+
+    //MARK: - delete categories
+    func deleteCategory(_ category: Category) {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("No user is currently logged in.")
+            return
+        }
+        
+        let db = Firestore.firestore()
+        
+        // Get the storage reference for the image using the correct path
         let storageRef = Storage.storage().reference(forURL: category.categoryImage)
         
         // First, delete the image from Firebase Storage
@@ -54,30 +73,39 @@ class HomeViewViewModel: ObservableObject {
             }
             
             // Then, delete the category document from Firestore
-            db.collection("categories").whereField("categoryName", isEqualTo: category.categoryName).getDocuments { snapshot, error in
-                if let error = error {
-                    print("Error fetching documents: \(error.localizedDescription)")
-                    return
-                }
-                
-                guard let documents = snapshot?.documents, !documents.isEmpty else {
-                    print("No documents found for category \(category.categoryName)")
-                    return
-                }
-                
-                // Delete all documents that match the category name
-                for document in documents {
-                    db.collection("categories").document(document.documentID).delete { error in
-                        if let error = error {
-                            print("Error deleting category: \(error.localizedDescription)")
-                        } else {
-                            print("Category and image deleted successfully")
-                        }
+            db.collection("users")
+                .document(uid)
+                .collection("categories")
+                .whereField("categoryName", isEqualTo: category.categoryName)
+                .getDocuments { snapshot, error in
+                    if let error = error {
+                        print("Error fetching documents: \(error.localizedDescription)")
+                        return
+                    }
+                    
+                    guard let documents = snapshot?.documents, !documents.isEmpty else {
+                        print("No documents found for category \(category.categoryName)")
+                        return
+                    }
+                    
+                    // Delete all documents that match the category name
+                    for document in documents {
+                        db.collection("users")
+                            .document(uid)
+                            .collection("categories")
+                            .document(document.documentID)
+                            .delete { error in
+                                if let error = error {
+                                    print("Error deleting category: \(error.localizedDescription)")
+                                } else {
+                                    print("Category and image deleted successfully")
+                                }
+                            }
                     }
                 }
-            }
         }
     }
+
 
 
     

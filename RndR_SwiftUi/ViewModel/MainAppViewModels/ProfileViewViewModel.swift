@@ -14,6 +14,7 @@ class ProfileViewViewModel: ObservableObject{
     
     @Published var user: User? = nil
     
+    //MARK: - fetch current user
     func fetchUser() {
         guard let userId = Auth.auth().currentUser?.uid else {
             print("No user ID found.")
@@ -61,8 +62,7 @@ class ProfileViewViewModel: ObservableObject{
             }
     }
 
-    
-    
+    //MARK: - logout function
     func logOut(){
         do{
             try Auth.auth().signOut()
