@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import FirebaseFirestore
+import FirebaseStorage
 
 class ProfileViewViewModel: ObservableObject{
     init() {}
@@ -20,7 +21,7 @@ class ProfileViewViewModel: ObservableObject{
             print("No user ID found.")
             return
         }
-
+        
         let db = Firestore.firestore()
         db.collection("users")
             .document(userId)
@@ -29,17 +30,17 @@ class ProfileViewViewModel: ObservableObject{
                     print("Error fetching user: \(error.localizedDescription)")
                     return
                 }
-
+                
                 guard let data = snapshot?.data() else {
                     print("No data found.")
                     return
                 }
-
+                
                 print("Fetched data: \(data)")
-
+                
                 if let timestamp = data["joined"] as? Timestamp {
                     let joinedDate = timestamp.dateValue()
-
+                    
                     DispatchQueue.main.async {
                         self?.user = User(
                             id: data["id"] as? String ?? "",
@@ -61,13 +62,130 @@ class ProfileViewViewModel: ObservableObject{
                 }
             }
     }
-
+    
     //MARK: - logout function
     func logOut(){
         do{
             try Auth.auth().signOut()
         }catch{
             print(error)
+        }
+    }
+    
+    // MARK: - Close Account
+    // Example of closing account with comprehensive data deletion
+    func closeAccount(password: String, completion: @escaping (Result<Bool, Error>) -> Void) {
+        guard let currentUser = Auth.auth().currentUser else {
+            completion(.failure(NSError(domain: "auth", code: 404, userInfo: [NSLocalizedDescriptionKey: "No current user found."])))
+            return
+        }
+
+        if password.isEmpty {
+            completion(.failure(NSError(domain: "auth", code: 400, userInfo: [NSLocalizedDescriptionKey: "Password field is empty."])))
+            return
+        }
+
+        guard let email = currentUser.email else {
+            completion(.failure(NSError(domain: "auth", code: 404, userInfo: [NSLocalizedDescriptionKey: "No email found for the current user."])))
+            return
+        }
+
+        let credential = EmailAuthProvider.credential(withEmail: email, password: password)
+        currentUser.reauthenticate(with: credential) { result, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            let db = Firestore.firestore()
+            let storage = Storage.storage()
+            let userId = currentUser.uid
+            let deleteGroup = DispatchGroup()
+
+            // Delete user categories
+            deleteGroup.enter()
+            db.collection("categories").whereField("userId", isEqualTo: userId).getDocuments { (querySnapshot, error) in
+                if let error = error {
+                    print("Error fetching categories: \(error.localizedDescription)")
+                } else if let documents = querySnapshot?.documents {
+                    for document in documents {
+                        db.collection("categories").document(document.documentID).delete { error in
+                            if let error = error {
+                                print("Error deleting category: \(error.localizedDescription)")
+                            } else {
+                                print("Category deleted: \(document.documentID)")
+                            }
+                        }
+                    }
+                }
+                deleteGroup.leave()
+            }
+
+            // Delete user data from Firestore
+            deleteGroup.enter()
+            db.collection("users").document(userId).delete { error in
+                if let error = error {
+                    print("Error deleting user data: \(error.localizedDescription)")
+                } else {
+                    print("User data deleted.")
+                }
+                deleteGroup.leave()
+            }
+
+            // Delete user's files from Firebase Storage
+            deleteGroup.enter()
+            let storageRef = storage.reference().child("users/\(userId)/")
+            storageRef.listAll { (result, error) in
+                if let error = error {
+                    print("Error listing files: \(error.localizedDescription)")
+                    deleteGroup.leave() // Leave the group on error
+                    return
+                }
+                
+                // Safely unwrap the result
+                guard let result = result else {
+                    print("No files found for user.")
+                    deleteGroup.leave() // Leave the group if there's no result
+                    return
+                }
+                
+                let deleteGroupStorage = DispatchGroup()
+                for item in result.items {
+                    deleteGroupStorage.enter()
+                    item.delete { error in
+                        if let error = error {
+                            print("Error deleting file: \(error.localizedDescription)")
+                        } else {
+                            print("File deleted: \(item.name)")
+                        }
+                        deleteGroupStorage.leave()
+                    }
+                }
+
+                // Notify when all files have been deleted
+                deleteGroupStorage.notify(queue: .main) {
+                    print("All files deleted from Storage.")
+                    deleteGroup.leave()
+                }
+            }
+
+            // Wait for all deletions to complete before deleting the user
+            deleteGroup.notify(queue: .main) {
+                // Now delete from Firebase Authentication
+                currentUser.delete { error in
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        print("User successfully deleted.")
+                        do {
+                            try Auth.auth().signOut()
+                            completion(.success(true))
+                        } catch {
+                            completion(.failure(error))
+                        }
+                    }
+                }
+            }
         }
     }
 }

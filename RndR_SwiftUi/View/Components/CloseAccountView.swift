@@ -1,78 +1,94 @@
 import SwiftUI
+import Firebase
 
 struct CloseAccountView: View {
     @State private var password: String = ""
+    @State private var showPasswordAlert: Bool = false
     @State private var showAlert: Bool = false
-    @State private var isAccountClosed: Bool = false
-    @Binding var showingCloseAccountView : Bool
+    @State private var showErrorAlert: Bool = false
+    @State private var errorMessage: String = ""
+    @Binding var showingCloseAccountView: Bool
+    @StateObject var viewModel = ProfileViewViewModel()
     
     var body: some View {
-        NavigationView{
-                List{
-                    
-                    
-                    
-                    Section(header:
-                                Text("warning"),
-                            footer: Text("Closing your account is irreversible and it cannot be undone.")
-                        .foregroundColor(.primary)
-                        .textCase(nil)
-                        )
-                            {
-                                      //empty section
-                            }
-                    
-                    Section(header: Text("Deleting your account will remove all your 3D scanned models and you wont be able to access them.")
-                        .foregroundColor(.primary)
-                        .textCase(nil)
-                    )
-                        {
-                            // Another empty section
-                        }
-                    
-                    
-                    Section{
-                        SecureField("Password", text: $password)
+        NavigationView {
+            List {
+                Section(header: Text("Warning"),
+                        footer: Text("Closing your account is irreversible and it cannot be undone.")
+                    .foregroundColor(.primary)
+                    .textCase(nil)) {
+                        // Empty section
                     }
-                    
-                    Section{
-                        HStack{
-                            Spacer()
-                            Button{
-                                closeAccount()
-                            } label:{
-                                Text("Close account")
-                                    .foregroundColor(.red)
-                            }
-                            Spacer()
-                        }
-                    }
-                }
-                //            .listStyle(.plain)
                 
-                .navigationTitle("Close Account")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button{
-                            showingCloseAccountView = false
+                Section(header: Text("Deleting your account will remove all your 3D scanned models and you won't be able to access them.")
+                    .foregroundColor(.primary)
+                    .textCase(nil)) {
+                        // Empty section
+                    }
+                
+                Section {
+                    HStack {
+                        Spacer()
+                        Button {
+                            // Show password input alert
+                            showPasswordAlert = true
                         } label: {
-                            Image(systemName: "xmark")
-                                .foregroundColor(.primary)
+                            Text("Close account")
+                                .foregroundColor(.red)
                         }
+                        Spacer()
                     }
                 }
-            
+                // Alert for entering password
+                .alert("Enter your password", isPresented: $showPasswordAlert) {
+                    SecureField("Password", text: $password)
+                        .textContentType(.password) // For password autofill
+                        .padding()
+                    Button("Close Account", role: .destructive) {
+                        // Proceed with account closure
+                        viewModel.closeAccount(password: password) { result in
+                            switch result {
+                            case .success(let success):
+                                if success {
+                                    showAlert = true
+                                } else {
+                                    errorMessage = "Failed to close account."
+                                    showErrorAlert = true
+                                }
+                            case .failure(let error):
+                                errorMessage = error.localizedDescription
+                                showErrorAlert = true
+                            }
+                        }
+                    }
+                    Button("Cancel", role: .cancel) { }
+                } message: {
+                    Text("Deleting your account will remove all your 3D scanned models.")
+                }
             }
-        }
-    
-    private func closeAccount() {
-        // Implement your account closing logic here
-        // For now, we'll just show an alert
-        if !password.isEmpty {
-            showAlert = true
-        } else {
-            // Handle empty password case if necessary
+            .navigationTitle("Close Account")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        showingCloseAccountView = false
+                    } label: {
+                        Image(systemName: "xmark")
+                            .foregroundColor(.primary)
+                    }
+                }
+            }
+            
+            // Alert for successful account closure
+            .alert("Account Closed", isPresented: $showAlert) {
+                Text("Your account has been successfully closed.")
+            }
+            // Alert for incorrect password
+            .alert(isPresented: $showErrorAlert) {
+                Alert(title: Text("Error"),
+                      message: Text(errorMessage),
+                      dismissButton: .default(Text("OK")))
+            }
         }
     }
 }
