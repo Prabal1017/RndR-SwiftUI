@@ -38,6 +38,12 @@ struct HomeView: View {
                     .presentationDetents([.medium])
             }
         }
+        .background(
+            Image("appBackground") // Replace with your image name
+                .resizable()
+                .scaledToFill()
+                .edgesIgnoringSafeArea(.all)
+        )
         .onAppear {
             viewModel.fetchCategories()
             roomViewModel.fetchCategoryNames()

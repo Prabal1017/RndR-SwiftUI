@@ -15,19 +15,21 @@ struct RndR_SwiftUiApp: App {
     @StateObject private var roomCaptureController = RoomCaptureController()
     
     init() {
-//        _ = RoominatorFileManager.shared
+        //        _ = RoominatorFileManager.shared
         
         FirebaseApp.configure()
     }
-
+    
     var body: some Scene {
         WindowGroup {
             MainView()
                 .environment(roomCaptureController)
-//            checkDeciveView()
+            //            checkDeciveView()
+            
         }
     }
 }
+
 
 //@ViewBuilder
 //func checkDeciveView() -> some View {
