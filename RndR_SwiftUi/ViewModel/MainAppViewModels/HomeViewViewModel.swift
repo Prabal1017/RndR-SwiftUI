@@ -105,9 +105,6 @@ class HomeViewViewModel: ObservableObject {
                 }
         }
     }
-
-
-
     
     private func saveCategoriesToUserDefaults(categories: [Category]) {
         let encoder = JSONEncoder()

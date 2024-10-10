@@ -1,4 +1,5 @@
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct categoriesView: View {
     var categories: [Category]
@@ -7,32 +8,22 @@ struct categoriesView: View {
     
     @State private var showAlert = false
     @State private var selectedCategory: Category?
-
+    
     // Define the restricted category names
     let restrictedCategories = ["Bedroom", "Kitchen", "Living Room", "Dinning Room", "Bathroom"]
-
+    
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) {
             ForEach(categories, id: \.categoryName) { category in
                 NavigationLink(destination: CategorieItemView(roomType: category.categoryName, heroImage: category.categoryImage)) {
                     ZStack(alignment: .bottom) {
-                        AsyncImage(url: URL(string: category.categoryImage)) { phase in
-                            switch phase {
-                            case .empty:
-                                SkeletonLoader()
-                            case .success(let image):
-                                image
-                                    .resizable()
-                                    .scaledToFill()
-                            case .failure:
-                                Image(systemName: "photo.fill")
-                                    .resizable()
-                                    .scaledToFill()
-                            @unknown default:
-                                EmptyView()
-                            }
-                        }
-                        .frame(width: 170, height: 120)
+                        WebImage(url: URL(string: category.categoryImage))
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 170, height: 120)
+                            .clipped()
+                            .cornerRadius(10)
+                            .frame(width: 170, height: 120)
                         
                         HStack {
                             VStack(alignment: .leading) {
@@ -77,3 +68,4 @@ struct categoriesView: View {
         }
     }
 }
+

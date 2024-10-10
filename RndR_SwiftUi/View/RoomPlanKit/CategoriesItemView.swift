@@ -18,6 +18,18 @@ struct CategorieItemView: View {
     
     @State private var showDeletedMessage = false
     
+//    //back button on top
+//    @Environment(\.presentationMode) var presentationMode
+//
+//    var btnBack : some View { Button(action: {
+//        self.presentationMode.wrappedValue.dismiss()
+//    }) {
+//        HStack{
+//            Image(systemName: "arrow.left")
+//        }
+//    }
+//    }
+//    
     var body: some View {
         GeometryReader { geo in
             ScrollView {
@@ -109,6 +121,8 @@ struct CategorieItemView: View {
             }
             .animation(.easeInOut, value: showDeletedMessage)
         }
+        .navigationTitle("\(roomType)")
+        .navigationBarTitleDisplayMode(.inline)
         .refreshable {
             viewModel.fetchRooms(for: roomType) { success in
                 isLoading = !success
@@ -143,6 +157,8 @@ struct CategorieItemView: View {
                 secondaryButton: .cancel()
             )
         }
+//        .navigationBarBackButtonHidden(true)
+//        .navigationBarItems(leading: btnBack)
         .preferredColorScheme(.dark)
     }
 }
@@ -179,3 +195,4 @@ private extension View {
             .offset(y: useStandard ? 0 : -minY)
     }
 }
+
