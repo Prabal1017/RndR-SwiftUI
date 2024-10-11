@@ -42,6 +42,86 @@ struct NativeQuickLookView: UIViewControllerRepresentable {
 import SwiftUI
 import QuickLook
 
+//struct FileDetailView: View {
+//    let fileName: String
+//    let modelURL: URL
+//    @State private var useARMode = true
+//    @State private var isLoading = true // Loading state
+//    @State private var loadedURL: URL? // URL to hold the loaded model
+//
+//    var body: some View {
+//        VStack {
+//            if isLoading {
+//                ProgressView("Loading model...") // Display a loading indicator
+//                    .onAppear {
+//                        loadModel()
+//                    }
+//            } else if let loadedURL = loadedURL {
+//                NativeQuickLookView(url: loadedURL)
+//                    .if(useARMode) { view in
+//                        view.edgesIgnoringSafeArea(.all)
+//                    }
+//                    .onAppear { print("Opening USDZ file: \(loadedURL) in \(useARMode ? "AR" : "Object") mode") }
+//            } else {
+//                Text("Unable to load file")
+//                    .foregroundColor(.red)
+//            }
+//        }
+//        .navigationBarTitleDisplayMode(.inline)
+//        .navigationTitle(fileName)
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(useARMode ? "Object Mode" : "AR Mode") {
+//                    useARMode.toggle()
+//                }
+//            }
+//        }
+//    }
+//
+//    private func loadModel() {
+//        DispatchQueue.global(qos: .background).async {
+//            // Simulate network loading time
+//            let urlSession = URLSession.shared
+//            
+//            // Fetch the USDZ file
+//            let task = urlSession.dataTask(with: modelURL) { data, response, error in
+//                if let error = error {
+//                    print("Error loading model: \(error)")
+//                    DispatchQueue.main.async {
+//                        isLoading = false
+//                        loadedURL = nil // Invalidate loaded URL
+//                    }
+//                    return
+//                }
+//                
+//                if let data = data {
+//                    // Create a temporary file URL to save the model
+//                    let temporaryDirectory = FileManager.default.temporaryDirectory
+//                    let temporaryFileURL = temporaryDirectory.appendingPathComponent("model.usdz")
+//                    
+//                    do {
+//                        try data.write(to: temporaryFileURL) // Write data to temporary file
+//                        DispatchQueue.main.async {
+//                            loadedURL = temporaryFileURL // Update loaded URL on the main thread
+//                            isLoading = false // Stop loading
+//                        }
+//                    } catch {
+//                        print("Error saving model: \(error)")
+//                        DispatchQueue.main.async {
+//                            isLoading = false
+//                            loadedURL = nil // Invalidate loaded URL
+//                        }
+//                    }
+//                }
+//            }
+//            task.resume() // Start the data task
+//        }
+//    }
+//}
+
+
+
+
 struct FileDetailView: View {
     let fileName: String
     let modelURL: URL
@@ -57,11 +137,17 @@ struct FileDetailView: View {
                         loadModel()
                     }
             } else if let loadedURL = loadedURL {
-                NativeQuickLookView(url: loadedURL)
-                    .if(useARMode) { view in
-                        view.edgesIgnoringSafeArea(.all)
-                    }
-                    .onAppear { print("Opening USDZ file: \(loadedURL) in \(useARMode ? "AR" : "Object") mode") }
+                if useARMode {
+                    // Display in AR mode using Model3DView
+                    Model3DView(modelUrl: loadedURL) // Replace with your Model3DView
+                        .edgesIgnoringSafeArea(.all)
+                        .onAppear { print("Opening USDZ file: \(loadedURL) in AR mode") }
+                } else {
+                    // Display using Quick Look
+                    NativeQuickLookView(url: loadedURL)
+                        .edgesIgnoringSafeArea(.all)
+                        .onAppear { print("Opening USDZ file: \(loadedURL) in Object mode") }
+                }
             } else {
                 Text("Unable to load file")
                     .foregroundColor(.red)
@@ -80,7 +166,6 @@ struct FileDetailView: View {
 
     private func loadModel() {
         DispatchQueue.global(qos: .background).async {
-            // Simulate network loading time
             let urlSession = URLSession.shared
             
             // Fetch the USDZ file
@@ -118,6 +203,7 @@ struct FileDetailView: View {
         }
     }
 }
+
 
 
 extension View {

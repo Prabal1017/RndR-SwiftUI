@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		462F03272C95557A000AA26D /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03262C95557A000AA26D /* RoomController.swift */; };
+		465846D32CB909040011D425 /* CustomModel3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465846D22CB909040011D425 /* CustomModel3DView.swift */; };
 		466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */; };
 		466DA2DF2C9322940023F1DD /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA2DE2C9322940023F1DD /* MainView.swift */; };
 		466DA2E12C9322950023F1DD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 466DA2E02C9322950023F1DD /* Assets.xcassets */; };
@@ -57,6 +58,7 @@
 
 /* Begin PBXFileReference section */
 		462F03262C95557A000AA26D /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
+		465846D22CB909040011D425 /* CustomModel3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel3DView.swift; sourceTree = "<group>"; };
 		466DA2D92C9322940023F1DD /* RndR_SwiftUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RndR_SwiftUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RndR_SwiftUiApp.swift; sourceTree = "<group>"; };
 		466DA2DE2C9322940023F1DD /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				46AC43622CB1A8F4001A9E63 /* FileManager.swift */,
 				46AC43632CB1A8F4001A9E63 /* CategoriesItemView.swift */,
 				46AC43642CB1A8F4001A9E63 /* RoomDetailsFormView.swift */,
+				465846D22CB909040011D425 /* CustomModel3DView.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -363,6 +366,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				465846D32CB909040011D425 /* CustomModel3DView.swift in Sources */,
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
 				46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */,
 				462F03272C95557A000AA26D /* RoomController.swift in Sources */,
