@@ -79,7 +79,7 @@
 		466DA3132C93347D0023F1DD /* LandingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingView.swift; sourceTree = "<group>"; };
 		466DA3172C93F1DE0023F1DD /* RndR-SwiftUi-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RndR-SwiftUi-Info.plist"; sourceTree = SOURCE_ROOT; };
 		46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataModel.swift; sourceTree = "<group>"; };
-		4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoModel.usdz; sourceTree = "<group>"; };
+		4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = demoModel.usdz; sourceTree = "<group>"; };
 		46A043012CB41EC800E63BEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46AC435F2CB1A8F4001A9E63 /* RoomScanViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScanViews.swift; sourceTree = "<group>"; };
 		46AC43602CB1A8F4001A9E63 /* ARModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModelView.swift; sourceTree = "<group>"; };
@@ -534,7 +534,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RndR_SwiftUi/Preview Content\"";
-				DEVELOPMENT_TEAM = 4FU3RXR748;
+				DEVELOPMENT_TEAM = R498BFKNB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RndR-SwiftUi-Info.plist";
@@ -549,7 +549,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.RndR-iOS-App";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Metatttech;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -565,7 +565,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RndR_SwiftUi/Preview Content\"";
-				DEVELOPMENT_TEAM = 4FU3RXR748;
+				DEVELOPMENT_TEAM = R498BFKNB5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RndR-SwiftUi-Info.plist";
@@ -580,7 +580,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.RndR-iOS-App";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Metatttech;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

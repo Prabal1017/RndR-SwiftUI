@@ -22,8 +22,8 @@ struct ARViewContainer: UIViewRepresentable {
 
         // Load the USDZ model into the ARView
         do {
-            let modelEntity = try Entity.load(contentsOf: usdzURL)
-            let anchorEntity = AnchorEntity(plane: .horizontal)
+            let modelEntity = try ModelEntity.load(contentsOf: usdzURL) // Changed to ModelEntity
+            let anchorEntity = AnchorEntity(plane: .horizontal) // Ensure correct enum usage
             anchorEntity.addChild(modelEntity)
 
             // Add the anchor to the ARView scene
