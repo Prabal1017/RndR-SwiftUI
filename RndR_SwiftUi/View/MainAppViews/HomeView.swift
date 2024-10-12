@@ -458,7 +458,20 @@ struct HomeView: View {
         }
     }
 }
+//
+//#Preview {
+//    HomeView()
+//}
 
-#Preview {
-    HomeView()
+
+struct HomeView_Previews: PreviewProvider {
+    static var previews: some View{
+        Group{
+            HomeView()
+                .environment(\.locale, Locale.init(identifier: "en"))
+            
+            HomeView()
+                .environment(\.locale, Locale.init(identifier: "es"))
+        }
+    }
 }
