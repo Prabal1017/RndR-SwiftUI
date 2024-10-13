@@ -139,7 +139,7 @@ struct FileDetailView: View {
             } else if let loadedURL = loadedURL {
                 if useARMode {
                     // Display in AR mode using Model3DView
-                    Model3DView(modelUrl: loadedURL) // Replace with your Model3DView
+                    Model3DView(modelUrl: loadedURL, viewModel: CustomModel3DViewModel(originalModelUrl: modelURL)) // Replace with your Model3DView
                         .edgesIgnoringSafeArea(.all)
                         .onAppear { print("Opening USDZ file: \(loadedURL) in AR mode") }
                 } else {

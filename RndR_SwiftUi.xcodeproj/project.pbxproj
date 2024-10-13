@@ -54,6 +54,7 @@
 		46B805632C986CF200ABF1F8 /* HomeViewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805622C986CF200ABF1F8 /* HomeViewViewModel.swift */; };
 		46B805652C98861900ABF1F8 /* categoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805642C98861900ABF1F8 /* categoriesView.swift */; };
 		46B805672C98865C00ABF1F8 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805662C98865C00ABF1F8 /* SliderView.swift */; };
+		46BCE1752CBC10DD00C90F04 /* CustomModel3DViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */; };
 		46C0724F2C999FDB007A162A /* SkeletonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C0724E2C999FDB007A162A /* SkeletonLoader.swift */; };
 /* End PBXBuildFile section */
 
@@ -100,6 +101,7 @@
 		46B805622C986CF200ABF1F8 /* HomeViewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewViewModel.swift; sourceTree = "<group>"; };
 		46B805642C98861900ABF1F8 /* categoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoriesView.swift; sourceTree = "<group>"; };
 		46B805662C98865C00ABF1F8 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
+		46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel3DViewModel.swift; sourceTree = "<group>"; };
 		46C0724E2C999FDB007A162A /* SkeletonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -143,6 +145,7 @@
 				462F03262C95557A000AA26D /* RoomController.swift */,
 				46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */,
 				46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */,
+				46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -394,6 +397,7 @@
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
 				46AC43652CB1A8F4001A9E63 /* FileManager.swift in Sources */,
+				46BCE1752CBC10DD00C90F04 /* CustomModel3DViewModel.swift in Sources */,
 				46AC43662CB1A8F4001A9E63 /* RoomScanViews.swift in Sources */,
 				46AC43672CB1A8F4001A9E63 /* RoomDetailsFormView.swift in Sources */,
 				46AC436C2CB1A904001A9E63 /* RoomCaptureController.swift in Sources */,

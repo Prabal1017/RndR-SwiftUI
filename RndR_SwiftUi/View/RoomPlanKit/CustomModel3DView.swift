@@ -2,6 +2,8 @@ import SwiftUI
 import ARKit
 import SceneKit
 
+import FirebaseStorage
+
 struct Model3DView: View {
     var modelUrl: URL
     @State private var selectedNode: SCNNode?
@@ -9,18 +11,38 @@ struct Model3DView: View {
     @State private var initialPosition: SCNVector3 = SCNVector3(0, 0, 0)
     @State private var showModal: Bool = false
     @State private var selectedColor: Color = .red // Track selected color globally
+    
+    @StateObject var viewModel: CustomModel3DViewModel
+
+//    init(modelUrl: URL) {
+//        self.modelUrl = modelUrl
+//        self._viewModel = StateObject(wrappedValue: CustomModel3DViewModel(modelUrl: modelUrl)) // Ensure your ViewModel can accept modelUrl
+//    }
 
     var body: some View {
         ZStack {
-            // Keep the SCNView visible in the background
             ARSceneViewContainer(modelUrl: modelUrl, selectedNode: $selectedNode, isDragging: $isDragging, initialPosition: $initialPosition, selectedColor: $selectedColor)
                 .edgesIgnoringSafeArea(.all)
 
-            // Floating button to show the modal on top of the 3D view
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
+            // Buttons - save, add
+            HStack {
+                Spacer() // Push the buttons to the right
+                VStack {
+                    Spacer() // Push the buttons to the bottom
+                    // Save button
+                    Button(action: {
+                        viewModel.saveEditedModel(selectedNode: selectedNode) // Pass the selected node
+                    }) {
+                        Image(systemName: "square.and.arrow.down")
+                            .font(.system(size: 24))
+                            .foregroundColor(.white)
+                            .padding()
+                            .background(Color.green)
+                            .clipShape(Circle())
+                            .shadow(radius: 3)
+                    }
+                    
+                    // Floating button to show the modal
                     Button(action: {
                         showModal = true
                     }) {
@@ -32,10 +54,10 @@ struct Model3DView: View {
                             .clipShape(Circle())
                             .shadow(radius: 3)
                     }
-                    .padding()
-                    .padding(.bottom, 90)
                 }
             }
+            .padding()
+            .padding(.bottom, 85)
 
             // Use an overlay to show the modal
             if showModal {
@@ -50,17 +72,14 @@ struct Model3DView: View {
                     .cornerRadius(20)
                     .shadow(radius: 10)
                     .frame(height: 300)
-                    .transition(.move(edge: .bottom)) // Smooth transition from bottom
-                    .onAppear {
-                        // Ensures AR view does not get dismissed or disrupted
-                    }
+                    .transition(.move(edge: .bottom))
             }
-
         }
         .animation(.easeInOut, value: showModal) // Smooth transition
     }
 }
 
+//MARK: - PopUp view for adding color , lighting and furniture
 struct AddModelModalView: View {
     @State private var selectedCategory: String = "Colours"
     @Binding var selectedNode: SCNNode?
@@ -97,7 +116,7 @@ struct AddModelModalView: View {
     }
 }
 
-
+//MARK: - wall color picker view
 struct WallColorPickerView: View {
     @Binding var selectedColor: Color
 
@@ -145,6 +164,7 @@ struct WallColorPickerView: View {
     }
 }
 
+//MARK: - gestures
 struct ARSceneViewContainer: UIViewRepresentable {
     var modelUrl: URL
     @Binding var selectedNode: SCNNode?
