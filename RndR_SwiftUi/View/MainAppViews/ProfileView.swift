@@ -1,5 +1,6 @@
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct ProfileView: View {
     
@@ -14,20 +15,16 @@ struct ProfileView: View {
                         Section{
                             NavigationLink(destination: UserDetailView()){
                                 HStack(spacing:20){
-                                    ZStack {
-                                        // Circle shape background
-                                        Circle()
-                                        
-                                            .frame(width: 70, height: 70)
-                                        
-                                        // Image inside the circle
-                                        Image(systemName: "person.crop.circle.fill")
-                                            .resizable()
-                                            .scaledToFill()
-                                            .clipShape(Circle())
-                                            .frame(width: 70, height: 70)
-                                            .aspectRatio(contentMode: .fill)
-                                    }
+                                    
+                                    WebImage(url: URL(string: user.profileImageUrl ?? ""))
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 80, height: 80)
+                                        .background(.thickMaterial)
+                                        .clipShape(Circle())
+                                        .overlay(Circle().stroke(Color.gray, lineWidth: 2))
+                                        .shadow(radius: 5)
+                                    
                                     VStack(alignment: .leading){
                                         Text(user.name)
                                             .font(.title2)
@@ -45,14 +42,6 @@ struct ProfileView: View {
                                     }
                                 }
                             }
-            
-//                            HStack {
-//                                Text("Member Since")
-//                                Spacer()
-//                                // Convert Timestamp to Date and format it
-//                                Text("\(user.joined.dateValue().formatted(date: .abbreviated, time: .shortened))")
-//                                    .foregroundColor(.secondary)
-//                            }
                         }
                         
                         Section{

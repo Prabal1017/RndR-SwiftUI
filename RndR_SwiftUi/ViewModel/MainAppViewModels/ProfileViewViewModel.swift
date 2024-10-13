@@ -15,6 +15,71 @@ class ProfileViewViewModel: ObservableObject{
     
     @Published var user: User? = nil
     
+    //MARK: - profile image upload
+    // Function to upload profile image
+        func uploadProfileImage(image: UIImage, completion: @escaping (Bool) -> Void) {
+            guard let currentUserId = Auth.auth().currentUser?.uid else {
+                completion(false)
+                return
+            }
+
+            let storageRef = Storage.storage().reference().child("users/\(currentUserId)/userImage.jpg")
+            
+            // Convert UIImage to Data
+            guard let imageData = image.jpegData(compressionQuality: 0.8) else {
+                completion(false)
+                return
+            }
+            
+            // Upload the image to Firebase Storage
+            storageRef.putData(imageData, metadata: nil) { (metadata, error) in
+                if let error = error {
+                    print("Error uploading image: \(error.localizedDescription)")
+                    completion(false)
+                    return
+                }
+                
+                // Once upload is complete, update the user's profile image URL in Firestore
+                storageRef.downloadURL { (url, error) in
+                    if let error = error {
+                        print("Error fetching download URL: \(error.localizedDescription)")
+                        completion(false)
+                        return
+                    }
+                    
+                    guard let downloadURL = url else {
+                        completion(false)
+                        return
+                    }
+                    
+                    // Update the user's profile image URL in Firestore
+                    self.updateUserProfileImageUrl(downloadURL.absoluteString) { success in
+                        completion(success)
+                    }
+                }
+            }
+        }
+        
+        // Function to update user profile image URL in Firestore
+        func updateUserProfileImageUrl(_ url: String, completion: @escaping (Bool) -> Void) {
+            guard let currentUserId = Auth.auth().currentUser?.uid else {
+                completion(false)
+                return
+            }
+            
+            let db = Firestore.firestore()
+            let userRef = db.collection("users").document(currentUserId)
+            
+            userRef.updateData(["profileImageUrl": url]) { error in
+                if let error = error {
+                    print("Error updating profile image URL: \(error.localizedDescription)")
+                    completion(false)
+                } else {
+                    completion(true)
+                }
+            }
+        }
+    
     //MARK: - update logged in user details
     func updateUserDetails(name: String, email: String, completion: @escaping (Bool) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else {
@@ -65,28 +130,37 @@ class ProfileViewViewModel: ObservableObject{
                 if let timestamp = data["joined"] as? Timestamp {
                     let joinedDate = timestamp.dateValue()
                     
+                    // Fetch the profile image URL, if it exists
+                    let profileImageUrl = data["profileImageUrl"] as? String ?? ""
+                    
                     DispatchQueue.main.async {
                         self?.user = User(
                             id: data["id"] as? String ?? "",
                             name: data["name"] as? String ?? "",
                             email: data["email"] as? String ?? "",
-                            joined: timestamp // Store the Timestamp directly
+                            joined: timestamp, // Store the Timestamp directly
+                            profileImageUrl: profileImageUrl // Add the profile image URL
                         )
                     }
                 } else {
                     print("Timestamp not found in data.")
+                    
+                    // Fetch the profile image URL, if it exists
+                    let profileImageUrl = data["profileImageUrl"] as? String ?? ""
+                    
                     DispatchQueue.main.async {
                         self?.user = User(
                             id: data["id"] as? String ?? "",
                             name: data["name"] as? String ?? "",
                             email: data["email"] as? String ?? "",
-                            joined: Timestamp(date: Date()) // Fallback if no Timestamp is present
+                            joined: Timestamp(date: Date()), // Fallback if no Timestamp is present
+                            profileImageUrl: profileImageUrl // Add the profile image URL
                         )
                     }
                 }
             }
     }
-    
+
     //MARK: - logout function
     func logOut(){
         do{

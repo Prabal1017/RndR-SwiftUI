@@ -30,9 +30,10 @@ struct Model3DView: View {
                             .padding()
                             .background(Color.blue)
                             .clipShape(Circle())
-                            .shadow(radius: 10)
+                            .shadow(radius: 3)
                     }
                     .padding()
+                    .padding(.bottom, 90)
                 }
             }
 
@@ -44,7 +45,7 @@ struct Model3DView: View {
                         showModal = false // Close the modal when tapping outside
                     }
 
-                AddModelModalView(selectedNode: $selectedNode, selectedColor: $selectedColor)
+                AddModelModalView(selectedNode: $selectedNode, selectedColor: $selectedColor, showModal: $showModal) // Pass the binding
                     .background(.ultraThinMaterial)
                     .cornerRadius(20)
                     .shadow(radius: 10)
@@ -54,18 +55,17 @@ struct Model3DView: View {
                         // Ensures AR view does not get dismissed or disrupted
                     }
             }
+
         }
         .animation(.easeInOut, value: showModal) // Smooth transition
     }
 }
 
-
-
-
 struct AddModelModalView: View {
     @State private var selectedCategory: String = "Colours"
     @Binding var selectedNode: SCNNode?
     @Binding var selectedColor: Color // Pass the selected color to the parent view
+    @Binding var showModal: Bool // Add this line to receive showModal state
     let categories = ["Colours", "Furniture", "Lighting"]
 
     var body: some View {
@@ -88,13 +88,15 @@ struct AddModelModalView: View {
             }
 
             Button("Close") {
-                // Dismiss the modal without closing the SCNView
+                // Dismiss the modal
+                showModal = false // Set showModal to false
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
             }
             .padding()
         }
     }
 }
+
 
 struct WallColorPickerView: View {
     @Binding var selectedColor: Color
@@ -195,7 +197,9 @@ struct ARSceneViewContainer: UIViewRepresentable {
 
     func load3DModel(from url: URL) -> SCNScene? {
         let scene = SCNScene()
-        scene.background.contents = UIColor.gray
+
+        // Create a gradient background
+        scene.background.contents = createGradientImage()
 
         downloadModel(from: url) { localURL, error in
             guard let localURL = localURL, error == nil else {
@@ -229,6 +233,27 @@ struct ARSceneViewContainer: UIViewRepresentable {
 
         return scene
     }
+
+    // Helper function to create gradient background
+    func createGradientImage() -> UIImage? {
+        let size = CGSize(width: 1, height: 500) // height can be adjusted for a smoother gradient
+        let renderer = UIGraphicsImageRenderer(size: size)
+
+        let gradientImage = renderer.image { context in
+            let colors = [UIColor.black.cgColor, UIColor.gray.cgColor, UIColor.black.cgColor]
+            let locations: [CGFloat] = [0.0, 0.5, 1.0] // Transition points
+
+            let colorSpace = CGColorSpaceCreateDeviceRGB()
+            if let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: locations) {
+                let startPoint = CGPoint(x: 0.5, y: 0.0)
+                let endPoint = CGPoint(x: 0.5, y: size.height)
+                context.cgContext.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+            }
+        }
+
+        return gradientImage
+    }
+
 
     func downloadModel(from url: URL, completion: @escaping (URL?, Error?) -> Void) {
         let task = URLSession.shared.downloadTask(with: url) { tempLocalUrl, response, error in

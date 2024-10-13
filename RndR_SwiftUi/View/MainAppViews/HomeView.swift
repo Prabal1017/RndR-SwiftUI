@@ -411,7 +411,7 @@ struct HomeView: View {
                                                 Text(room.roomType)
                                                     .font(.caption)
                                                     .padding(5)
-                                                    .background(.thinMaterial)
+                                                    .background(Color.blue)
                                                     .foregroundColor(.primary)
                                                     .cornerRadius(5)
                                                     .padding([.top, .leading], 10)
