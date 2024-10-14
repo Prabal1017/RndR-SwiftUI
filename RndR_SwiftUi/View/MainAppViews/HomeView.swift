@@ -450,6 +450,7 @@ struct HomeView: View {
                     viewModel.fetchCategories()
                     roomViewModel.fetchCategoryNames()
                     roomViewModel.handleUserChange()
+                    viewModel.fetchAllRoomsForCategories()
                 }
                 .navigationTitle("Home")
                 .navigationBarTitleDisplayMode(.automatic)

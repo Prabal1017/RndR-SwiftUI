@@ -10,19 +10,54 @@ struct Model3DView: View {
     @State private var isDragging: Bool = false
     @State private var initialPosition: SCNVector3 = SCNVector3(0, 0, 0)
     @State private var showModal: Bool = false
-    @State private var selectedColor: Color = .red // Track selected color globally
-    
+    @State private var selectedColor: Color = .red
+    @State private var showSavedMessage = false // State to show the success message
+    @State private var uploadProgress: Double = 0.0 // Track upload progress
     @StateObject var viewModel: CustomModel3DViewModel
-
-//    init(modelUrl: URL) {
-//        self.modelUrl = modelUrl
-//        self._viewModel = StateObject(wrappedValue: CustomModel3DViewModel(modelUrl: modelUrl)) // Ensure your ViewModel can accept modelUrl
-//    }
+    
+    @State private var selectedTexture: String?
 
     var body: some View {
         ZStack {
-            ARSceneViewContainer(modelUrl: modelUrl, selectedNode: $selectedNode, isDragging: $isDragging, initialPosition: $initialPosition, selectedColor: $selectedColor)
+            ARSceneViewContainer(modelUrl: modelUrl, selectedNode: $selectedNode, isDragging: $isDragging, initialPosition: $initialPosition, selectedColor: $selectedColor, selectedTextureName: $selectedTexture)
                 .edgesIgnoringSafeArea(.all)
+
+            // Success message when the model is saved
+            if showSavedMessage {
+                HStack {
+                    Text("Model saved successfully!")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(.ultraThinMaterial)
+                        .cornerRadius(10)
+                        .shadow(radius: 5)
+                }
+                .offset(y: 0)
+                .frame(maxWidth: .infinity)
+                .padding()
+                .transition(.move(edge: .top)) // Slide from the top
+                .zIndex(1) // Ensure message appears on top
+            }
+
+            // Progress view for upload
+            if uploadProgress > 0.0 && uploadProgress < 1.0 {
+                VStack {
+                    Text("Uploading model...")
+                        .foregroundColor(.white)
+                        .padding()
+
+                    // Circular progress view
+                    ProgressView(value: uploadProgress, total: 1.0)
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue)) // You can change the tint color as needed
+                        .frame(width: 60, height: 60) // Adjust size as needed
+                        .padding()
+                }
+                .background(.ultraThinMaterial)
+                .cornerRadius(10)
+                .padding()
+                .zIndex(1) // Ensure it appears on top
+            }
+
 
             // Buttons - save, add
             HStack {
@@ -31,7 +66,21 @@ struct Model3DView: View {
                     Spacer() // Push the buttons to the bottom
                     // Save button
                     Button(action: {
-                        viewModel.saveEditedModel(selectedNode: selectedNode) // Pass the selected node
+                        viewModel.saveEditedModel(selectedNode: selectedNode, progressHandler: { progress in
+                            self.uploadProgress = progress // Update progress
+                        }) { success in
+                            if success {
+                                showSavedMessage = true // Show success message
+                                uploadProgress = 1.0 // Set to complete when done
+
+                                // Hide the success message after 2 seconds with a slide-up animation
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    withAnimation {
+                                        showSavedMessage = false
+                                    }
+                                }
+                            }
+                        }
                     }) {
                         Image(systemName: "square.and.arrow.down")
                             .font(.system(size: 24))
@@ -41,7 +90,7 @@ struct Model3DView: View {
                             .clipShape(Circle())
                             .shadow(radius: 3)
                     }
-                    
+
                     // Floating button to show the modal
                     Button(action: {
                         showModal = true
@@ -58,63 +107,97 @@ struct Model3DView: View {
             }
             .padding()
             .padding(.bottom, 85)
-
-            // Use an overlay to show the modal
-            if showModal {
-                Color.black.opacity(0.3) // A semi-transparent background
-                    .edgesIgnoringSafeArea(.all)
-                    .onTapGesture {
-                        showModal = false // Close the modal when tapping outside
-                    }
-
-                AddModelModalView(selectedNode: $selectedNode, selectedColor: $selectedColor, showModal: $showModal) // Pass the binding
-                    .background(.ultraThinMaterial)
-                    .cornerRadius(20)
-                    .shadow(radius: 10)
-                    .frame(height: 300)
-                    .transition(.move(edge: .bottom))
-            }
         }
-        .animation(.easeInOut, value: showModal) // Smooth transition
+        .animation(.easeInOut, value: showSavedMessage) // Smooth transition for message
+        .sheet(isPresented: $showModal) {
+            AddModelModalView(selectedNode: $selectedNode, selectedColor: $selectedColor, selectedTexture: $selectedTexture, showModal: $showModal)
+        }
     }
 }
 
-//MARK: - PopUp view for adding color , lighting and furniture
+
+//MARK: - PopUp view for adding color, lighting, and furniture
+
 struct AddModelModalView: View {
     @State private var selectedCategory: String = "Colours"
     @Binding var selectedNode: SCNNode?
-    @Binding var selectedColor: Color // Pass the selected color to the parent view
-    @Binding var showModal: Bool // Add this line to receive showModal state
-    let categories = ["Colours", "Furniture", "Lighting"]
+    @Binding var selectedColor: Color
+    @Binding var selectedTexture: String? // Bind the selected texture to the parent
+    @Binding var showModal: Bool
+    let categories = ["Colours", "Wall textures", "Furniture"]
 
     var body: some View {
-        VStack {
-            Text("Add 3D Model")
-                .font(.headline)
+        NavigationView {
+            VStack(spacing: 20) {
+                Picker("Select a Category", selection: $selectedCategory) {
+                    ForEach(categories, id: \.self) {
+                        Text($0)
+                    }
+                }
+                .pickerStyle(SegmentedPickerStyle())
                 .padding()
 
-            Picker("Select a Category", selection: $selectedCategory) {
-                ForEach(categories, id: \.self) {
-                    Text($0)
+                if selectedCategory == "Colours" {
+                    WallColorPickerView(selectedColor: $selectedColor)
+                        .padding()
+                } else if selectedCategory == "Wall textures" {
+                    WallTexturePickerView(selectedTexture: $selectedTexture) // Add WallTexturePickerView
+                        .padding()
                 }
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
 
-            if selectedCategory == "Colours" {
-                WallColorPickerView(selectedColor: $selectedColor)
-                    .padding()
+                Spacer()
             }
-
-            Button("Close") {
-                // Dismiss the modal
-                showModal = false // Set showModal to false
+            .navigationTitle("Customize 3D Model") // Set the title for the navigation bar
+            .navigationBarTitleDisplayMode(.inline) // Display the title inline
+            .navigationBarItems(leading: Button("Cancel") {
+                showModal = false
                 UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-            }
-            .padding()
+            })
         }
     }
 }
+
+//MARK: - Wall textures picker view
+
+struct WallTexturePickerView: View {
+    @Binding var selectedTexture: String? // Bind the selected texture to the parent
+
+    let textures = (1...17).map { "Wall_textures/\($0)" } // Array of texture names in the asset catalog
+
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
+
+    var body: some View {
+        VStack {
+            Text("Select Wall Texture")
+                .font(.headline)
+
+            ScrollView {
+                LazyVGrid(columns: columns, spacing: 10) {
+                    ForEach(textures, id: \.self) { texture in
+                        Button(action: {
+                            selectedTexture = texture // Set selected texture
+                        }) {
+                            Image(texture)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipShape(RoundedRectangle(cornerRadius: 10))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .stroke(selectedTexture == texture ? Color.blue : Color.clear, lineWidth: 2)
+                                )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 
 //MARK: - wall color picker view
 struct WallColorPickerView: View {
@@ -171,6 +254,7 @@ struct ARSceneViewContainer: UIViewRepresentable {
     @Binding var isDragging: Bool
     @Binding var initialPosition: SCNVector3
     @Binding var selectedColor: Color
+    @Binding var selectedTextureName: String?
 
     func makeUIView(context: Context) -> SCNView {
         let sceneView = SCNView()
@@ -179,6 +263,21 @@ struct ARSceneViewContainer: UIViewRepresentable {
 
         let scene = load3DModel(from: modelUrl)
         sceneView.scene = scene
+        
+        // Create a directional light
+        let light = SCNLight()
+        light.type = .directional
+        light.color = UIColor.white
+        light.castsShadow = true // Optional: Enable shadows if desired
+
+        // Create a light node and position it
+        let lightNode = SCNNode()
+        lightNode.light = light
+        lightNode.position = SCNVector3(x: 0, y: 10, z: 10) // Adjust position as needed
+        lightNode.look(at: SCNVector3(0, 0, 0)) // Make sure the light points toward your walls
+
+        // Add the light node to your scene
+        scene?.rootNode.addChildNode(lightNode)
 
         // Long press to select and manipulate the component
         let longPressGesture = UILongPressGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.handleLongPress(_:)))
@@ -205,6 +304,11 @@ struct ARSceneViewContainer: UIViewRepresentable {
         let singleTapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.handleSingleTap(_:)))
         singleTapGesture.require(toFail: doubleTapGesture) // Ensure single tap doesn't conflict with double tap
         sceneView.addGestureRecognizer(singleTapGesture)
+        
+        // Triple tap gesture for applying the selected texture
+        let tripleTapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(context.coordinator.handleTripleTap(_:)))
+        tripleTapGesture.numberOfTapsRequired = 3
+        sceneView.addGestureRecognizer(tripleTapGesture)
 
         return sceneView
     }
@@ -439,5 +543,86 @@ struct ARSceneViewContainer: UIViewRepresentable {
             let color = UIColor(parent.selectedColor)
             material?.diffuse.contents = color
         }
+        
+        // Triple tap to apply texture to selected node
+        @objc func handleTripleTap(_ gesture: UITapGestureRecognizer) {
+            guard let sceneView = gesture.view as? SCNView,
+                  let selectedNode = parent.selectedNode,
+                  let textureName = parent.selectedTextureName else { return } // Use parent to access selectedTextureName
+
+            let location = gesture.location(in: sceneView)
+            let hitResults = sceneView.hitTest(location, options: [:])
+
+            if let hitNode = hitResults.first?.node {
+                applyTextureToNode(to: hitNode, textureName: textureName) // Pass the selected texture name
+                print("DEBUG: Triple-tap applied texture to node: \(hitNode.name ?? "Unnamed Node")")
+            }
+        }
+
+        
+        // Function to apply a texture to a wall
+        func applyTextureToNode(to node: SCNNode, textureName: String) {
+            let textureMaterial = SCNMaterial()
+            
+            // Use the texture name passed as a parameter
+            textureMaterial.diffuse.contents = UIImage(named: textureName) // Use the provided texture name
+            
+            // Enable texture repeating
+            textureMaterial.diffuse.wrapT = .repeat
+            textureMaterial.diffuse.wrapS = .repeat
+
+            // Set the repeat count (e.g., 2x2 repetitions)
+            textureMaterial.diffuse.contentsTransform = SCNMatrix4MakeScale(2.0, 2.0, 1.0) // Adjust values for scaling
+            textureMaterial.isDoubleSided = true // Ensure it is double-sided if needed
+            textureMaterial.lightingModel = .phong // Set the lighting model
+            textureMaterial.shininess = 0.5 // Adjust shininess (specular highlights)
+
+            // Assign the material to the geometry
+            if let geometry = node.geometry {
+                geometry.materials = [textureMaterial]
+            } else {
+                print("Warning: Node does not have geometry.")
+            }
+        }
+
+
+
+        
+//        func applyTextureToNode(to node: SCNNode) {
+//            guard let geometry = node.geometry else {
+//                print("DEBUG: Node geometry is nil.")
+//                return
+//            }
+//
+//            let textureMaterial = SCNMaterial()
+//
+//            // Load the texture image
+//            if let textureImage = UIImage(named: "Wall_textures/1") {
+//                print("DEBUG: Texture image loaded successfully. Size: \(textureImage.size.width) x \(textureImage.size.height)")
+//                
+//                textureMaterial.diffuse.contents = textureImage
+//            } else {
+//                print("ERROR: Unable to load texture image.")
+//                return
+//            }
+//
+//            // Set material properties
+//            textureMaterial.isDoubleSided = true // Ensure it's visible from both sides
+//            textureMaterial.lightingModel = .phong // Or .blinn depending on your needs
+//            textureMaterial.shininess = 0.5 // Adjust shininess for reflection
+//
+//            // Enable texture wrapping and scaling if necessary
+//            textureMaterial.diffuse.wrapS = .repeat
+//            textureMaterial.diffuse.wrapT = .repeat
+//            textureMaterial.diffuse.contentsTransform = SCNMatrix4MakeScale(5, 5, 1) // Adjust scaling as needed
+//
+//            // Clear existing materials and apply the new one
+//            geometry.materials = [textureMaterial]
+//            print("DEBUG: Applied material to node: \(node.name ?? "Unnamed Node")")
+//        }
+//
+//
+
+
     }
 }

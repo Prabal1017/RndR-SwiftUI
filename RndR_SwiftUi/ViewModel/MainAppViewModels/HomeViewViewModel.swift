@@ -237,8 +237,8 @@ class HomeViewViewModel: ObservableObject {
 
                     DispatchQueue.main.async {
                         self.allRooms.append(contentsOf: fetchedRooms)
-                        print("Fetched rooms for category \(category.categoryName): \(fetchedRooms)")
-                        print("Updated all rooms: \(self.allRooms)") // Log updated allRooms
+//                        print("Fetched rooms for category \(category.categoryName): \(fetchedRooms)")
+//                        print("Updated all rooms: \(self.allRooms)") // Log updated allRooms
                     }
                 }
         }

@@ -43,7 +43,7 @@ struct CategorieItemView: View {
                                 .cornerRadius(10)
                                 .shadow(radius: 5)
                         }
-                        .offset(y: -50)
+                        .offset(y: 0)
                         .frame(maxWidth: .infinity)
                         .padding()
                         .transition(.move(edge: .top))
@@ -92,10 +92,10 @@ struct CategorieItemView: View {
                                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                             }
                                             .contextMenu {
-                                                Button(action: {
+                                                Button(role: .destructive){
                                                     roomToDelete = room
                                                     showDeleteAlert = true
-                                                }) {
+                                                } label: {
                                                     Label("Delete", systemImage: "trash")
                                                         .tint(Color.red)
                                                 }
