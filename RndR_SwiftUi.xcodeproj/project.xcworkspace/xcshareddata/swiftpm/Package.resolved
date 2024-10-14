@@ -1,5 +1,5 @@
 {
-  "originHash" : "211176e2f0636f34d67c8841acaba5dfa404ac6c7325f2316125068276a9f356",
+  "originHash" : "69f0e3d3021394d5cb95ab4130489e821869a34ba9ddb969f46676332e4caf22",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -35,6 +35,15 @@
       "state" : {
         "revision" : "1fc52ab0e172e7c5a961f975a76c2611f4f22852",
         "version" : "11.2.0"
+      }
+    },
+    {
+      "identity" : "focusentity",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/maxxfrazer/FocusEntity.git",
+      "state" : {
+        "revision" : "5fa521172e447cbfa8c2fc1d6602d9d6bed202c7",
+        "version" : "2.5.1"
       }
     },
     {

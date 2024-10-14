@@ -9,15 +9,15 @@ import Foundation
 import SwiftUI
 import RoomPlan
 
-struct CameraCaptureView: UIViewRepresentable {
-    @Environment(RoomCaptureController.self) private var captureController
-
-    func makeUIView(context: Context) -> some UIView {
-        captureController.roomCaptureView
-    }
-
-    func updateUIView(_ uiView: UIViewType, context: Context) {}
-}
+//struct CameraCaptureView: UIViewRepresentable {
+//    @Environment(RoomCaptureController.self) private var captureController
+//
+//    func makeUIView(context: Context) -> some UIView {
+//        captureController.roomCaptureView
+//    }
+//
+//    func updateUIView(_ uiView: UIViewType, context: Context) {}
+//}
 
 struct RoomScanningView: View {
     var roomController = RoomController.instance
@@ -35,14 +35,6 @@ struct RoomScanningView: View {
         NavigationStack {
             ZStack {
                 RoomCaptureViewRepresentable()
-                    .onAppear {
-                        roomController.startSession()
-                        isScanning = true // Scanning starts here
-                    }
-                    .onDisappear {
-                        isScanning = false // Ensure scanning is reset if view disappears
-                        roomController.stopSession()
-                    }
 
                 VStack {
                     Spacer()
@@ -105,6 +97,16 @@ struct RoomScanningView: View {
                     Text("No 3D model was uploaded. Please try scanning the room again.")
                 }
             }
+            .onAppear {
+                print("RoomScanningView appeared")
+                roomController.startSession()
+                isScanning = true
+            }
+            .onDisappear {
+                print("RoomScanningView disappeared")
+                isScanning = false
+                roomController.stopSession()
+            }
         }
     }
 }
@@ -116,38 +118,51 @@ struct ScanNewRoomView: View {
     var body: some View {
         NavigationStack {
             VStack {
-               
-                Spacer()
                 
-                Image("roomIcon2")
-                    .resizable()
-                    .frame(width: 140, height: 140)
-                Text("Get ready to scan your room")
-                    .font(.title)
-                    .bold()
-                
-                Spacer().frame(height: 50)
-                
-                Text("Make sure to scan the room by pointing the camera at all surfaces.")
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal, 20)
-                
-//                Spacer().frame(height: 50)
-                
-                Text("Tap button start to start scanning and follow the instruction")
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom,50)
-                
-                NavigationLink(destination: RoomScanningView()) {
-                    Text("Start Scanning")
-                        .padding(10)
+                VStack{
+                    Image("roomIcon2")
+                        .resizable()
+                        .frame(width: 140, height: 140)
+                    Text("Get ready to scan your room")
+                        .font(.title)
+                        .bold()
+                    
+                    Text("Make sure to scan the room by pointing the camera at all surfaces.")
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                    
+                    NavigationLink(destination: RoomScanningView()) {
+                        Text("Start Scanning")
+                            .padding(10)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .cornerRadius(30)
                 }
-                .buttonStyle(.borderedProminent)
-                .cornerRadius(30)
+                .background(.thickMaterial)
+                .cornerRadius(10)
+                .padding()
+//
                 
-                Spacer()
+                VStack{
+                    Text("Get ready to place objects")
+                        .font(.title)
+                        .bold()
+                    
+                    Text("Place objects in real world whereever you want.")
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 20)
+                    
+                    NavigationLink(destination: ARPlaceObjectMainView()) {
+                        Text("Start Placing")
+                            .padding(10)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .cornerRadius(30)
+                }
+                .background(.thickMaterial)
+                .cornerRadius(10)
+                .padding()
             }
-            .padding(.bottom, 100)
         }
     }
 }

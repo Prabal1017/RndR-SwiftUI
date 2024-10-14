@@ -111,6 +111,9 @@
         }
       }
     },
+    "Browse" : {
+
+    },
     "Cancel" : {
       "localizations" : {
         "es" : {
@@ -340,6 +343,9 @@
           }
         }
       }
+    },
+    "Get ready to place objects" : {
+
     },
     "Get ready to scan your room" : {
       "localizations" : {
@@ -591,6 +597,9 @@
         }
       }
     },
+    "Place objects in real world whereever you want." : {
+
+    },
     "Profile" : {
       "localizations" : {
         "es" : {
@@ -711,6 +720,9 @@
         }
       }
     },
+    "Select a control modde" : {
+
+    },
     "Select Image" : {
       "localizations" : {
         "es" : {
@@ -731,6 +743,9 @@
         }
       }
     },
+    "Settings" : {
+
+    },
     "Sign in with Google" : {
       "localizations" : {
         "es" : {
@@ -750,6 +765,9 @@
           }
         }
       }
+    },
+    "Start Placing" : {
+
     },
     "Start Scanning" : {
       "localizations" : {
@@ -772,6 +790,7 @@
       }
     },
     "Tap button start to start scanning and follow the instruction" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

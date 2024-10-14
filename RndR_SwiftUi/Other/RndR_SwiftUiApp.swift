@@ -12,6 +12,13 @@ import RoomPlan
 @main
 struct RndR_SwiftUiApp: App {
     
+    @StateObject var placementSettings = PlacementSettings()
+    @StateObject var sessionSettings = SessionSettings()
+    @StateObject var sceneManager = SceneManager()
+    
+    @StateObject var modelsViewModel = ModelViewModel()
+    @StateObject var modelDeletionManager = ModelDeletionManager()
+    
     @StateObject private var roomCaptureController = RoomCaptureController()
     
     init() {
@@ -24,6 +31,11 @@ struct RndR_SwiftUiApp: App {
         WindowGroup {
             MainView()
                 .environment(roomCaptureController)
+                .environmentObject(placementSettings)
+                .environmentObject(sessionSettings)
+                .environmentObject(sceneManager)
+                .environmentObject(modelsViewModel)
+                .environmentObject(modelDeletionManager)
             //            checkDeciveView()
             
         }

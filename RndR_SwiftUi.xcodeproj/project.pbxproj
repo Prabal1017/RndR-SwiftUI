@@ -55,6 +55,23 @@
 		46B805652C98861900ABF1F8 /* categoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805642C98861900ABF1F8 /* categoriesView.swift */; };
 		46B805672C98865C00ABF1F8 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805662C98865C00ABF1F8 /* SliderView.swift */; };
 		46BCE1752CBC10DD00C90F04 /* CustomModel3DViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */; };
+		46BCE2002CBD518400C90F04 /* CustomARView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F22CBD518400C90F04 /* CustomARView.swift */; };
+		46BCE2012CBD518400C90F04 /* ModelDeletionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1FD2CBD518400C90F04 /* ModelDeletionManager.swift */; };
+		46BCE2022CBD518400C90F04 /* ModelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F92CBD518400C90F04 /* ModelViewModel.swift */; };
+		46BCE2032CBD518400C90F04 /* DeletionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1FE2CBD518400C90F04 /* DeletionView.swift */; };
+		46BCE2042CBD518400C90F04 /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1FA2CBD518400C90F04 /* FirebaseStorageHelper.swift */; };
+		46BCE2052CBD518400C90F04 /* PlacementSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F42CBD518400C90F04 /* PlacementSettings.swift */; };
+		46BCE2062CBD518400C90F04 /* SessionSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F62CBD518400C90F04 /* SessionSettings.swift */; };
+		46BCE2072CBD518400C90F04 /* ScenePersistenceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1FC2CBD518400C90F04 /* ScenePersistenceHelper.swift */; };
+		46BCE2082CBD518400C90F04 /* ARViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1FB2CBD518400C90F04 /* ARViewContainer.swift */; };
+		46BCE2092CBD518400C90F04 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F82CBD518400C90F04 /* View+Extensions.swift */; };
+		46BCE20A2CBD518400C90F04 /* PlacementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F52CBD518400C90F04 /* PlacementView.swift */; };
+		46BCE20B2CBD518400C90F04 /* BrowseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1EF2CBD518400C90F04 /* BrowseView.swift */; };
+		46BCE20C2CBD518400C90F04 /* ARPlaceObjectMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F02CBD518400C90F04 /* ARPlaceObjectMainView.swift */; };
+		46BCE20D2CBD518400C90F04 /* SettingsVIew.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F72CBD518400C90F04 /* SettingsVIew.swift */; };
+		46BCE20E2CBD518400C90F04 /* ControlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F12CBD518400C90F04 /* ControlView.swift */; };
+		46BCE20F2CBD518400C90F04 /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1F32CBD518400C90F04 /* Model.swift */; };
+		46BCE2122CBD527D00C90F04 /* FocusEntity in Frameworks */ = {isa = PBXBuildFile; productRef = 46BCE2112CBD527D00C90F04 /* FocusEntity */; };
 		46C0724F2C999FDB007A162A /* SkeletonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C0724E2C999FDB007A162A /* SkeletonLoader.swift */; };
 /* End PBXBuildFile section */
 
@@ -102,6 +119,22 @@
 		46B805642C98861900ABF1F8 /* categoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = categoriesView.swift; sourceTree = "<group>"; };
 		46B805662C98865C00ABF1F8 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel3DViewModel.swift; sourceTree = "<group>"; };
+		46BCE1EF2CBD518400C90F04 /* BrowseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseView.swift; sourceTree = "<group>"; };
+		46BCE1F02CBD518400C90F04 /* ARPlaceObjectMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARPlaceObjectMainView.swift; sourceTree = "<group>"; };
+		46BCE1F12CBD518400C90F04 /* ControlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlView.swift; sourceTree = "<group>"; };
+		46BCE1F22CBD518400C90F04 /* CustomARView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomARView.swift; sourceTree = "<group>"; };
+		46BCE1F32CBD518400C90F04 /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
+		46BCE1F42CBD518400C90F04 /* PlacementSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementSettings.swift; sourceTree = "<group>"; };
+		46BCE1F52CBD518400C90F04 /* PlacementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacementView.swift; sourceTree = "<group>"; };
+		46BCE1F62CBD518400C90F04 /* SessionSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionSettings.swift; sourceTree = "<group>"; };
+		46BCE1F72CBD518400C90F04 /* SettingsVIew.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVIew.swift; sourceTree = "<group>"; };
+		46BCE1F82CBD518400C90F04 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
+		46BCE1F92CBD518400C90F04 /* ModelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelViewModel.swift; sourceTree = "<group>"; };
+		46BCE1FA2CBD518400C90F04 /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
+		46BCE1FB2CBD518400C90F04 /* ARViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARViewContainer.swift; sourceTree = "<group>"; };
+		46BCE1FC2CBD518400C90F04 /* ScenePersistenceHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScenePersistenceHelper.swift; sourceTree = "<group>"; };
+		46BCE1FD2CBD518400C90F04 /* ModelDeletionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelDeletionManager.swift; sourceTree = "<group>"; };
+		46BCE1FE2CBD518400C90F04 /* DeletionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeletionView.swift; sourceTree = "<group>"; };
 		46C0724E2C999FDB007A162A /* SkeletonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,6 +146,7 @@
 				46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */,
 				466DA31A2C93F45A0023F1DD /* GoogleSignIn in Frameworks */,
 				466DA2F62C9324080023F1DD /* FirebaseFirestoreCombine-Community in Frameworks */,
+				46BCE2122CBD527D00C90F04 /* FocusEntity in Frameworks */,
 				466DA2F82C9324080023F1DD /* FirebaseStorage in Frameworks */,
 				469EC6362CB831C3007CF65A /* Kingfisher in Frameworks */,
 				466DA31C2C93F45A0023F1DD /* GoogleSignInSwift in Frameworks */,
@@ -244,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				466DA2DE2C9322940023F1DD /* MainView.swift */,
+				46BCE1FF2CBD518400C90F04 /* ARPlaceObjectView */,
 				462F032E2C9556BB000AA26D /* Components */,
 				462F032D2C9556A7000AA26D /* Login-signup */,
 				462F032C2C955680000AA26D /* MainAppViews */,
@@ -291,6 +326,29 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		46BCE1FF2CBD518400C90F04 /* ARPlaceObjectView */ = {
+			isa = PBXGroup;
+			children = (
+				46BCE1EF2CBD518400C90F04 /* BrowseView.swift */,
+				46BCE1F02CBD518400C90F04 /* ARPlaceObjectMainView.swift */,
+				46BCE1F12CBD518400C90F04 /* ControlView.swift */,
+				46BCE1F22CBD518400C90F04 /* CustomARView.swift */,
+				46BCE1F32CBD518400C90F04 /* Model.swift */,
+				46BCE1F42CBD518400C90F04 /* PlacementSettings.swift */,
+				46BCE1F52CBD518400C90F04 /* PlacementView.swift */,
+				46BCE1F62CBD518400C90F04 /* SessionSettings.swift */,
+				46BCE1F72CBD518400C90F04 /* SettingsVIew.swift */,
+				46BCE1F82CBD518400C90F04 /* View+Extensions.swift */,
+				46BCE1F92CBD518400C90F04 /* ModelViewModel.swift */,
+				46BCE1FA2CBD518400C90F04 /* FirebaseStorageHelper.swift */,
+				46BCE1FB2CBD518400C90F04 /* ARViewContainer.swift */,
+				46BCE1FC2CBD518400C90F04 /* ScenePersistenceHelper.swift */,
+				46BCE1FD2CBD518400C90F04 /* ModelDeletionManager.swift */,
+				46BCE1FE2CBD518400C90F04 /* DeletionView.swift */,
+			);
+			path = ARPlaceObjectView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -316,6 +374,7 @@
 				466DA31B2C93F45A0023F1DD /* GoogleSignInSwift */,
 				46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */,
 				469EC6352CB831C3007CF65A /* Kingfisher */,
+				46BCE2112CBD527D00C90F04 /* FocusEntity */,
 			);
 			productName = RndR_SwiftUi;
 			productReference = 466DA2D92C9322940023F1DD /* RndR_SwiftUi.app */;
@@ -351,6 +410,7 @@
 				466DA3182C93F45A0023F1DD /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				46730DF22C96BFBF00E9227E /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
 				469EC6342CB831C3007CF65A /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				46BCE2102CBD527D00C90F04 /* XCRemoteSwiftPackageReference "FocusEntity" */,
 			);
 			productRefGroup = 466DA2DA2C9322940023F1DD /* Products */;
 			projectDirPath = "";
@@ -413,6 +473,22 @@
 				46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */,
 				466DA2DF2C9322940023F1DD /* MainView.swift in Sources */,
 				466DA2FC2C9324AA0023F1DD /* HomeView.swift in Sources */,
+				46BCE2002CBD518400C90F04 /* CustomARView.swift in Sources */,
+				46BCE2012CBD518400C90F04 /* ModelDeletionManager.swift in Sources */,
+				46BCE2022CBD518400C90F04 /* ModelViewModel.swift in Sources */,
+				46BCE2032CBD518400C90F04 /* DeletionView.swift in Sources */,
+				46BCE2042CBD518400C90F04 /* FirebaseStorageHelper.swift in Sources */,
+				46BCE2052CBD518400C90F04 /* PlacementSettings.swift in Sources */,
+				46BCE2062CBD518400C90F04 /* SessionSettings.swift in Sources */,
+				46BCE2072CBD518400C90F04 /* ScenePersistenceHelper.swift in Sources */,
+				46BCE2082CBD518400C90F04 /* ARViewContainer.swift in Sources */,
+				46BCE2092CBD518400C90F04 /* View+Extensions.swift in Sources */,
+				46BCE20A2CBD518400C90F04 /* PlacementView.swift in Sources */,
+				46BCE20B2CBD518400C90F04 /* BrowseView.swift in Sources */,
+				46BCE20C2CBD518400C90F04 /* ARPlaceObjectMainView.swift in Sources */,
+				46BCE20D2CBD518400C90F04 /* SettingsVIew.swift in Sources */,
+				46BCE20E2CBD518400C90F04 /* ControlView.swift in Sources */,
+				46BCE20F2CBD518400C90F04 /* Model.swift in Sources */,
 				466DA3102C9325AA0023F1DD /* Extensions.swift in Sources */,
 				466DA2FA2C9324800023F1DD /* ProfileView.swift in Sources */,
 				466DA2FE2C9324BD0023F1DD /* MainViewViewModel.swift in Sources */,
@@ -670,6 +746,14 @@
 				minimumVersion = 8.0.3;
 			};
 		};
+		46BCE2102CBD527D00C90F04 /* XCRemoteSwiftPackageReference "FocusEntity" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/maxxfrazer/FocusEntity.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.5.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -712,6 +796,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 469EC6342CB831C3007CF65A /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		46BCE2112CBD527D00C90F04 /* FocusEntity */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 46BCE2102CBD527D00C90F04 /* XCRemoteSwiftPackageReference "FocusEntity" */;
+			productName = FocusEntity;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
