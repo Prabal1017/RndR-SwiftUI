@@ -555,10 +555,14 @@
         }
       }
     },
+    "No models added yet." : {
+
+    },
     "No Results for '%@'" : {
 
     },
     "No rooms added" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {

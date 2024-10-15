@@ -115,20 +115,20 @@ struct Model3DView: View {
                                         showSavedMessage = false
                                     }
                                 }
-
                                 hasMadeChanges = false // Reset changes after saving
                             }
                         }
                     }) {
                         Image(systemName: "square.and.arrow.down")
                             .font(.system(size: 24))
+                            .offset( y: -2)
                             .foregroundColor(.white)
                             .padding()
-                            .background(hasMadeChanges ? Color.green : Color.gray) // Change color based on changes
-                            .clipShape(Circle())
+                            .background(hasMadeChanges ? Color.green : Color.gray)                            .clipShape(Circle())
                             .shadow(radius: 3)
                     }
-                    .disabled(!hasMadeChanges) // Disable button if no changes are made
+                    .padding(.bottom)
+                    .disabled(!hasMadeChanges)
 
 
                     // Floating button to show the modal

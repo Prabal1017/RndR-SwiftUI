@@ -19,9 +19,9 @@ struct categoriesView: View {
                     ZStack(alignment: .bottom) {
                         WebImage(url: URL(string: category.categoryImage))
                             .resizable()
-                                .aspectRatio(contentMode: .fill) // Use .fill to ensure it fills the frame
-                                .frame(maxWidth: .infinity, maxHeight: 120) // Set fixed width and height
-                                .clipped() // This will clip any overflow
+                                .aspectRatio(contentMode: .fill)
+                                .frame(maxWidth: .infinity, maxHeight: 120)
+                                .clipped()
                                 .cornerRadius(10)
                         
                         HStack {
