@@ -4,6 +4,7 @@ struct SkeletonLoader: View {
     var body: some View {
         Rectangle()
             .fill(Color.gray.opacity(0.2))
+            .frame(maxWidth: .infinity, maxHeight: 120)
             .shimmer()  // Custom modifier to add a shimmer effect
     }
 }

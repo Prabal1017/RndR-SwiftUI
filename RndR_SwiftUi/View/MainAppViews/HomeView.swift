@@ -329,11 +329,13 @@
 
 import SwiftUI
 import SDWebImageSwiftUI // Make sure to import SDWebImageSwiftUI for WebImage
+import TipKit
 
 struct HomeView: View {
     @StateObject private var viewModel = HomeViewViewModel()
     @StateObject private var roomViewModel = RoomPlanViewViewModel()
     @State private var isShowingAddRoomView = false
+    let deleteRoomTip = DeleteRoomTip()
     
     // State for search text
     @State private var searchText: String = ""
@@ -385,6 +387,7 @@ struct HomeView: View {
                             // Display filtered rooms in a grid when there is search text
                             if !filteredRooms.isEmpty {
                                 let layout = Array(repeating: GridItem(.flexible()), count: 2) // 2 columns
+                                
                                 LazyVGrid(columns: layout, spacing: 30) {
                                     ForEach(filteredRooms) { room in
                                         VStack {
@@ -396,6 +399,7 @@ struct HomeView: View {
                                                             .scaledToFill()
                                                             .frame(width: (UIScreen.main.bounds.width / 2) - 30, height: 200) // Adjust size for grid
                                                             .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                            .popoverTip(deleteRoomTip)
                                                     }
                                                     
                                                     // Tag for room type
@@ -420,6 +424,7 @@ struct HomeView: View {
                                         }
                                     }
                                 }
+                                
                                 .padding(.horizontal)
                             }else if filteredRooms.isEmpty{
                                 VStack(spacing: 10){

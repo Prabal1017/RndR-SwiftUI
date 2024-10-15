@@ -319,6 +319,9 @@
         }
       }
     },
+    "Enlarge Your Profile Image" : {
+
+    },
     "Enter room name" : {
       "localizations" : {
         "es" : {
@@ -806,6 +809,9 @@
         }
       }
     },
+    "Tap and hold on the profile image to enlarge it" : {
+
+    },
     "Tap button start to start scanning and follow the instruction" : {
       "localizations" : {
         "es" : {
@@ -815,6 +821,9 @@
           }
         }
       }
+    },
+    "Tap to delete this room." : {
+
     },
     "to" : {
       "localizations" : {

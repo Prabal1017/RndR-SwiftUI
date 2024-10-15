@@ -115,6 +115,7 @@ import SDWebImageSwiftUI
 import FirebaseStorage
 import FirebaseAuth
 import PhotosUI
+import TipKit
 
 struct UserDetailView: View {
     @StateObject var viewModel = ProfileViewViewModel()
@@ -125,6 +126,7 @@ struct UserDetailView: View {
     @State private var selectedImage: UIImage?
     @State private var showingImagePicker = false
     @State private var showingImagePreview = false
+    let profileTip = DetailImage()
     
     var body: some View {
         ZStack{
@@ -133,6 +135,7 @@ struct UserDetailView: View {
                     if let user = viewModel.user {
                         Section {
                             // Profile Image
+
                             HStack {
                                 Spacer()
                                 if let selectedImage = selectedImage {
@@ -161,12 +164,15 @@ struct UserDetailView: View {
                                         }
                                         .onLongPressGesture {
                                             showingImagePreview = true
+//                                            profileTip.invalidate(reason: .actionPerformed)
+//                                            INVALIDATING TIP when use performs the action, we invalidate the tip
                                         }
                                     
                                 }
                                 Spacer()
                             }
                             .padding(.vertical)
+                            .popoverTip(profileTip)
                             
                             // Name Field
                             HStack {
@@ -202,6 +208,7 @@ struct UserDetailView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
+                        .popoverTip(profileTip)
                         
                         Section {
                             Button {

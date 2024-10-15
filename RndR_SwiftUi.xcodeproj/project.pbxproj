@@ -56,6 +56,7 @@
 		46B805672C98865C00ABF1F8 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B805662C98865C00ABF1F8 /* SliderView.swift */; };
 		46BCE1752CBC10DD00C90F04 /* CustomModel3DViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */; };
 		46C0724F2C999FDB007A162A /* SkeletonLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46C0724E2C999FDB007A162A /* SkeletonLoader.swift */; };
+		D1BCEFFC2CBEDDEA008E6D69 /* tip.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1BCEFFB2CBEDDEA008E6D69 /* tip.swift */; };
 		D1F8AE0A2CBE522100A79D3C /* UserImagePreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1F8AE092CBE522000A79D3C /* UserImagePreview.swift */; };
 /* End PBXBuildFile section */
 
@@ -104,6 +105,7 @@
 		46B805662C98865C00ABF1F8 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel3DViewModel.swift; sourceTree = "<group>"; };
 		46C0724E2C999FDB007A162A /* SkeletonLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonLoader.swift; sourceTree = "<group>"; };
+		D1BCEFFB2CBEDDEA008E6D69 /* tip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = tip.swift; sourceTree = "<group>"; };
 		D1F8AE092CBE522000A79D3C /* UserImagePreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserImagePreview.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -275,6 +277,7 @@
 				466DA30F2C9325AA0023F1DD /* Extensions.swift */,
 				4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */,
 				466F2C252CBAAC2B00D096D8 /* Localizable.xcstrings */,
+				D1BCEFFB2CBEDDEA008E6D69 /* tip.swift */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				465846D32CB909040011D425 /* CustomModel3DView.swift in Sources */,
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
 				46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */,
+				D1BCEFFC2CBEDDEA008E6D69 /* tip.swift in Sources */,
 				462F03272C95557A000AA26D /* RoomController.swift in Sources */,
 				466DA30C2C93255D0023F1DD /* RegisterViewViewModel.swift in Sources */,
 				46B805592C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift in Sources */,

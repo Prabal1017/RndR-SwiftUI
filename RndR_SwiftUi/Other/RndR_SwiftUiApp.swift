@@ -8,6 +8,7 @@
 import SwiftUI
 import FirebaseCore
 import RoomPlan
+import TipKit
 
 @main
 struct RndR_SwiftUiApp: App {
@@ -25,6 +26,12 @@ struct RndR_SwiftUiApp: App {
             MainView()
                 .environment(roomCaptureController)
             //            checkDeciveView()
+                .task{
+                    try? Tips.resetDatastore()
+                    
+                    try? Tips.configure([
+                        .datastoreLocation(.applicationDefault)])
+                }
             
         }
     }
