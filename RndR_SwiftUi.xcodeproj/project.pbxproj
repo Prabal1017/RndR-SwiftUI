@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460705E92CBED1B800588F7E /* FurnitureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460705E82CBED1B800588F7E /* FurnitureModel.swift */; };
+		460705EB2CBED1CE00588F7E /* FurnitureModelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 460705EA2CBED1CE00588F7E /* FurnitureModelViewModel.swift */; };
 		462F03272C95557A000AA26D /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03262C95557A000AA26D /* RoomController.swift */; };
 		465846D32CB909040011D425 /* CustomModel3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465846D22CB909040011D425 /* CustomModel3DView.swift */; };
 		466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */; };
@@ -60,6 +62,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		460705E82CBED1B800588F7E /* FurnitureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureModel.swift; sourceTree = "<group>"; };
+		460705EA2CBED1CE00588F7E /* FurnitureModelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureModelViewModel.swift; sourceTree = "<group>"; };
 		462F03262C95557A000AA26D /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
 		465846D22CB909040011D425 /* CustomModel3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel3DView.swift; sourceTree = "<group>"; };
 		466DA2D92C9322940023F1DD /* RndR_SwiftUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RndR_SwiftUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,6 +151,7 @@
 				462F03262C95557A000AA26D /* RoomController.swift */,
 				46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */,
 				46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */,
+				460705EA2CBED1CE00588F7E /* FurnitureModelViewModel.swift */,
 				46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */,
 			);
 			path = RoomPlanKit;
@@ -282,6 +287,7 @@
 		466DA2ED2C9322B40023F1DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				460705E82CBED1B800588F7E /* FurnitureModel.swift */,
 				466DA30D2C9325850023F1DD /* UserDataModel.swift */,
 				46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */,
 				46B805602C986CD000ABF1F8 /* CategoryDataModel.swift */,
@@ -392,6 +398,7 @@
 			files = (
 				465846D32CB909040011D425 /* CustomModel3DView.swift in Sources */,
 				466DA30E2C9325850023F1DD /* UserDataModel.swift in Sources */,
+				460705E92CBED1B800588F7E /* FurnitureModel.swift in Sources */,
 				46B8055F2C9861B700ABF1F8 /* AddRoomView.swift in Sources */,
 				462F03272C95557A000AA26D /* RoomController.swift in Sources */,
 				466DA30C2C93255D0023F1DD /* RegisterViewViewModel.swift in Sources */,
@@ -417,6 +424,7 @@
 				466DA2DF2C9322940023F1DD /* MainView.swift in Sources */,
 				466DA2FC2C9324AA0023F1DD /* HomeView.swift in Sources */,
 				466DA3102C9325AA0023F1DD /* Extensions.swift in Sources */,
+				460705EB2CBED1CE00588F7E /* FurnitureModelViewModel.swift in Sources */,
 				466DA2FA2C9324800023F1DD /* ProfileView.swift in Sources */,
 				D1F8AE0A2CBE522100A79D3C /* UserImagePreview.swift in Sources */,
 				466DA2FE2C9324BD0023F1DD /* MainViewViewModel.swift in Sources */,
@@ -564,7 +572,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RndR_SwiftUi/Preview Content\"";
-				DEVELOPMENT_TEAM = QBN2C95DWR;
+				DEVELOPMENT_TEAM = 4FU3RXR748;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RndR-SwiftUi-Info.plist";
@@ -579,7 +587,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.RndR-iOS-App-Prabal";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RndR-iOS-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -595,7 +603,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"RndR_SwiftUi/Preview Content\"";
-				DEVELOPMENT_TEAM = QBN2C95DWR;
+				DEVELOPMENT_TEAM = 4FU3RXR748;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RndR-SwiftUi-Info.plist";
@@ -610,7 +618,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "com.RndR-iOS-App-Prabal";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.RndR-iOS-App";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
