@@ -44,7 +44,7 @@ struct CloseAccountView: View {
                     SecureField("Password", text: $password)
                         .textContentType(.password) // For password autofill
                         .padding()
-                    Button("Close Account", role: .destructive) {
+                    Button("Confirm", role: .destructive) {
                         // Proceed with account closure
                         viewModel.closeAccount(password: password) { result in
                             switch result {

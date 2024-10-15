@@ -39,8 +39,6 @@ struct NativeQuickLookView: UIViewControllerRepresentable {
     }
 }
 
-import SwiftUI
-import QuickLook
 
 //struct FileDetailView: View {
 //    let fileName: String
@@ -130,38 +128,55 @@ struct FileDetailView: View {
     @State private var loadedURL: URL? // URL to hold the loaded model
 
     var body: some View {
-        VStack {
-            if isLoading {
-                ProgressView("Loading model...") // Display a loading indicator
-                    .onAppear {
-                        loadModel()
+        ZStack{
+            VStack {
+                if isLoading {
+                    ProgressView("Loading model...") // Display a loading indicator
+                        .onAppear {
+                            loadModel()
+                        }
+                } else if let loadedURL = loadedURL {
+                    if useARMode {
+                        // Display in AR mode using Model3DView
+                        Model3DView(modelUrl: loadedURL, viewModel: CustomModel3DViewModel(originalModelUrl: modelURL)) // Replace with your Model3DView
+                            .edgesIgnoringSafeArea(.all)
+                            .onAppear { print("Opening USDZ file: \(loadedURL) in AR mode") }
+                    } else {
+                        // Display using Quick Look
+                        NativeQuickLookView(url: loadedURL)
+                            .edgesIgnoringSafeArea(.all)
+                            .onAppear { print("Opening USDZ file: \(loadedURL) in Object mode") }
                     }
-            } else if let loadedURL = loadedURL {
-                if useARMode {
-                    // Display in AR mode using Model3DView
-                    Model3DView(modelUrl: loadedURL, viewModel: CustomModel3DViewModel(originalModelUrl: modelURL)) // Replace with your Model3DView
-                        .edgesIgnoringSafeArea(.all)
-                        .onAppear { print("Opening USDZ file: \(loadedURL) in AR mode") }
                 } else {
-                    // Display using Quick Look
-                    NativeQuickLookView(url: loadedURL)
-                        .edgesIgnoringSafeArea(.all)
-                        .onAppear { print("Opening USDZ file: \(loadedURL) in Object mode") }
+                    Text("Unable to load file")
+                        .foregroundColor(.red)
                 }
-            } else {
-                Text("Unable to load file")
-                    .foregroundColor(.red)
+            }
+            VStack {
+                Spacer()
+                HStack {
+                    Button(useARMode ? "3D" : "AR") {
+                        useARMode.toggle()
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(100)
+                    .padding([.bottom, .leading], 20)
+                    
+                    Spacer()
+                }
             }
         }
         .navigationBarTitleDisplayMode(.inline)
         .navigationTitle(fileName)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(useARMode ? "Object Mode" : "AR Mode") {
-                    useARMode.toggle()
-                }
-            }
-        }
+//        .toolbar {
+//            ToolbarItem(placement: .navigationBarTrailing) {
+//                Button(useARMode ? "Object Mode" : "AR Mode") {
+//                    useARMode.toggle()
+//                }
+//            }
+//        }
     }
 
     private func loadModel() {

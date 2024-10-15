@@ -6,6 +6,7 @@ struct ProfileView: View {
     
     @StateObject var viewModel = ProfileViewViewModel()
     @State private var showPickerSheet = false
+    @State private var showLogoutAlert = false
     
     var body: some View {
         NavigationView {
@@ -22,7 +23,6 @@ struct ProfileView: View {
                                         .frame(width: 80, height: 80)
                                         .background(.thickMaterial)
                                         .clipShape(Circle())
-                                        .overlay(Circle().stroke(Color.gray, lineWidth: 2))
                                         .shadow(radius: 5)
                                     
                                     VStack(alignment: .leading){
@@ -78,11 +78,20 @@ struct ProfileView: View {
                             HStack {
                                 Spacer()
                                 Button(action: {
-                                    viewModel.logOut() // Call the log out action
+                                    showLogoutAlert = true
                                 }) {
                                     Text("Logout")
                                         .foregroundColor(.red)
                                 }
+                                .alert("Logout?", isPresented: $showLogoutAlert){
+                                    Button("Confirm", role: .destructive) {
+                                        viewModel.logOut()
+                                    }
+                                    Button("Cancel", role: .cancel) { }
+                                } message: {
+                                    Text("You will be returned to the login screen.")
+                                }
+                                
                                 Spacer()
                             }
                         }

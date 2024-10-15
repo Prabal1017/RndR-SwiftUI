@@ -10,7 +10,7 @@ struct categoriesView: View {
     @State private var selectedCategory: Category?
     
     // Define the restricted category names
-    let restrictedCategories = ["Bedroom", "Kitchen", "Living Room", "Dinning Room", "Bathroom"]
+    let restrictedCategories = ["Bedroom", "Kitchen", "Living Room", "Dining Room", "Bathroom"]
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) {
@@ -19,11 +19,10 @@ struct categoriesView: View {
                     ZStack(alignment: .bottom) {
                         WebImage(url: URL(string: category.categoryImage))
                             .resizable()
-                            .scaledToFill()
-                            .frame(width: 170, height: 120)
-                            .clipped()
-                            .cornerRadius(10)
-                            .frame(width: 170, height: 120)
+                                .aspectRatio(contentMode: .fill) // Use .fill to ensure it fills the frame
+                                .frame(maxWidth: .infinity, maxHeight: 120) // Set fixed width and height
+                                .clipped() // This will clip any overflow
+                                .cornerRadius(10)
                         
                         HStack {
                             VStack(alignment: .leading) {
@@ -68,4 +67,3 @@ struct categoriesView: View {
         }
     }
 }
-

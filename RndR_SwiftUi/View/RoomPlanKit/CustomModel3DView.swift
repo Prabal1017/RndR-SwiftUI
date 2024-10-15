@@ -16,11 +16,28 @@ struct Model3DView: View {
     @StateObject var viewModel: CustomModel3DViewModel
     
     @State private var selectedTexture: String?
+    @State private var hasMadeChanges: Bool = false // Track if user has made changes
 
     var body: some View {
         ZStack {
-            ARSceneViewContainer(modelUrl: modelUrl, selectedNode: $selectedNode, isDragging: $isDragging, initialPosition: $initialPosition, selectedColor: $selectedColor, selectedTextureName: $selectedTexture)
-                .edgesIgnoringSafeArea(.all)
+            ARSceneViewContainer(
+                modelUrl: modelUrl,
+                selectedNode: $selectedNode,
+                isDragging: $isDragging,
+                initialPosition: $initialPosition,
+                selectedColor: $selectedColor,
+                selectedTextureName: $selectedTexture
+            )
+            .edgesIgnoringSafeArea(.all)
+            .onChange(of: selectedNode) { _ in
+                hasMadeChanges = true // Mark changes when the user selects or moves the node
+            }
+            .onChange(of: selectedColor) { _ in
+                hasMadeChanges = true // Mark changes when the user changes color
+            }
+            .onChange(of: selectedTexture) { _ in
+                hasMadeChanges = true // Mark changes when the user changes texture
+            }
 
             // Success message when the model is saved
             if showSavedMessage {
@@ -48,8 +65,8 @@ struct Model3DView: View {
 
                     // Circular progress view
                     ProgressView(value: uploadProgress, total: 1.0)
-                        .progressViewStyle(CircularProgressViewStyle(tint: .blue)) // You can change the tint color as needed
-                        .frame(width: 60, height: 60) // Adjust size as needed
+                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
+                        .frame(width: 60, height: 60)
                         .padding()
                 }
                 .background(.ultraThinMaterial)
@@ -58,7 +75,6 @@ struct Model3DView: View {
                 .zIndex(1) // Ensure it appears on top
             }
 
-
             // Buttons - save, add
             HStack {
                 Spacer() // Push the buttons to the right
@@ -66,6 +82,26 @@ struct Model3DView: View {
                     Spacer() // Push the buttons to the bottom
                     // Save button
                     Button(action: {
+                        // Select the entire model first (similar to single tap)
+                        if let selectedNode = selectedNode {
+                            // Traverse up the hierarchy to find the root node
+                            var currentNode = selectedNode
+                            while let parentNode = currentNode.parent, parentNode.name != nil {
+                                currentNode = parentNode
+                            }
+                            
+                            // Assuming the root node name is "RoomModel", or select the topmost node
+                            if currentNode.name == "RoomModel" {
+                                self.selectedNode = currentNode
+                                print("DEBUG: Automatically selected the entire model node: \(currentNode.name ?? "Unnamed Root Node")")
+                            } else {
+                                // Select topmost node if no specific name
+                                self.selectedNode = currentNode
+                                print("DEBUG: Automatically selected the topmost node: \(currentNode.name ?? "Unnamed Topmost Node")")
+                            }
+                        }
+                        
+                        // Now that the entire model is selected, proceed to save
                         viewModel.saveEditedModel(selectedNode: selectedNode, progressHandler: { progress in
                             self.uploadProgress = progress // Update progress
                         }) { success in
@@ -79,6 +115,8 @@ struct Model3DView: View {
                                         showSavedMessage = false
                                     }
                                 }
+
+                                hasMadeChanges = false // Reset changes after saving
                             }
                         }
                     }) {
@@ -86,10 +124,12 @@ struct Model3DView: View {
                             .font(.system(size: 24))
                             .foregroundColor(.white)
                             .padding()
-                            .background(Color.green)
+                            .background(hasMadeChanges ? Color.green : Color.gray) // Change color based on changes
                             .clipShape(Circle())
                             .shadow(radius: 3)
                     }
+                    .disabled(!hasMadeChanges) // Disable button if no changes are made
+
 
                     // Floating button to show the modal
                     Button(action: {
@@ -110,10 +150,16 @@ struct Model3DView: View {
         }
         .animation(.easeInOut, value: showSavedMessage) // Smooth transition for message
         .sheet(isPresented: $showModal) {
-            AddModelModalView(selectedNode: $selectedNode, selectedColor: $selectedColor, selectedTexture: $selectedTexture, showModal: $showModal)
+            AddModelModalView(
+                selectedNode: $selectedNode,
+                selectedColor: $selectedColor,
+                selectedTexture: $selectedTexture,
+                showModal: $showModal
+            )
         }
     }
 }
+
 
 
 //MARK: - PopUp view for adding color, lighting, and furniture
@@ -599,7 +645,7 @@ struct ARSceneViewContainer: UIViewRepresentable {
 //            // Load the texture image
 //            if let textureImage = UIImage(named: "Wall_textures/1") {
 //                print("DEBUG: Texture image loaded successfully. Size: \(textureImage.size.width) x \(textureImage.size.height)")
-//                
+//
 //                textureMaterial.diffuse.contents = textureImage
 //            } else {
 //                print("ERROR: Unable to load texture image.")

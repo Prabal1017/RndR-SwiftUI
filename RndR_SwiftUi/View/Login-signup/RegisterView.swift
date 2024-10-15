@@ -25,8 +25,9 @@ struct RegisterView: View {
             
             VStack {
                 TextField("Username", text: $viewModel.name)
+                    .foregroundColor(.white)
                     .autocorrectionDisabled()
-                    .autocapitalization(.none)
+                    .autocapitalization(.words)
                     .padding(15)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
@@ -37,6 +38,7 @@ struct RegisterView: View {
                     }
                 
                 TextField("Email ID", text: $viewModel.email)
+                    .foregroundColor(.white)
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                     .padding(15)
@@ -49,6 +51,7 @@ struct RegisterView: View {
                     }
                 
                 SecureField("Password", text: $viewModel.password)
+                    .foregroundColor(.white)
                     .onChange(of: viewModel.password) { newValue in
                         validatePassword(newValue)
                     }
@@ -67,6 +70,7 @@ struct RegisterView: View {
                     }
                     .font(.footnote)
                     .frame(maxWidth: .infinity, alignment: .leading)
+                    .foregroundColor(.white)
                 }
                 
                 TLButton(title: "Register", background: isButtonEnabled() ? .green : .gray) {
@@ -101,7 +105,7 @@ struct RegisterView: View {
                             .frame(width: 25, height: 25)
                         
                         Text("Sign in with Google")
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                         
                         Spacer()
                     }

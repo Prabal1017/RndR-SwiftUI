@@ -31,6 +31,9 @@
         }
       }
     },
+    "3D" : {
+
+    },
     "About" : {
       "localizations" : {
         "es" : {
@@ -72,7 +75,11 @@
         }
       }
     },
+    "AR" : {
+
+    },
     "AR Mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -122,6 +129,9 @@
         }
       }
     },
+    "Check the spelling or try a different search" : {
+
+    },
     "Close" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -162,6 +172,9 @@
           }
         }
       }
+    },
+    "Confirm" : {
+
     },
     "Contact Support" : {
       "localizations" : {
@@ -466,6 +479,9 @@
         }
       }
     },
+    "Logout?" : {
+
+    },
     "Make sure to scan the room by pointing the camera at all surfaces." : {
       "localizations" : {
         "es" : {
@@ -539,6 +555,9 @@
         }
       }
     },
+    "No Results for '%@'" : {
+
+    },
     "No rooms added" : {
       "localizations" : {
         "es" : {
@@ -550,6 +569,7 @@
       }
     },
     "Object Mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -884,6 +904,9 @@
           }
         }
       }
+    },
+    "You will be returned to the login screen." : {
+
     },
     "Your account has been successfully closed." : {
       "localizations" : {
