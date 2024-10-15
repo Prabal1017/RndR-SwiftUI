@@ -383,53 +383,66 @@ struct HomeView: View {
                             categoriesView(categories: viewModel.categories)
                         } else {
                             // Display filtered rooms in a grid when there is search text
-                            let layout = Array(repeating: GridItem(.flexible()), count: 2) // 2 columns
-                            LazyVGrid(columns: layout, spacing: 30) {
-                                ForEach(filteredRooms) { room in
-                                    VStack {
-                                        ZStack(alignment: .topLeading) {
-                                            if let modelURL = URL(string: room.modelUrl) {
-                                                NavigationLink(destination: FileDetailView(fileName: room.roomName, modelURL: modelURL)) {
-                                                    WebImage(url: URL(string: room.imageUrl))
-                                                        .resizable()
-                                                        .scaledToFill()
-                                                        .frame(width: (UIScreen.main.bounds.width / 2) - 30, height: 200) // Adjust size for grid
-                                                        .clipShape(RoundedRectangle(cornerRadius: 10))
+                            if !filteredRooms.isEmpty {
+                                let layout = Array(repeating: GridItem(.flexible()), count: 2) // 2 columns
+                                LazyVGrid(columns: layout, spacing: 30) {
+                                    ForEach(filteredRooms) { room in
+                                        VStack {
+                                            ZStack(alignment: .topLeading) {
+                                                if let modelURL = URL(string: room.modelUrl) {
+                                                    NavigationLink(destination: FileDetailView(fileName: room.roomName, modelURL: modelURL)) {
+                                                        WebImage(url: URL(string: room.imageUrl))
+                                                            .resizable()
+                                                            .scaledToFill()
+                                                            .frame(width: (UIScreen.main.bounds.width / 2) - 30, height: 200) // Adjust size for grid
+                                                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                    }
+                                                    
+                                                    // Tag for room type
+                                                    Text(room.roomType)
+                                                        .font(.caption)
+                                                        .padding(5)
+                                                        .background(Color.blue)
+                                                        .foregroundColor(.primary)
+                                                        .cornerRadius(5)
+                                                        .padding([.top, .leading], 10)
+                                                } else {
+                                                    // Handle invalid URL case
+                                                    Text("Invalid model URL")
+                                                        .foregroundColor(.red)
                                                 }
-//                                                .contextMenu {
-//                                                    Button(action: {
-//                                                        // Your delete logic
-//                                                        // roomToDelete = room
-//                                                        // showDeleteAlert = true
-//                                                    }) {
-//                                                        Label("Delete", systemImage: "trash")
-//                                                            .tint(Color.red)
-//                                                    }
-//                                                }
-
-                                                // Tag for room type
-                                                Text(room.roomType)
-                                                    .font(.caption)
-                                                    .padding(5)
-                                                    .background(Color.blue)
-                                                    .foregroundColor(.primary)
-                                                    .cornerRadius(5)
-                                                    .padding([.top, .leading], 10)
-                                            } else {
-                                                // Handle invalid URL case
-                                                Text("Invalid model URL")
-                                                    .foregroundColor(.red)
                                             }
+                                            
+                                            Text(room.roomName)
+                                                .font(.subheadline)
+                                                .frame(maxWidth: .infinity, alignment: .leading)
+                                                .foregroundColor(.secondary)
                                         }
-                                        
-                                        Text(room.roomName)
-                                            .font(.subheadline)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundColor(.secondary)
                                     }
                                 }
+                                .padding(.horizontal)
+                            }else if filteredRooms.isEmpty{
+                                VStack(spacing: 10){
+                                    Spacer()
+                                    
+                                    Image(systemName: "magnifyingglass")
+                                        .resizable()
+                                        .frame(width: 60, height: 60)
+                                        .foregroundColor(.secondary)
+                                        .padding(.bottom)
+                                    
+                                    Text("No Results for '\(searchText)'")
+                                        .font(.title2)
+                                        .bold()
+                                        .foregroundColor(.primary)
+                                    
+                                    Text("Check the spelling or try a different search")
+                                        .font(.subheadline)
+                                        .foregroundColor(.secondary)
+                                    
+                                    Spacer()
+                                }
                             }
-                            .padding(.horizontal)
                         }
                     }
                     .padding(.top)

@@ -10,7 +10,7 @@ struct categoriesView: View {
     @State private var selectedCategory: Category?
     
     // Define the restricted category names
-    let restrictedCategories = ["Bedroom", "Kitchen", "Living Room", "Dinning Room", "Bathroom"]
+    let restrictedCategories = ["Bedroom", "Kitchen", "Living Room", "Dining Room", "Bathroom"]
     
     var body: some View {
         LazyVGrid(columns: columns, spacing: 16) {

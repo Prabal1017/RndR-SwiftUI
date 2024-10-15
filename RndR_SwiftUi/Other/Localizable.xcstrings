@@ -122,6 +122,9 @@
         }
       }
     },
+    "Check the spelling or try a different search" : {
+
+    },
     "Close" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -539,6 +542,9 @@
         }
       }
     },
+    "No Results for '%@'" : {
+
+    },
     "No rooms added" : {
       "localizations" : {
         "es" : {
@@ -718,6 +724,9 @@
           }
         }
       }
+    },
+    "Select Furniture" : {
+
     },
     "Select Image" : {
       "localizations" : {

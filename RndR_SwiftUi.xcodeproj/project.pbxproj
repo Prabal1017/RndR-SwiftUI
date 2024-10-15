@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		460705E62CBEC9E800588F7E /* teapot.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 460705E52CBEC9E800588F7E /* teapot.usdz */; };
 		462F03272C95557A000AA26D /* RoomController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 462F03262C95557A000AA26D /* RoomController.swift */; };
 		465846D32CB909040011D425 /* CustomModel3DView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465846D22CB909040011D425 /* CustomModel3DView.swift */; };
 		466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */; };
@@ -36,8 +37,12 @@
 		46730DEF2C96B6AC00E9227E /* RoomDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */; };
 		46730DF42C96BFBF00E9227E /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 46730DF32C96BFBF00E9227E /* SDWebImageSwiftUI */; };
 		4677D8F52C9DA13E00BA6E54 /* demoModel.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */; };
+		467BF7762CBE4E1300F2F966 /* Children_bed.usdz in Resources */ = {isa = PBXBuildFile; fileRef = 467BF7752CBE4E1300F2F966 /* Children_bed.usdz */; };
 		469EC6362CB831C3007CF65A /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 469EC6352CB831C3007CF65A /* Kingfisher */; };
 		46A043022CB41EC800E63BEE /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46A043012CB41EC800E63BEE /* GoogleService-Info.plist */; };
+		46A65B592CBE50C20055F17C /* FurnitureModelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A65B582CBE50C20055F17C /* FurnitureModelViewModel.swift */; };
+		46A65B5B2CBE510D0055F17C /* FurnitureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A65B5A2CBE510D0055F17C /* FurnitureModel.swift */; };
+		46A65B5D2CBE52150055F17C /* FirebaseStorageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46A65B5C2CBE52150055F17C /* FirebaseStorageHelper.swift */; };
 		46AC43652CB1A8F4001A9E63 /* FileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AC43622CB1A8F4001A9E63 /* FileManager.swift */; };
 		46AC43662CB1A8F4001A9E63 /* RoomScanViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AC435F2CB1A8F4001A9E63 /* RoomScanViews.swift */; };
 		46AC43672CB1A8F4001A9E63 /* RoomDetailsFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46AC43642CB1A8F4001A9E63 /* RoomDetailsFormView.swift */; };
@@ -59,6 +64,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		460705E52CBEC9E800588F7E /* teapot.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = teapot.usdz; sourceTree = "<group>"; };
 		462F03262C95557A000AA26D /* RoomController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomController.swift; sourceTree = "<group>"; };
 		465846D22CB909040011D425 /* CustomModel3DView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel3DView.swift; sourceTree = "<group>"; };
 		466DA2D92C9322940023F1DD /* RndR_SwiftUi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RndR_SwiftUi.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -84,7 +90,11 @@
 		466F2C272CBAB24F00D096D8 /* RndR_SwiftUi.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = RndR_SwiftUi.xcodeproj; sourceTree = SOURCE_ROOT; };
 		46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomDataModel.swift; sourceTree = "<group>"; };
 		4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = demoModel.usdz; sourceTree = "<group>"; };
+		467BF7752CBE4E1300F2F966 /* Children_bed.usdz */ = {isa = PBXFileReference; lastKnownFileType = file; path = Children_bed.usdz; sourceTree = "<group>"; };
 		46A043012CB41EC800E63BEE /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		46A65B582CBE50C20055F17C /* FurnitureModelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureModelViewModel.swift; sourceTree = "<group>"; };
+		46A65B5A2CBE510D0055F17C /* FurnitureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FurnitureModel.swift; sourceTree = "<group>"; };
+		46A65B5C2CBE52150055F17C /* FirebaseStorageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageHelper.swift; sourceTree = "<group>"; };
 		46AC435F2CB1A8F4001A9E63 /* RoomScanViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomScanViews.swift; sourceTree = "<group>"; };
 		46AC43602CB1A8F4001A9E63 /* ARModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARModelView.swift; sourceTree = "<group>"; };
 		46AC43612CB1A8F4001A9E63 /* FileDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileDetailView.swift; sourceTree = "<group>"; };
@@ -146,6 +156,8 @@
 				46B805582C97FACF00ABF1F8 /* RoomPlanViewViewModel.swift */,
 				46B8055A2C97FB7400ABF1F8 /* CategoryViewViewModel.swift */,
 				46BCE1742CBC10DD00C90F04 /* CustomModel3DViewModel.swift */,
+				46A65B582CBE50C20055F17C /* FurnitureModelViewModel.swift */,
+				46A65B5C2CBE52150055F17C /* FirebaseStorageHelper.swift */,
 			);
 			path = RoomPlanKit;
 			sourceTree = "<group>";
@@ -265,6 +277,7 @@
 		466DA2EC2C9322B10023F1DD /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				467BF7752CBE4E1300F2F966 /* Children_bed.usdz */,
 				466F2C272CBAB24F00D096D8 /* RndR_SwiftUi.xcodeproj */,
 				466DA2DC2C9322940023F1DD /* RndR_SwiftUiApp.swift */,
 				46A043012CB41EC800E63BEE /* GoogleService-Info.plist */,
@@ -272,6 +285,7 @@
 				466DA30F2C9325AA0023F1DD /* Extensions.swift */,
 				4677D8F42C9DA13E00BA6E54 /* demoModel.usdz */,
 				466F2C252CBAAC2B00D096D8 /* Localizable.xcstrings */,
+				460705E52CBEC9E800588F7E /* teapot.usdz */,
 			);
 			path = Other;
 			sourceTree = "<group>";
@@ -279,6 +293,7 @@
 		466DA2ED2C9322B40023F1DD /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				46A65B5A2CBE510D0055F17C /* FurnitureModel.swift */,
 				466DA30D2C9325850023F1DD /* UserDataModel.swift */,
 				46730DEE2C96B6AC00E9227E /* RoomDataModel.swift */,
 				46B805602C986CD000ABF1F8 /* CategoryDataModel.swift */,
@@ -372,8 +387,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				467BF7762CBE4E1300F2F966 /* Children_bed.usdz in Resources */,
 				4677D8F52C9DA13E00BA6E54 /* demoModel.usdz in Resources */,
 				466F2C262CBAAC2B00D096D8 /* Localizable.xcstrings in Resources */,
+				460705E62CBEC9E800588F7E /* teapot.usdz in Resources */,
 				46A043022CB41EC800E63BEE /* GoogleService-Info.plist in Resources */,
 				466DA2E42C9322950023F1DD /* Preview Assets.xcassets in Resources */,
 				466DA2E12C9322950023F1DD /* Assets.xcassets in Resources */,
@@ -397,6 +414,7 @@
 				466DA3082C93253C0023F1DD /* RegisterView.swift in Sources */,
 				466DA3062C9325280023F1DD /* TLButton.swift in Sources */,
 				46AC43652CB1A8F4001A9E63 /* FileManager.swift in Sources */,
+				46A65B5D2CBE52150055F17C /* FirebaseStorageHelper.swift in Sources */,
 				46BCE1752CBC10DD00C90F04 /* CustomModel3DViewModel.swift in Sources */,
 				46AC43662CB1A8F4001A9E63 /* RoomScanViews.swift in Sources */,
 				46AC43672CB1A8F4001A9E63 /* RoomDetailsFormView.swift in Sources */,
@@ -405,6 +423,7 @@
 				46AC43692CB1A8F4001A9E63 /* FileDetailView.swift in Sources */,
 				46AC436A2CB1A8F4001A9E63 /* CategoriesItemView.swift in Sources */,
 				46B805672C98865C00ABF1F8 /* SliderView.swift in Sources */,
+				46A65B592CBE50C20055F17C /* FurnitureModelViewModel.swift in Sources */,
 				466DA3022C9324EB0023F1DD /* LoginViewViewModel.swift in Sources */,
 				46B805632C986CF200ABF1F8 /* HomeViewViewModel.swift in Sources */,
 				46B8055B2C97FB7400ABF1F8 /* CategoryViewViewModel.swift in Sources */,
@@ -421,6 +440,7 @@
 				46AC43702CB1AA81001A9E63 /* CloseAccountView.swift in Sources */,
 				466DA2DD2C9322940023F1DD /* RndR_SwiftUiApp.swift in Sources */,
 				46C0724F2C999FDB007A162A /* SkeletonLoader.swift in Sources */,
+				46A65B5B2CBE510D0055F17C /* FurnitureModel.swift in Sources */,
 				466DA3042C9325130023F1DD /* HeaderView.swift in Sources */,
 				46B805652C98861900ABF1F8 /* categoriesView.swift in Sources */,
 			);
