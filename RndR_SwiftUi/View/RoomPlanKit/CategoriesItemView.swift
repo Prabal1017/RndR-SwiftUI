@@ -2,10 +2,7 @@ import SwiftUI
 import SDWebImageSwiftUI
 
 struct CategorieItemView: View {
-    let layout = [
-        GridItem(.flexible(), spacing: 30),
-        GridItem(.flexible())
-    ]
+    let layout = Array(repeating: GridItem(.flexible(), spacing: 28), count: 2)
     
     @StateObject private var viewModel = CategoryViewViewModel()
     
@@ -18,18 +15,18 @@ struct CategorieItemView: View {
     
     @State private var showDeletedMessage = false
     
-//    //back button on top
-//    @Environment(\.presentationMode) var presentationMode
-//
-//    var btnBack : some View { Button(action: {
-//        self.presentationMode.wrappedValue.dismiss()
-//    }) {
-//        HStack{
-//            Image(systemName: "arrow.left")
-//        }
-//    }
-//    }
-//
+    //    //back button on top
+    //    @Environment(\.presentationMode) var presentationMode
+    //
+    //    var btnBack : some View { Button(action: {
+    //        self.presentationMode.wrappedValue.dismiss()
+    //    }) {
+    //        HStack{
+    //            Image(systemName: "arrow.left")
+    //        }
+    //    }
+    //    }
+    //
     var body: some View {
         GeometryReader { geo in
             ScrollView {
@@ -73,23 +70,40 @@ struct CategorieItemView: View {
                             .offset(y: -70)
                     } else {
                         if viewModel.rooms.isEmpty {
-                            Text("No rooms added")
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.leading)
-                                .offset(y: -100)
+                            VStack{
+                                Image("noScans")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 150,height: 150)
+                                Text("No models added yet.")
+                                    .font(.headline)
+                                    .foregroundColor(.secondary)
+                                    .padding()
+                            }
                         } else {
                             // Corrected grid layout
-                            LazyVGrid(columns: layout, spacing: 30) {
+                            LazyVGrid(columns: layout, spacing: 20) {
                                 ForEach(viewModel.rooms) { room in
                                     VStack {
                                         if let modelURL = URL(string: room.modelUrl) {
                                             NavigationLink(destination: FileDetailView(fileName: room.roomName, modelURL: modelURL)) {
-                                                WebImage(url: URL(string: room.imageUrl))
-                                                    .resizable()
-                                                    .scaledToFill()
-                                                    .frame(width: geo.size.width / 2 - 20, height: 200) // Adjust size for grid
-                                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                                ZStack(alignment: .bottom){
+                                                    WebImage(url: URL(string: room.imageUrl))
+                                                        .resizable()
+                                                        .scaledToFill()
+                                                        .frame(width: geo.size.width / 2 - 20, height: 200) // Adjust size for grid
+                                                    
+                                                    Text(room.roomName)
+                                                        .font(.headline)
+                                                        .fontWeight(.semibold)
+                                                        .foregroundColor(.white)
+                                                        .padding([.top, .bottom], 10)
+                                                        .frame(maxWidth: .greatestFiniteMagnitude)
+                                                        .background(Material.ultraThinMaterial)
+                                                        .lineLimit(1)
+                                                        .minimumScaleFactor(0.6)
+                                                }
+                                                .cornerRadius(10)
                                             }
                                             .contextMenu {
                                                 Button(role: .destructive){
@@ -105,11 +119,6 @@ struct CategorieItemView: View {
                                             Text("Invalid model URL")
                                                 .foregroundColor(.red)
                                         }
-                                        
-                                        Text(room.roomName)
-                                            .font(.subheadline)
-                                            .frame(maxWidth: .infinity, alignment: .leading)
-                                            .foregroundColor(.secondary)
                                     }
                                 }
                             }
@@ -157,9 +166,9 @@ struct CategorieItemView: View {
                 secondaryButton: .cancel()
             )
         }
-//        .navigationBarBackButtonHidden(true)
-//        .navigationBarItems(leading: btnBack)
-        .preferredColorScheme(.dark)
+        //        .navigationBarBackButtonHidden(true)
+        //        .navigationBarItems(leading: btnBack)
+        //        .preferredColorScheme(.dark)
     }
 }
 

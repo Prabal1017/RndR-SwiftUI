@@ -4,35 +4,35 @@ import UIKit
 
 struct NativeQuickLookView: UIViewControllerRepresentable {
     let url: URL
-
+    
     func makeUIViewController(context: Context) -> QLPreviewController {
         let controller = QLPreviewController()
         controller.dataSource = context.coordinator
         controller.delegate = context.coordinator
         return controller
     }
-
+    
     func updateUIViewController(_ uiViewController: QLPreviewController, context: Context) {}
-
+    
     func makeCoordinator() -> Coordinator {
         Coordinator(url: url)
     }
-
+    
     class Coordinator: NSObject, QLPreviewControllerDataSource, QLPreviewControllerDelegate {
         let url: URL
         
         init(url: URL) {
             self.url = url
         }
-
+        
         func numberOfPreviewItems(in controller: QLPreviewController) -> Int {
             return 1
         }
-
+        
         func previewController(_ controller: QLPreviewController, previewItemAt index: Int) -> QLPreviewItem {
             return url as QLPreviewItem
         }
-
+        
         func previewControllerWillDismiss(_ controller: QLPreviewController) {
             print("QuickLook view dismissed.")
         }
@@ -82,7 +82,7 @@ import QuickLook
 //        DispatchQueue.global(qos: .background).async {
 //            // Simulate network loading time
 //            let urlSession = URLSession.shared
-//            
+//
 //            // Fetch the USDZ file
 //            let task = urlSession.dataTask(with: modelURL) { data, response, error in
 //                if let error = error {
@@ -93,12 +93,12 @@ import QuickLook
 //                    }
 //                    return
 //                }
-//                
+//
 //                if let data = data {
 //                    // Create a temporary file URL to save the model
 //                    let temporaryDirectory = FileManager.default.temporaryDirectory
 //                    let temporaryFileURL = temporaryDirectory.appendingPathComponent("model.usdz")
-//                    
+//
 //                    do {
 //                        try data.write(to: temporaryFileURL) // Write data to temporary file
 //                        DispatchQueue.main.async {
@@ -128,9 +128,9 @@ struct FileDetailView: View {
     @State private var useARMode = true
     @State private var isLoading = true // Loading state
     @State private var loadedURL: URL? // URL to hold the loaded model
-
+    
     var body: some View {
-        VStack {
+        ZStack {
             if isLoading {
                 ProgressView("Loading model...") // Display a loading indicator
                     .onAppear {
@@ -152,18 +152,33 @@ struct FileDetailView: View {
                 Text("Unable to load file")
                     .foregroundColor(.red)
             }
-        }
-        .navigationBarTitleDisplayMode(.inline)
-        .navigationTitle(fileName)
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                Button(useARMode ? "Object Mode" : "AR Mode") {
-                    useARMode.toggle()
+            VStack {
+                Spacer()
+                HStack {
+                    Button(useARMode ? "3D" : "AR") {
+                        useARMode.toggle()
+                    }
+                    .padding()
+                    .background(Color.blue)
+                    .foregroundColor(.white)
+                    .cornerRadius(100)
+                    .padding([.bottom, .leading], 20)
+                    
+                    Spacer()
                 }
             }
         }
+        .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(fileName)
+        //        .toolbar {
+        //            ToolbarItem(placement: .navigationBarTrailing) {
+        //                Button(useARMode ? "Object Mode" : "AR Mode") {
+        //                    useARMode.toggle()
+        //                }
+        //            }
+        //        }
     }
-
+    
     private func loadModel() {
         DispatchQueue.global(qos: .background).async {
             let urlSession = URLSession.shared

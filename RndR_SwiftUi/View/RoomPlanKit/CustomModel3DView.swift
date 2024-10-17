@@ -14,11 +14,11 @@ import FirebaseStorage
 //    @State private var showSavedMessage = false // State to show the success message
 //    @State private var uploadProgress: Double = 0.0 // Track upload progress
 //    @StateObject var viewModel: CustomModel3DViewModel
-//    
+//
 //    @State private var selectedTexture: String?
 //    @State private var selectedFurniture: String? // Add selectedFurniture state
 //    @State private var hasMadeChanges: Bool = false // Track if user has made changes
-//    
+//
 //    var body: some View {
 //        ZStack {
 //            ARSceneViewContainer(
@@ -42,7 +42,7 @@ import FirebaseStorage
 //            .onChange(of: selectedFurniture) { _ in
 //                hasMadeChanges = true // Mark changes when the user selects furniture
 //            }
-//            
+//
 //            // Success message when the model is saved
 //            if showSavedMessage {
 //                HStack {
@@ -59,14 +59,14 @@ import FirebaseStorage
 //                .transition(.move(edge: .top)) // Slide from the top
 //                .zIndex(1) // Ensure message appears on top
 //            }
-//            
+//
 //            // Progress view for upload
 //            if uploadProgress > 0.0 && uploadProgress < 1.0 {
 //                VStack {
 //                    Text("Uploading model...")
 //                        .foregroundColor(.white)
 //                        .padding()
-//                    
+//
 //                    // Circular progress view
 //                    ProgressView(value: uploadProgress, total: 1.0)
 //                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
@@ -78,7 +78,7 @@ import FirebaseStorage
 //                .padding()
 //                .zIndex(1) // Ensure it appears on top
 //            }
-//            
+//
 //            // Buttons - save, add
 //            HStack {
 //                Spacer() // Push the buttons to the right
@@ -93,7 +93,7 @@ import FirebaseStorage
 //                            while let parentNode = currentNode.parent, parentNode.name != nil {
 //                                currentNode = parentNode
 //                            }
-//                            
+//
 //                            // Assuming the root node name is "RoomModel", or select the topmost node
 //                            if currentNode.name == "RoomModel" {
 //                                self.selectedNode = currentNode
@@ -104,7 +104,7 @@ import FirebaseStorage
 //                                print("DEBUG: Automatically selected the topmost node: \(currentNode.name ?? "Unnamed Topmost Node")")
 //                            }
 //                        }
-//                        
+//
 //                        // Now that the entire model is selected, proceed to save
 //                        viewModel.saveEditedModel(selectedNode: selectedNode, progressHandler: { progress in
 //                            self.uploadProgress = progress // Update progress
@@ -112,14 +112,14 @@ import FirebaseStorage
 //                            if success {
 //                                showSavedMessage = true // Show success message
 //                                uploadProgress = 1.0 // Set to complete when done
-//                                
+//
 //                                // Hide the success message after 2 seconds with a slide-up animation
 //                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
 //                                    withAnimation {
 //                                        showSavedMessage = false
 //                                    }
 //                                }
-//                                
+//
 //                                hasMadeChanges = false // Reset changes after saving
 //                            }
 //                        }
@@ -133,8 +133,8 @@ import FirebaseStorage
 //                            .shadow(radius: 3)
 //                    }
 //                    .disabled(!hasMadeChanges) // Disable button if no changes are made
-//                    
-//                    
+//
+//
 //                    // Floating button to show the modal
 //                    Button(action: {
 //                        showModal = true
@@ -216,14 +216,14 @@ struct Model3DView: View {
                     loadSelectedFurnitureModel(furnitureModel: furnitureModel)
                 }
             }
-
-//            .onChange(of: selectedFurniture) { newValue in
-//                if let furnitureModel = newValue {
-//                    loadLocalUSDZModel()
-//                    addFurnitureModel() // Load the selected furniture model
-//                    
-//                }
-//            }
+            
+            //            .onChange(of: selectedFurniture) { newValue in
+            //                if let furnitureModel = newValue {
+            //                    loadLocalUSDZModel()
+            //                    addFurnitureModel() // Load the selected furniture model
+            //
+            //                }
+            //            }
             
             // Success message when the model is saved
             if showSavedMessage {
@@ -301,12 +301,13 @@ struct Model3DView: View {
                     }) {
                         Image(systemName: "square.and.arrow.down")
                             .font(.system(size: 24))
+                            .offset( y: -2)
                             .foregroundColor(.white)
                             .padding()
-                            .background(hasMadeChanges ? Color.green : Color.gray)
-                            .clipShape(Circle())
+                            .background(hasMadeChanges ? Color.green : Color.gray)                            .clipShape(Circle())
                             .shadow(radius: 3)
                     }
+                    .padding(.bottom)
                     .disabled(!hasMadeChanges)
                     
                     // Floating button to show the modal
@@ -338,7 +339,7 @@ struct Model3DView: View {
         }
     }
     
-
+    
     private func loadSelectedFurnitureModel(furnitureModel: FurnitureModel) {
         // Create a Firebase Storage reference from the URL
         let storageRef = Storage.storage().reference(forURL: furnitureModel.furnitureUrl)
@@ -379,78 +380,78 @@ struct Model3DView: View {
             }
         }
     }
-
     
-//    private func loadLocalUSDZModel() {
-//        guard let scene = SCNScene(named: "teapot.usdz") else {
-//            print("Failed to load teapot model.")
-//            return
-//        }
-//
-//        let furnitureNode = scene.rootNode
-//        print("Number of child nodes: \(furnitureNode.childNodes.count)")
-//
-//        // Adjust the scale of the teapot to fit in the room model
-//        furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05) // Adjust this scale value based on the size of your room
-//
-//        // Add the node to the selected room node
-//        selectedNode?.addChildNode(furnitureNode)
-//    }
-
     
-//    // Function to load the selected furniture model
-//    private func addFurnitureModel() {
-//        let modelPath = "/Users/piyushsaini/Downloads/Chitkara/iOS apps/RndR-SwiftUI/RndR_SwiftUi/Other/teapot.usdz"
-//        let url = URL(fileURLWithPath: modelPath)
-//        
-//        let scene: SCNScene
-//        do {
-//            scene = try SCNScene(url: url, options: nil)
-//        } catch {
-//            print("Failed to load scene from URL: \(url). Error: \(error)")
-//            return
-//        }
-//        
-//        let children = scene.rootNode.childNodes
-//        print("Number of child nodes in loaded scene: \(children.count)")
-//        
-//        guard let furnitureNode = children.first else {
-//            print("No node found in the loaded furniture scene.")
-//            return
-//        }
-//        
-//        guard let currentNode = selectedNode else {
-//            print("selectedNode is nil, cannot add furniture.")
-//            return
-//        }
-//
-//        // Adjust the scale of the furniture node relative to the room size
-//        furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05)  // Adjust this based on how small/large the model should be
-//
-//        // Adjust the position to place it on top of the room model
-//        let heightOffset = currentNode.boundingBox.max.y * 0.5  // Adjust based on room model size
-//        furnitureNode.position = SCNVector3(0, heightOffset, 0)
-//
-//        // Optionally adjust materials for visibility
-//        if let materials = furnitureNode.geometry?.materials {
-//            for material in materials {
-//                material.transparency = 1.0 // Fully opaque
-//            }
-//        }
-//
-//        // Add the furniture node to the room model
-//        currentNode.addChildNode(furnitureNode)
-//        print("Successfully added furniture model to the scene")
-//        
-//        // Debugging visual aid
-//        let debugBox = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
-//        let debugNode = SCNNode(geometry: debugBox)
-//        debugNode.position = furnitureNode.position
-//        debugNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-//        currentNode.addChildNode(debugNode)
-//    }
-
-
+    //    private func loadLocalUSDZModel() {
+    //        guard let scene = SCNScene(named: "teapot.usdz") else {
+    //            print("Failed to load teapot model.")
+    //            return
+    //        }
+    //
+    //        let furnitureNode = scene.rootNode
+    //        print("Number of child nodes: \(furnitureNode.childNodes.count)")
+    //
+    //        // Adjust the scale of the teapot to fit in the room model
+    //        furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05) // Adjust this scale value based on the size of your room
+    //
+    //        // Add the node to the selected room node
+    //        selectedNode?.addChildNode(furnitureNode)
+    //    }
+    
+    
+    //    // Function to load the selected furniture model
+    //    private func addFurnitureModel() {
+    //        let modelPath = "/Users/piyushsaini/Downloads/Chitkara/iOS apps/RndR-SwiftUI/RndR_SwiftUi/Other/teapot.usdz"
+    //        let url = URL(fileURLWithPath: modelPath)
+    //
+    //        let scene: SCNScene
+    //        do {
+    //            scene = try SCNScene(url: url, options: nil)
+    //        } catch {
+    //            print("Failed to load scene from URL: \(url). Error: \(error)")
+    //            return
+    //        }
+    //
+    //        let children = scene.rootNode.childNodes
+    //        print("Number of child nodes in loaded scene: \(children.count)")
+    //
+    //        guard let furnitureNode = children.first else {
+    //            print("No node found in the loaded furniture scene.")
+    //            return
+    //        }
+    //
+    //        guard let currentNode = selectedNode else {
+    //            print("selectedNode is nil, cannot add furniture.")
+    //            return
+    //        }
+    //
+    //        // Adjust the scale of the furniture node relative to the room size
+    //        furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05)  // Adjust this based on how small/large the model should be
+    //
+    //        // Adjust the position to place it on top of the room model
+    //        let heightOffset = currentNode.boundingBox.max.y * 0.5  // Adjust based on room model size
+    //        furnitureNode.position = SCNVector3(0, heightOffset, 0)
+    //
+    //        // Optionally adjust materials for visibility
+    //        if let materials = furnitureNode.geometry?.materials {
+    //            for material in materials {
+    //                material.transparency = 1.0 // Fully opaque
+    //            }
+    //        }
+    //
+    //        // Add the furniture node to the room model
+    //        currentNode.addChildNode(furnitureNode)
+    //        print("Successfully added furniture model to the scene")
+    //
+    //        // Debugging visual aid
+    //        let debugBox = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
+    //        let debugNode = SCNNode(geometry: debugBox)
+    //        debugNode.position = furnitureNode.position
+    //        debugNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
+    //        currentNode.addChildNode(debugNode)
+    //    }
+    
+    
 }
 
 
@@ -508,7 +509,7 @@ struct AddModelModalView: View {
 struct FurniturePickerView: View {
     @StateObject var viewModel: FurnitureModelViewModel // ViewModel for furniture models
     @Binding var selectedFurniture: FurnitureModel? // Bind the selected furniture to the parent
-
+    
     let columns = [
         GridItem(.flexible()),
         GridItem(.flexible())

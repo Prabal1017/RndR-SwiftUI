@@ -30,6 +30,7 @@ struct LoginView: View {
                 }
                 
                 TextField("Email ID", text: $viewModel.email)
+                    .foregroundColor(.white)
                     .keyboardType(.emailAddress)
                     .autocapitalization(.none)
                     .padding(15)
@@ -39,6 +40,7 @@ struct LoginView: View {
                     )
                 
                 SecureField("Password", text: $viewModel.password)
+                    .foregroundColor(.white)
                     .padding(15)
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
@@ -79,7 +81,7 @@ struct LoginView: View {
                             .frame(width: 25, height: 25)
                         
                         Text("Sign in with Google")
-                            .foregroundColor(.primary)
+                            .foregroundColor(.white)
                         
                         Spacer()
                     }
@@ -95,9 +97,10 @@ struct LoginView: View {
             HStack{
                 Text("New around here?")
                     .font(.footnote)
-                    .foregroundColor(.primary)
+                    .foregroundColor(.white)
                 NavigationLink("Create an account", destination: RegisterView())
                     .font(.footnote)
+                
             }
             .padding()
         }

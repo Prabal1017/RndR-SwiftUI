@@ -31,6 +31,9 @@
         }
       }
     },
+    "3D" : {
+
+    },
     "About" : {
       "localizations" : {
         "es" : {
@@ -72,7 +75,11 @@
         }
       }
     },
+    "AR" : {
+
+    },
     "AR Mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -166,6 +173,9 @@
         }
       }
     },
+    "Confirm" : {
+
+    },
     "Contact Support" : {
       "localizations" : {
         "es" : {
@@ -229,7 +239,11 @@
         }
       }
     },
+    "Deleting your account will logout from all your devices and remove all your 3D scanned models and you won't be able to access them." : {
+
+    },
     "Deleting your account will remove all your 3D scanned models and you won't be able to access them." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -240,6 +254,7 @@
       }
     },
     "Deleting your account will remove all your 3D scanned models." : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -309,6 +324,9 @@
         }
       }
     },
+    "Enlarge Your Profile Image" : {
+
+    },
     "Enter room name" : {
       "localizations" : {
         "es" : {
@@ -320,6 +338,7 @@
       }
     },
     "Enter your password" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -328,6 +347,9 @@
           }
         }
       }
+    },
+    "Enter your password to confirm" : {
+
     },
     "Error" : {
       "localizations" : {
@@ -469,6 +491,9 @@
         }
       }
     },
+    "Logout?" : {
+
+    },
     "Make sure to scan the room by pointing the camera at all surfaces." : {
       "localizations" : {
         "es" : {
@@ -542,10 +567,14 @@
         }
       }
     },
+    "No models added yet." : {
+
+    },
     "No Results for '%@'" : {
 
     },
     "No rooms added" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -556,6 +585,7 @@
       }
     },
     "Object Mode" : {
+      "extractionState" : "stale",
       "localizations" : {
         "es" : {
           "stringUnit" : {
@@ -791,6 +821,9 @@
         }
       }
     },
+    "Tap and hold on the profile image to enlarge it" : {
+
+    },
     "Tap button start to start scanning and follow the instruction" : {
       "localizations" : {
         "es" : {
@@ -800,6 +833,9 @@
           }
         }
       }
+    },
+    "Tap to delete this room." : {
+
     },
     "to" : {
       "localizations" : {
@@ -893,6 +929,9 @@
           }
         }
       }
+    },
+    "You will be returned to the login screen." : {
+
     },
     "Your account has been successfully closed." : {
       "localizations" : {

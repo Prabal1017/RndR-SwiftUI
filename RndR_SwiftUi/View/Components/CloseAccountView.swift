@@ -20,7 +20,7 @@ struct CloseAccountView: View {
                         // Empty section
                     }
                 
-                Section(header: Text("Deleting your account will remove all your 3D scanned models and you won't be able to access them.")
+                Section(header: Text("Deleting your account will logout from all your devices and remove all your 3D scanned models and you won't be able to access them.")
                     .foregroundColor(.primary)
                     .textCase(nil)) {
                         // Empty section
@@ -40,11 +40,11 @@ struct CloseAccountView: View {
                     }
                 }
                 // Alert for entering password
-                .alert("Enter your password", isPresented: $showPasswordAlert) {
+                .alert("Enter your password to confirm", isPresented: $showPasswordAlert) {
                     SecureField("Password", text: $password)
                         .textContentType(.password) // For password autofill
                         .padding()
-                    Button("Close Account", role: .destructive) {
+                    Button("Confirm", role: .destructive) {
                         // Proceed with account closure
                         viewModel.closeAccount(password: password) { result in
                             switch result {
@@ -62,9 +62,10 @@ struct CloseAccountView: View {
                         }
                     }
                     Button("Cancel", role: .cancel) { }
-                } message: {
-                    Text("Deleting your account will remove all your 3D scanned models.")
                 }
+                //                message: {
+                //                    Text("Deleting your account will remove all your 3D scanned models.")
+                //                }
             }
             .navigationTitle("Close Account")
             .navigationBarTitleDisplayMode(.inline)
@@ -90,6 +91,8 @@ struct CloseAccountView: View {
                       dismissButton: .default(Text("OK")))
             }
         }
+        //        .disabled(true)
+        //        modal views which need not be scrolled have their scroll disabled
     }
 }
 
