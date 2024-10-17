@@ -200,6 +200,7 @@ struct HomeView: View {
                                     .padding(.leading, 20)
                                 
                                 SliderView(viewModel: roomViewModel)
+                                    .shadow(radius: 5)
                                 
                                 HStack {
                                     Text("Rooms")
@@ -231,7 +232,7 @@ struct HomeView: View {
                                                                 WebImage(url: URL(string: room.imageUrl))
                                                                     .resizable()
                                                                     .scaledToFill()
-                                                                    .frame(width: geo.size.width / 2 - 20, height: 200) // Adjust size for grid
+                                                                    .frame(width: geo.size.width / 2 - 20, height: 200)
                                                                 
                                                                 Text(room.roomName)
                                                                     .font(.headline)
@@ -243,7 +244,8 @@ struct HomeView: View {
                                                                     .lineLimit(1)
                                                                     .minimumScaleFactor(0.6)
                                                             }
-                                                            .cornerRadius(10)                                                    }
+                                                            .cornerRadius(10)
+                                                        }
                                                         
                                                         // Tag for room type
                                                         Text(room.roomType)
@@ -260,6 +262,7 @@ struct HomeView: View {
                                                     }
                                                 }
                                             }
+                                            .shadow(radius: 5)
                                         }
                                     }
                                     .padding(.horizontal)

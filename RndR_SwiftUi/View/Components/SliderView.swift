@@ -156,6 +156,7 @@ struct SliderView: View {
                         .scrollTargetLayout()
                         .containerRelativeFrame(.horizontal)
                     }
+                
                 } else {
                     // Show the recent rooms when data is available
                     ForEach(viewModel.recentRooms, id: \.id) { recentRoom in
@@ -204,6 +205,7 @@ struct SliderView: View {
                                 )
                             }
                         }
+                        .shadow(radius: 10)
                         .cornerRadius(10)
                         .padding(.horizontal)
                         .scrollTargetLayout()

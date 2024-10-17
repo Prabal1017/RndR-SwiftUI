@@ -56,11 +56,13 @@ struct CategorieItemView: View {
                     
                     Text("\(roomType) Scans")
                         .font(.title)
+                        .foregroundColor(.primary)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding()
-                        .padding([.top, .bottom], 30)
-                        .background(LinearGradient(colors: [.clear, .black.opacity(0.8), .black, .black], startPoint: .top, endPoint: .bottom))
-                        .offset(y: -100)
+                        .padding(.top, 60)
+                        .padding(.bottom, 30)
+                        .background(LinearGradient(colors: [.clear, .primaryOpposite.opacity(0.8), .primaryOpposite, .primaryOpposite, .primaryOpposite], startPoint: .top, endPoint: .bottom))
+                        .offset(y: -80)
                     
                     if isLoading {
                         ProgressView("Fetching Rooms...")
@@ -121,8 +123,10 @@ struct CategorieItemView: View {
                                         }
                                     }
                                 }
+                                .shadow(radius: 5)
                             }
                             .padding(.horizontal)
+                            .background(Color.primaryOpposite)
                             .offset(y: -100)
                         }
                     }

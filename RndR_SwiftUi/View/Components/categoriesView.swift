@@ -127,6 +127,7 @@ struct categoriesView: View {
                     }
                 }
             }
+            .shadow(radius: 5)
         }
         .padding(.horizontal)
         .alert(isPresented: $showAlert) {
