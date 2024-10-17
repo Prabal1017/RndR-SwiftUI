@@ -3,7 +3,7 @@ import SDWebImageSwiftUI
 
 struct CategorieItemView: View {
     let layout = [
-        GridItem(.flexible()),
+        GridItem(.flexible(), spacing: 30),
         GridItem(.flexible())
     ]
     
@@ -29,7 +29,7 @@ struct CategorieItemView: View {
 //        }
 //    }
 //    }
-//    
+//
     var body: some View {
         GeometryReader { geo in
             ScrollView {
