@@ -1,180 +1,10 @@
 import SwiftUI
+import SDWebImageSwiftUI
 import ARKit
 import SceneKit
 
 import FirebaseStorage
-
-//struct Model3DView: View {
-//    var modelUrl: URL
-//    @State private var selectedNode: SCNNode?
-//    @State private var isDragging: Bool = false
-//    @State private var initialPosition: SCNVector3 = SCNVector3(0, 0, 0)
-//    @State private var showModal: Bool = false
-//    @State private var selectedColor: Color = .red
-//    @State private var showSavedMessage = false // State to show the success message
-//    @State private var uploadProgress: Double = 0.0 // Track upload progress
-//    @StateObject var viewModel: CustomModel3DViewModel
-//
-//    @State private var selectedTexture: String?
-//    @State private var selectedFurniture: String? // Add selectedFurniture state
-//    @State private var hasMadeChanges: Bool = false // Track if user has made changes
-//
-//    var body: some View {
-//        ZStack {
-//            ARSceneViewContainer(
-//                modelUrl: modelUrl,
-//                selectedNode: $selectedNode,
-//                isDragging: $isDragging,
-//                initialPosition: $initialPosition,
-//                selectedColor: $selectedColor,
-//                selectedTextureName: $selectedTexture
-//            )
-//            .edgesIgnoringSafeArea(.all)
-//            .onChange(of: selectedNode) { _ in
-//                hasMadeChanges = true // Mark changes when the user selects or moves the node
-//            }
-//            .onChange(of: selectedColor) { _ in
-//                hasMadeChanges = true // Mark changes when the user changes color
-//            }
-//            .onChange(of: selectedTexture) { _ in
-//                hasMadeChanges = true // Mark changes when the user changes texture
-//            }
-//            .onChange(of: selectedFurniture) { _ in
-//                hasMadeChanges = true // Mark changes when the user selects furniture
-//            }
-//
-//            // Success message when the model is saved
-//            if showSavedMessage {
-//                HStack {
-//                    Text("Model saved successfully!")
-//                        .foregroundColor(.white)
-//                        .padding()
-//                        .background(.ultraThinMaterial)
-//                        .cornerRadius(10)
-//                        .shadow(radius: 5)
-//                }
-//                .offset(y: 0)
-//                .frame(maxWidth: .infinity)
-//                .padding()
-//                .transition(.move(edge: .top)) // Slide from the top
-//                .zIndex(1) // Ensure message appears on top
-//            }
-//
-//            // Progress view for upload
-//            if uploadProgress > 0.0 && uploadProgress < 1.0 {
-//                VStack {
-//                    Text("Uploading model...")
-//                        .foregroundColor(.white)
-//                        .padding()
-//
-//                    // Circular progress view
-//                    ProgressView(value: uploadProgress, total: 1.0)
-//                        .progressViewStyle(CircularProgressViewStyle(tint: .blue))
-//                        .frame(width: 60, height: 60)
-//                        .padding()
-//                }
-//                .background(.ultraThinMaterial)
-//                .cornerRadius(10)
-//                .padding()
-//                .zIndex(1) // Ensure it appears on top
-//            }
-//
-//            // Buttons - save, add
-//            HStack {
-//                Spacer() // Push the buttons to the right
-//                VStack {
-//                    Spacer() // Push the buttons to the bottom
-//                    // Save button
-//                    Button(action: {
-//                        // Select the entire model first (similar to single tap)
-//                        if let selectedNode = selectedNode {
-//                            // Traverse up the hierarchy to find the root node
-//                            var currentNode = selectedNode
-//                            while let parentNode = currentNode.parent, parentNode.name != nil {
-//                                currentNode = parentNode
-//                            }
-//
-//                            // Assuming the root node name is "RoomModel", or select the topmost node
-//                            if currentNode.name == "RoomModel" {
-//                                self.selectedNode = currentNode
-//                                print("DEBUG: Automatically selected the entire model node: \(currentNode.name ?? "Unnamed Root Node")")
-//                            } else {
-//                                // Select topmost node if no specific name
-//                                self.selectedNode = currentNode
-//                                print("DEBUG: Automatically selected the topmost node: \(currentNode.name ?? "Unnamed Topmost Node")")
-//                            }
-//                        }
-//
-//                        // Now that the entire model is selected, proceed to save
-//                        viewModel.saveEditedModel(selectedNode: selectedNode, progressHandler: { progress in
-//                            self.uploadProgress = progress // Update progress
-//                        }) { success in
-//                            if success {
-//                                showSavedMessage = true // Show success message
-//                                uploadProgress = 1.0 // Set to complete when done
-//
-//                                // Hide the success message after 2 seconds with a slide-up animation
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                    withAnimation {
-//                                        showSavedMessage = false
-//                                    }
-//                                }
-//
-//                                hasMadeChanges = false // Reset changes after saving
-//                            }
-//                        }
-//                    }) {
-//                        Image(systemName: "square.and.arrow.down")
-//                            .font(.system(size: 24))
-//                            .foregroundColor(.white)
-//                            .padding()
-//                            .background(hasMadeChanges ? Color.green : Color.gray) // Change color based on changes
-//                            .clipShape(Circle())
-//                            .shadow(radius: 3)
-//                    }
-//                    .disabled(!hasMadeChanges) // Disable button if no changes are made
-//
-//
-//                    // Floating button to show the modal
-//                    Button(action: {
-//                        showModal = true
-//                    }) {
-//                        Image(systemName: "plus")
-//                            .font(.system(size: 24))
-//                            .foregroundColor(.white)
-//                            .padding()
-//                            .background(Color.blue)
-//                            .clipShape(Circle())
-//                            .shadow(radius: 3)
-//                    }
-//                }
-//            }
-//            .padding()
-//            .padding(.bottom, 85)
-//        }
-//        .animation(.easeInOut, value: showSavedMessage) // Smooth transition for message
-//        .sheet(isPresented: $showModal) {
-//            AddModelModalView(
-//                selectedNode: $selectedNode,
-//                selectedColor: $selectedColor,
-//                selectedTexture: $selectedTexture,
-//                selectedFurniture: $selectedFurniture, // Pass the selected furniture binding
-//                showModal: $showModal
-//            )
-//        }
-//    }
-//}
-//
-//
-//import SwiftUI
-//import SceneKit
-
-import SwiftUI
 import RealityKit
-import SceneKit
-
-import SwiftUI
-import SceneKit
 
 struct Model3DView: View {
     var modelUrl: URL
@@ -216,14 +46,6 @@ struct Model3DView: View {
                     loadSelectedFurnitureModel(furnitureModel: furnitureModel)
                 }
             }
-            
-            //            .onChange(of: selectedFurniture) { newValue in
-            //                if let furnitureModel = newValue {
-            //                    loadLocalUSDZModel()
-            //                    addFurnitureModel() // Load the selected furniture model
-            //
-            //                }
-            //            }
             
             // Success message when the model is saved
             if showSavedMessage {
@@ -339,7 +161,6 @@ struct Model3DView: View {
         }
     }
     
-    
     private func loadSelectedFurnitureModel(furnitureModel: FurnitureModel) {
         // Create a Firebase Storage reference from the URL
         let storageRef = Storage.storage().reference(forURL: furnitureModel.furnitureUrl)
@@ -364,8 +185,19 @@ struct Model3DView: View {
                 let scene = try SCNScene(url: url, options: nil)
                 let furnitureNode = scene.rootNode
                 
-                // Scale the furniture model
-                furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05)  // Adjust the scale as needed
+                // Calculate the bounding box of the furniture model
+                let (minVec, maxVec) = furnitureNode.boundingBox
+                let modelSize = SCNVector3(
+                    maxVec.x - minVec.x,
+                    maxVec.y - minVec.y,
+                    maxVec.z - minVec.z
+                )
+                
+                // Determine an appropriate scale based on the model size
+                let maxDimension = max(modelSize.x, modelSize.y, modelSize.z)
+                let desiredSize: Float = 0.5  // Adjust this value to your desired furniture size in the scene
+                let scaleFactor = desiredSize / maxDimension
+                furnitureNode.scale = SCNVector3(scaleFactor, scaleFactor, scaleFactor)
                 
                 // Add the furniture model to the selected room model (selectedNode)
                 guard let roomNode = selectedNode else {
@@ -374,84 +206,13 @@ struct Model3DView: View {
                 }
                 roomNode.addChildNode(furnitureNode)
                 
-                print("Successfully added \(furnitureModel.name) to the room model.")
+                print("Successfully added \(furnitureModel.name) to the room model with scaling factor: \(scaleFactor).")
             } catch {
                 print("Error loading the downloaded model: \(error)")
             }
         }
     }
-    
-    
-    //    private func loadLocalUSDZModel() {
-    //        guard let scene = SCNScene(named: "teapot.usdz") else {
-    //            print("Failed to load teapot model.")
-    //            return
-    //        }
-    //
-    //        let furnitureNode = scene.rootNode
-    //        print("Number of child nodes: \(furnitureNode.childNodes.count)")
-    //
-    //        // Adjust the scale of the teapot to fit in the room model
-    //        furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05) // Adjust this scale value based on the size of your room
-    //
-    //        // Add the node to the selected room node
-    //        selectedNode?.addChildNode(furnitureNode)
-    //    }
-    
-    
-    //    // Function to load the selected furniture model
-    //    private func addFurnitureModel() {
-    //        let modelPath = "/Users/piyushsaini/Downloads/Chitkara/iOS apps/RndR-SwiftUI/RndR_SwiftUi/Other/teapot.usdz"
-    //        let url = URL(fileURLWithPath: modelPath)
-    //
-    //        let scene: SCNScene
-    //        do {
-    //            scene = try SCNScene(url: url, options: nil)
-    //        } catch {
-    //            print("Failed to load scene from URL: \(url). Error: \(error)")
-    //            return
-    //        }
-    //
-    //        let children = scene.rootNode.childNodes
-    //        print("Number of child nodes in loaded scene: \(children.count)")
-    //
-    //        guard let furnitureNode = children.first else {
-    //            print("No node found in the loaded furniture scene.")
-    //            return
-    //        }
-    //
-    //        guard let currentNode = selectedNode else {
-    //            print("selectedNode is nil, cannot add furniture.")
-    //            return
-    //        }
-    //
-    //        // Adjust the scale of the furniture node relative to the room size
-    //        furnitureNode.scale = SCNVector3(0.05, 0.05, 0.05)  // Adjust this based on how small/large the model should be
-    //
-    //        // Adjust the position to place it on top of the room model
-    //        let heightOffset = currentNode.boundingBox.max.y * 0.5  // Adjust based on room model size
-    //        furnitureNode.position = SCNVector3(0, heightOffset, 0)
-    //
-    //        // Optionally adjust materials for visibility
-    //        if let materials = furnitureNode.geometry?.materials {
-    //            for material in materials {
-    //                material.transparency = 1.0 // Fully opaque
-    //            }
-    //        }
-    //
-    //        // Add the furniture node to the room model
-    //        currentNode.addChildNode(furnitureNode)
-    //        print("Successfully added furniture model to the scene")
-    //
-    //        // Debugging visual aid
-    //        let debugBox = SCNBox(width: 0.1, height: 0.1, length: 0.1, chamferRadius: 0)
-    //        let debugNode = SCNNode(geometry: debugBox)
-    //        debugNode.position = furnitureNode.position
-    //        debugNode.geometry?.firstMaterial?.diffuse.contents = UIColor.red
-    //        currentNode.addChildNode(debugNode)
-    //    }
-    
-    
+
 }
 
 
@@ -528,19 +289,18 @@ struct FurniturePickerView: View {
                             selectedFurniture = furniture // Set selected furniture
                         }) {
                             if let displayImage = furniture.displayImage {
-                                AsyncImage(url: displayImage) { image in
-                                    image
-                                        .resizable()
-                                        .scaledToFill()
-                                        .frame(width: 150, height: 150)
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 10)
-                                                .stroke(selectedFurniture == furniture ? Color.blue : Color.clear, lineWidth: 2)
-                                        )
-                                } placeholder: {
-                                    ProgressView() // Show a progress indicator while loading
-                                }
+                                WebImage(url: displayImage) // Use WebImage for loading
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 150, height: 150)
+                                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 10)
+                                            .stroke(selectedFurniture == furniture ? Color.blue : Color.clear, lineWidth: 2)
+                                    )
+                                    .background(.thickMaterial)
+                                    .cornerRadius(10)
+//                                    .indicator(.activity)
                             } else {
                                 // Fallback image in case displayImage is nil
                                 Color.gray
@@ -558,6 +318,7 @@ struct FurniturePickerView: View {
         }
     }
 }
+
 
 //MARK: - Wall textures picker view
 
@@ -601,53 +362,77 @@ struct WallTexturePickerView: View {
 }
 
 
-//MARK: - wall color picker view
+import SwiftUI
+
+import SwiftUI
+
+// MARK: - Wall Color Picker View
 struct WallColorPickerView: View {
     @Binding var selectedColor: Color
     
-    let wallColors: [Color] = [.white, .red, .blue, .green, .yellow]
-    let grayShades: [Color] = [.black, .gray, .init(white: 0.75), .init(white: 0.9)] // Different gray shades
+    let wallColors: [Color] = [.red, .blue, .green, .yellow, .brown, .purple]
+    let grayShades: [Color] = [.black, .gray, .init(white: 0.75), .init(white: 0.9), .white] // Different gray shades
+    
+    let columns = [
+        GridItem(.flexible()),
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     var body: some View {
         VStack {
             Text("Select Wall Color")
                 .font(.headline)
+                .padding(.bottom)
             
-            HStack {
+            // Using LazyVGrid for wall colors
+            LazyVGrid(columns: columns, spacing: 10) {
                 ForEach(wallColors, id: \.self) { color in
                     Button(action: {
                         selectedColor = color
                     }) {
-                        Circle()
-                            .fill(color)
-                            .frame(width: 40, height: 40)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.blue, lineWidth: selectedColor == color ? 2 : 0)
-                            )
+                        // Change shape based on selection
+                        if selectedColor == color {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(color)
+                                .frame(width: 100, height: 100)
+                        } else {
+                            Circle()
+                                .fill(color)
+                                .frame(width: 100, height: 100)
+                        }
                     }
+                    .padding()
+                    .shadow(radius: 5)
                 }
             }
-            .padding(.bottom)
             
-            HStack {
-                ForEach(grayShades, id: \.self) { gray in
+            // Using LazyVGrid for wall colors
+            LazyVGrid(columns: columns, spacing: 10) {
+                ForEach(grayShades, id: \.self) { color in
                     Button(action: {
-                        selectedColor = gray
+                        selectedColor = color
                     }) {
-                        Circle()
-                            .fill(gray)
-                            .frame(width: 40, height: 40)
-                            .overlay(
-                                Circle()
-                                    .stroke(Color.blue, lineWidth: selectedColor == gray ? 2 : 0)
-                            )
+                        // Change shape based on selection
+                        if selectedColor == color {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(color)
+                                .frame(width: 100, height: 100)
+                        } else {
+                            Circle()
+                                .fill(color)
+                                .frame(width: 100, height: 100)
+                        }
                     }
+                    .padding()
+                    .shadow(radius: 5)
                 }
             }
         }
+        .padding() // Add padding around the entire view
     }
 }
+
 
 //MARK: - gestures
 struct ARSceneViewContainer: UIViewRepresentable {
@@ -880,12 +665,12 @@ struct ARSceneViewContainer: UIViewRepresentable {
             )
             
             if gesture.state == .changed {
-                print("DEBUG: Moving node to position: \(newPosition)")
                 node.position = newPosition
             }
             
             if gesture.state == .ended {
-                print("DEBUG: Finished moving node")
+                // Update initial position to the current position for future gestures
+                initialPosition = node.position
             }
         }
         
@@ -900,15 +685,15 @@ struct ARSceneViewContainer: UIViewRepresentable {
             )
             
             if gesture.state == .changed {
-                print("DEBUG: Scaling node to scale: \(newScale)")
                 node.scale = newScale
             }
             
             if gesture.state == .ended {
-                print("DEBUG: Finished scaling node")
+                // Update initial scale to the current scale for future gestures
+                initialScale = node.scale
             }
         }
-        
+
         // Rotation gesture for rotating the selected component
         @objc func handleRotation(_ gesture: UIRotationGestureRecognizer) {
             guard let node = parent.selectedNode else { return }
@@ -917,12 +702,12 @@ struct ARSceneViewContainer: UIViewRepresentable {
             
             if gesture.state == .changed {
                 let newRotation = SCNVector4(0, 1, 0, initialRotation.w + rotation)
-                print("DEBUG: Rotating node to: \(newRotation)")
                 node.rotation = newRotation
             }
             
             if gesture.state == .ended {
-                print("DEBUG: Finished rotating node")
+                // Update initial rotation to the current rotation for future gestures
+                initialRotation = node.rotation
             }
         }
         
